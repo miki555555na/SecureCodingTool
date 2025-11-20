@@ -1,8 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import path from 'path';
+import { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   turbopack: {
-    root: './SecureCodingTool', // 正しい Next.js プロジェクトルート
+    root: path.resolve(__dirname),
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
+
