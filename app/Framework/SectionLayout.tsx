@@ -5,7 +5,7 @@ import { styles } from './SectionStyles';
 
 type Props = {
     title: string;               // ページタイトル
-    description?: string;        // ページ説明
+    description?: React.ReactNode;   // ページ説明
     checklist?: React.ReactNode; // やることリスト
     children: React.ReactNode;   // Section 内のコンテンツ
     summary?: React.ReactNode;  // まとめ
