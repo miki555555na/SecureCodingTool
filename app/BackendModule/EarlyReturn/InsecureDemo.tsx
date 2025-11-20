@@ -11,7 +11,7 @@ function randomInt(min: number, max: number): number {
   return min + (array[0] % range);
 }
 
-export function InsecureDemo(): JSX.Element {
+export function InsecureDemo(): {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [input, setInput] = useState('Sxxxx'); // default guess
   const [avgTime, setAvgTime] = useState<number | null>(null);
