@@ -11,7 +11,7 @@ import {SecureDemo} from './SecureDemo';
 //   description1: 'タイミング攻撃の基礎・回避法を体験できます'
 // };
 
-export default function TimingAttackPage(): JSX.Element {
+export default function TimingAttackPage() {
     const checklist = (
         <>
             <h2 style={{ ...styles.h2, fontSize: 20, marginBottom: 6, marginTop: 0 }}>📝 やってみようリスト</h2>
