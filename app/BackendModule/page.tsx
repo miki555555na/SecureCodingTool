@@ -10,7 +10,7 @@ export default function BackendMenu() {
       <h1 style={{ fontSize: 32, marginBottom: 24 }}>バックエンドパート</h1>
 
       <div style={{ display: 'grid', gap: 20 }}>
-        <button onClick={() => router.push('/BackendModule/EarlyReturn')}>
+        <button onClick={() => router.push('/BackendModule/Part1')}>
           Part1：早期リターンが生む時間差の理解
         </button>
 

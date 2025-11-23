@@ -139,9 +139,9 @@ export function SecureDemo() {
   }
 
   return (
-    <div style={{ padding: 20, background: '#fff', borderRadius: 8 }}>
+    <div style={{ height: 350, maxHeight:'100%', padding: 15, background: '#fff', borderRadius: 8, border: '1px solid #e5e7eb', boxSizing:'border-box' }}>
       {/* 入力エリア */}
-      <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 20 }}>
         <label style={{ fontSize: 24, fontWeight: 600 }}>入力:</label>
         <input
           value={input}
@@ -174,10 +174,10 @@ export function SecureDemo() {
       {/* 平均時間 */}
       {avgTime !== null && (
         <div style={{
-          fontSize: 42,
+          fontSize: 32, // 2. 平均時間のフォントサイズを縮小
           fontWeight: 700,
-          marginBottom: 20,
-          color: '#111'
+          marginBottom: 10, // 3. マージンを縮小
+          color: '#16a34a' // 安全なコードなので緑色にする
         }}>
           平均: {avgTime.toFixed(2)} ms
         </div>
@@ -186,13 +186,9 @@ export function SecureDemo() {
       {/* グラフ */}
       <canvas
         ref={canvasRef}
-        width={600}
-        height={350}
-        style={{
-          border: '1px solid #ddd',
-          width: '100%',
-          borderRadius: 6
-        }}
+        width={400} // 4. グラフの幅を縮小
+        height={150} // 5. グラフの高さを縮小
+        style={{ display: 'block', margin: '0 auto' }}
       />
     </div>
   );
