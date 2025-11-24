@@ -126,19 +126,20 @@ export default function TimingAttackPage() {
 
     const summary = (
         <section style={{ ...styles.section, background: '#f9fafb', border: '1.5px solid #e5e7eb', marginTop: 32 }}>
-            <h2 style={{ ...styles.h2, fontSize: 22, marginBottom: 10 }}>🔎 まとめ：ここがポイント！</h2>
+            <h2 style={{ ...styles.h2, fontSize: 22, marginBottom: 10 }}>📝 まとめ：ここがポイント！</h2>
             <ul style={{ fontSize: 17, marginLeft: 18 }}>
                 <li style={{ marginBottom: 8 }}>
-                    <span style={{ background: '#fee2e2', color: '#dc2626', padding: '2px 6px', borderRadius: 4, fontWeight: 700, marginRight: 6 }}>✗ よくない例</span>
-                    <b>早期リターン</b>や<b>可変長ループ</b>は、<span style={{ textDecoration: 'underline' }}>タイミング情報が漏れる</span>原因になる
+                    <span style={{ background: '#fee2e2', color: '#dc2626', padding: '2px 6px', borderRadius: 4, fontWeight: 700, marginRight: 6 }}>✗ よくない実装</span>
+                    <b>早期リターン</b>や<b>可変長ループ</b>を使うと、<span style={{ textDecoration: 'underline' }}>処理時間の差から情報が漏れる</span>原因になる。
                 </li>
                 <li>
-                    <span style={{ background: '#bbf7d0', color: '#15803d', padding: '2px 6px', borderRadius: 4, fontWeight: 700, marginRight: 6 }}>✓ いい例</span>
-                    <b>早期リターン</b>と<b>固定長ループなし</b>で、<span style={{ textDecoration: 'underline' }}>比較時間を一定にする</span>ことで安全性が高まる
+                    <span style={{ background: '#bbf7d0', color: '#15803d', padding: '2px 6px', borderRadius: 4, fontWeight: 700, marginRight: 6 }}>✓ 良い実装</span>
+                    <b>早期リターン</b>を避け、<b>固定長ループ</b>で処理を揃えることで、<span style={{ textDecoration: 'underline' }}>比較時間を一定に保ち安全性が高まる</span>。
                 </li>
             </ul>
             <div style={{ marginTop: 18, color: '#64748b', fontSize: 16 }}>
-                <b>ポイント：</b>「比較処理の時間差」は攻撃者にとって大きなヒントになるため、パスワード、認証トークン、暗号鍵など、機密情報の比較処理には、定数時間比較のような<span style={{ color: '#dc2626', fontWeight: 700 }}>時間差が出ない</span>ロジックで実装しましょう。
+                <b>なぜ重要？：</b>パスワードや認証トークン、暗号鍵などの機密情報は、<b>比較処理の「時間差」そのものが攻撃者の手がかり</b>になります。
+                <p>そのため、これらを扱う際は、<span style={{ color: '#2563eb', fontWeight: 700 }}>定数時間比較</span>など、時間差の出ないロジックで実装することが重要です。</p>
             </div>
         </section>
         
