@@ -32,7 +32,7 @@ export default function DemoSwitcher() {
 
     return (
         <section style={{ ...styles.section, background: '#fff', border: '1px solid #e2e8f0' }}>
-        <div style={{ marginTop: 20, marginBottom: 20 }}>
+        <div style={{ marginTop: 10, marginBottom: 10 }}>
             <h2 style={{ ...styles.h2, marginTop: 0, marginBottom: 15 }} >🕰️ パスワード比較デモ：実行時間から推測する</h2>
             <span style={{ fontWeight: 700 }}>正解パスワード：</span>
             <span style={{ background: '#fca5a5', color: '#fff', padding: '2px 8px', borderRadius: 4, fontWeight: 700, fontSize: 18, letterSpacing: 2 }}>S3CR3T</span>
@@ -41,7 +41,7 @@ export default function DemoSwitcher() {
 
             {/* 2. 実行ガイド */}
             <h3 style={{ ...styles.h3, marginTop: 10, color: '#1f2937' }}>🚀 試してみよう！</h3>
-            <ol style={{ fontSize: 17, marginLeft: 18, paddingLeft: 0, lineHeight: 1.8, marginBottom: 8 }}>
+            <ol style={{ fontSize: 17, marginLeft: 18, paddingLeft: 0, lineHeight: 1.8, marginBottom: 5 }}>
                 <li><b>【ステップ1】脆弱な実装の体感</b> : まず「<b>⚠️ 脆弱な実装</b>」を選びましょう。</li>
                 <li><b>【ステップ2】実行時間を比較</b> : 以下の 3 パターンを実行して、実行時間を比較しましょう。(※xは任意の文字)
                     <ul style={{ listStyleType: 'disc', marginLeft: 60, marginTop: 5, marginBottom: 5 }}>
@@ -51,8 +51,8 @@ export default function DemoSwitcher() {
                 <li><b>【ステップ3】安全な実装の体感</b> : 「<b>✓ 安全な実装</b>」に切り替えて、同じ入力値で再度実行して、実行時間を比較しましょう。</li>
             </ol>
 
-            <section style={{...styles.todoWrapper, marginTop: 5, marginBottom: 18 }}>
-                <h2 style={{ ...styles.h2, fontSize: 20, marginBottom: 6, marginTop: 0 }}><b>🔍 確認ポイント</b></h2>
+            <section style={{...styles.todoWrapper, marginTop: 3, marginBottom: 18 }}>
+                <h2 style={{ ...styles.h2, fontSize: 18, marginBottom: 6, marginTop: 0 }}><b>🔍 確認ポイント</b></h2>
                 <ul style={{ fontSize: 17, marginLeft: 18, marginBottom: 0 }}>
                     <li style={{ marginBottom: 6 }}>
                         <span style={{ color: '#22c55e', fontWeight: 700, marginRight: 6 }}>☑</span>

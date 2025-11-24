@@ -15,8 +15,8 @@ export const styles: { [k: string]: CSSProperties } = {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: '#f8fafc',
-        borderBottom: '2px solid #bae6fd',
+        background: '#f5faffff',
+        borderBottom: '2px solid #aee2feff',
         boxShadow: '0 2px 8px #0001',
         padding: '14px 0 10px 0',
         marginBottom: 18

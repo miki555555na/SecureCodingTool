@@ -11,7 +11,7 @@ export default function BackendMenu() {
 
       <div style={{ display: 'grid', gap: 20 }}>
         <button onClick={() => router.push('/BackendModule/Part1')}>
-          Part1：早期リターンが生む時間差の理解
+          Part1：早期リターンと可変長ループが生む時間差の理解
         </button>
 
         <button onClick={() => router.push('/BackendModule/Part2')}>

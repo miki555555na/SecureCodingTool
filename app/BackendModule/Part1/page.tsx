@@ -148,7 +148,7 @@ export default function TimingAttackPage() {
 
     return(
     <SectionLayout
-        title1="実行時間がパスワードを暴露！"
+        title1="1. 実行時間がパスワードを暴露！"
         title2='〜 早期リターンと可変長ループが招くタイミング攻撃 〜'
         description={description}
         // checklist={checklist}
