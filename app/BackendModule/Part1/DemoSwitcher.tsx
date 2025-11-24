@@ -33,14 +33,26 @@ export default function DemoSwitcher() {
     return (
         <section style={{ ...styles.section, background: '#fff', border: '1px solid #e2e8f0' }}>
         <div style={{ marginTop: 20, marginBottom: 20 }}>
-            <h2 style={styles.h2} >パスワードを推測デモ</h2>
+            <h2 style={{ ...styles.h2, marginTop: 0, marginBottom: 15 }} >🕰️ パスワード比較デモ：実行時間から推測する</h2>
             <span style={{ fontWeight: 700 }}>正解パスワード：</span>
             <span style={{ background: '#fca5a5', color: '#fff', padding: '2px 8px', borderRadius: 4, fontWeight: 700, fontSize: 18, letterSpacing: 2 }}>S3CR3T</span>
             <span style={{ marginLeft: 18, fontWeight: 700 }}>PW最大文字数：</span>
             <span style={{ background: '#bae6fd', color: '#0369a1', padding: '2px 8px', borderRadius: 4, fontWeight: 700, fontSize: 18 }}>10文字</span>
 
-            <section style={{...styles.todoWrapper, marginTop: 18, marginBottom: 18 }}>
-                <h2 style={{ ...styles.h2, fontSize: 20, marginBottom: 6, marginTop: 0 }}><b>確認ポイント</b></h2>
+            {/* 2. 実行ガイド */}
+            <h3 style={{ ...styles.h3, marginTop: 10, color: '#1f2937' }}>🚀 試してみよう！</h3>
+            <ol style={{ fontSize: 17, marginLeft: 18, paddingLeft: 0, lineHeight: 1.8, marginBottom: 8 }}>
+                <li><b>【ステップ1】脆弱な実装の体感</b> : まず「<b>⚠️ 脆弱な実装</b>」を選びましょう。</li>
+                <li><b>【ステップ2】実行時間を比較</b> : 以下の 3 パターンを実行して、実行時間を比較しましょう。(※xは任意の文字)
+                    <ul style={{ listStyleType: 'disc', marginLeft: 60, marginTop: 5, marginBottom: 5 }}>
+                        <li>`Axxxxx` (1文字目から不一致) → `S3xxxx`(先頭が部分一致) → `S3CR3T`(完全一致)</li>
+                    </ul>
+                </li>
+                <li><b>【ステップ3】安全な実装の体感</b> : 「<b>✓ 安全な実装</b>」に切り替えて、同じ入力値で再度実行して、実行時間を比較しましょう。</li>
+            </ol>
+
+            <section style={{...styles.todoWrapper, marginTop: 5, marginBottom: 18 }}>
+                <h2 style={{ ...styles.h2, fontSize: 20, marginBottom: 6, marginTop: 0 }}><b>🔍 確認ポイント</b></h2>
                 <ul style={{ fontSize: 17, marginLeft: 18, marginBottom: 0 }}>
                     <li style={{ marginBottom: 6 }}>
                         <span style={{ color: '#22c55e', fontWeight: 700, marginRight: 6 }}>☑</span>
@@ -82,8 +94,9 @@ export default function DemoSwitcher() {
                 alignItems: 'center', 
                 marginBottom: 20, 
                 padding: '10px 0',
-                borderTop: '1px dashed #ccc', 
-                paddingTop: 20,
+                // borderTop: '1px dashed #ccc', 
+                paddingTop: 10,
+                width: '60%'
             }}>
                 <label style={{ fontSize: 24, fontWeight: 600, minWidth: 80 }}>推測入力:</label>
                 <input
