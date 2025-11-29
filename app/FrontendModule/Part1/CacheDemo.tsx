@@ -184,8 +184,8 @@ export function CacheDemo() {
                   <div style={{ color: cachedMap.page_visit ? '#16a34a' : '#ef4444', fontWeight: 700 }}>
                     {cachedMap.page_visit ? 'あり' : 'なし'}
                   </div>
-                  <button onClick={() => setCache('page_visit', !cachedMap.page_visit)} style={{ padding: '4px 8px', borderRadius: 6 }}>
-                    切替
+                  <button onClick={() => setCache('page_visit', false)} style={{ padding: '4px 8px', borderRadius: 6 }}>
+                    クリア
                   </button>
                 </div>
               </div>
@@ -196,8 +196,8 @@ export function CacheDemo() {
                   <div style={{ color: cachedMap.signed_in ? '#16a34a' : '#ef4444', fontWeight: 700 }}>
                     {cachedMap.signed_in ? 'あり' : 'なし'}
                   </div>
-                  <button onClick={() => setCache('signed_in', !cachedMap.signed_in)} style={{ padding: '4px 8px', borderRadius: 6 }}>
-                    切替
+                  <button onClick={() => setCache('signed_in', false)} style={{ padding: '4px 8px', borderRadius: 6 }}>
+                    クリア
                   </button>
                 </div>
               </div>
@@ -208,8 +208,8 @@ export function CacheDemo() {
                   <div style={{ color: cachedMap.api_history ? '#16a34a' : '#ef4444', fontWeight: 700 }}>
                     {cachedMap.api_history ? 'あり' : 'なし'}
                   </div>
-                  <button onClick={() => setCache('api_history', !cachedMap.api_history)} style={{ padding: '4px 8px', borderRadius: 6 }}>
-                    切替
+                  <button onClick={() => setCache('api_history', false)} style={{ padding: '4px 8px', borderRadius: 6 }}>
+                    クリア
                   </button>
                 </div>
               </div>
@@ -258,6 +258,7 @@ export function CacheDemo() {
           {/* SignIn 画面 */}
           {screen === 'SignIn' && (
             <div style={{ padding: 20, borderRadius: 8, background: '#fff', textAlign: 'center' }}>
+                <img src="/image/logo_image.png" alt="logo" style={{ width: 64, height: 64, borderRadius: 8, objectFit: 'cover' }} />
               <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>サインインページ</div>
               <div style={{ marginBottom: 12, color: '#64748b' }}>このページに訪れるだけで「ページ訪問」キャッシュが残ります。</div>
               <button
@@ -297,7 +298,7 @@ export function CacheDemo() {
               {/* 簡易プロフィール表示（キャッシュがあると緑で表示） */}
               <div style={{ marginTop: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
                 <div style={{ width: 80, height: 80, borderRadius: 8, background: cachedMap.signed_in ? '#bbf7d0' : '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
-                  アイコン
+                  <img src="/image/user_icon.png" alt="logo" style={{objectFit: 'cover' }} />
                 </div>
                 <div>
                   <div style={{ fontWeight: 700 }}>ユーザー名: demo_user</div>
