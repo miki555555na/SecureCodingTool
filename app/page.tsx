@@ -31,7 +31,7 @@ export default function HomePage() {
               <p style={{ margin: 0, fontWeight: 700, color: '#dc2626' }}>❌ よくある思い込み</p>
               <p style={{ margin: '8px 0 0 0', color: '#991b1b' }}>
                 「セキュアコーディングなんて、できるようになってから考えればいいだろう」<br />
-                「コーディング規約？堅い話は後でいいや」
+                「コーディング規約？web設計では起きないだろう」
               </p>
             </div>
 
@@ -44,6 +44,22 @@ export default function HomePage() {
             </div>
           </CardContent>
         </Card>
+        <Card style={{ marginBottom: 32, background: '#fff', border: 'none', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}>
+  <CardHeader>
+    <CardTitle style={{ fontSize: 28 }}>学習のゴール</CardTitle>
+    <CardDescription style={{ fontSize: 16 }}>
+      セキュリティに詳しくない Web エンジニアが、実践的に「なぜ脆弱性が起きるのか」と「どう対策するか」を理解できるようにする
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="space-y-4">
+    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 16, lineHeight: 1.8 }}>
+      <li><b>対象：</b>セキュリティに詳しくない新卒〜若手 Web エンジニア</li>
+      <li><b>到達目標：</b>脆弱なコードを見分け、原因を説明し、基本的な対策を自力で適用できる</li>
+      <li><b>学習で得られること：</b>実行ベースのデモで脆弱性を体感→差分を理解→安全実装で検証することで“感覚”と“知識”を同時に定着</li>
+      <li><b>学習フロー：</b>①脆弱版を実行 → ②観察（時間差・挙動）→ ③安全版で比較 → ④ポイント確認</li>
+    </ul>
+  </CardContent>
+</Card>
 
         {/* バックエンド・フロントエンド選択 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
@@ -57,10 +73,10 @@ export default function HomePage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <ul style={{ fontSize: 15, marginLeft: 18, lineHeight: 1.8 }}>
-                <li>パスワード検証の時間差攻撃</li>
-                <li>SQLインジェクション</li>
                 <li>認可チェックの不備</li>
-                <li>HMAC検証漏れ</li>
+                <li>SQLインジェクション</li>
+                <li>パスワード検証時の早期リターン</li>
+                <li>HMAC検証時の早期リターン</li>
                 <li>ユーザー存在確認の時間差</li>
               </ul>
               <Link href="/Backend">
@@ -85,7 +101,6 @@ export default function HomePage() {
                 <li>XSS（クロスサイトスクリプティング）</li>
                 <li>ブラウザキャッシュの時間差</li>
                 <li>リソース読み込み時間差</li>
-                <li>サブリソースタイミング攻撃</li>
               </ul>
               <Link href="/Frontend">
                 <Button style={{ width: '100%', background: '#f59e0b', color: '#fff', marginTop: 16 }}>
@@ -96,32 +111,6 @@ export default function HomePage() {
           </Card>
         </div>
 
-        {/* 学習対象 */}
-        <Card style={{ marginTop: 32, background: '#f3f4f6', border: 'none' }}>
-          <CardHeader>
-            <CardTitle>📚 このツールの対象</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div>
-                <p style={{ fontWeight: 700, marginBottom: 8 }}>対象者</p>
-                <p>新卒 / 若手 Webエンジニア</p>
-              </div>
-              <div>
-                <p style={{ fontWeight: 700, marginBottom: 8 }}>使用場面</p>
-                <p>企業研修・オンボーディング・スキル向上</p>
-              </div>
-              <div>
-                <p style={{ fontWeight: 700, marginBottom: 8 }}>学習スタイル</p>
-                <p>実際の脆弱性を体験しながら学ぶ</p>
-              </div>
-              <div>
-                <p style={{ fontWeight: 700, marginBottom: 8 }}>目標</p>
-                <p>セキュアコーディング習慣の定着</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
