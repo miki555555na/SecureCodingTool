@@ -35,12 +35,25 @@ export default function TimingAttackPage() {
     };
     const description = (
         <>
-            <b>「早期リターン」</b>や<b>「可変長ループ」</b>は、文字列比較で最適化のために何気なく使用される実装ですが、<span style={{ background: '#fef9c3', fontWeight: 500 }}>実行時間にわずかな差を生みます</span>。
-            パスワード比較などの機密情報を扱う処理でこの差が生まれると、それがヒントとなり、<span style={{ color: '#ff0000ff', fontWeight: 600 }}>情報漏洩</span>につながります。
-            <br></br>
-            このページでは、<span style={{ color: '#2563eb', fontWeight: 600 }}>危険な実装が時間差を生む仕組み</span>を観察し、<span style={{ color: '#2563eb', fontWeight: 600 }}>定数時間比較</span>による安全な実装法を体験的に理解しましょう。
-            
- 
+            <>
+                <b>一見すると正しそうなコード</b>でも、<b>処理にかかる「時間」</b>が違うだけで、
+                <span style={{ background: '#fef9c3', fontWeight: 500 }}>
+                「どこまでパスワードが合っているか」
+                </span>
+                が外部から推測されてしまうことがあります。
+                <br /><br />
+                特に、<b>文字が違った時点で処理をやめる実装（早期リターン）</b>は要注意です。
+                攻撃者は<b>処理時間のわずかな差</b>を測ることで、
+                <span style={{ color: '#ff0000ff', fontWeight: 600 }}>
+                1文字ずつパスワードを当てていく
+                </span>
+                ことができます。
+                <br /><br />
+                このページでは、
+                <span style={{ color: '#2563eb', fontWeight: 600 }}>「なぜ時間差が生まれるのか」</span>と
+                <span style={{ color: '#2563eb', fontWeight: 600 }}>「どうすれば防げるのか」</span>
+                を、実際のデモで体感します。
+            </>
         </>       
     );
     const checklist = (
@@ -50,9 +63,9 @@ export default function TimingAttackPage() {
             </CardHeader>
             <CardContent style={{ paddingTop: 0 }}>
                 <ul style={{ fontSize: 17, marginLeft: 18, marginBottom: 0 }}>
-                    <li>「早期リターン」や「可変長ループ」が時間差を生む仕組みを可視化します。</li>
-                    <li>誤った実装 vs 正しい実装のコード差分を比較します。</li>
-                    <li>実際に入力して各段階の計測結果をリアルタイム表示します。</li>
+                    <li>「なぜ一致文字数が分かってしまうのか」を、時間の変化で確認します</li>
+                    <li>一見正しそうな実装が、どこで危険になるのかをコードで見比べます</li>
+                    <li>安全な実装に変えると、何がどう変わるのかを実行結果で確かめます</li>
                 </ul>
             </CardContent>
         </Card>
@@ -66,17 +79,23 @@ export default function TimingAttackPage() {
                     <CardTitle>シミュレーション：時間差を利用したパスワード推測</CardTitle>
                     <CardDescription>
                         <p>時間差が生まれる脆弱な実装と、安全な実装を比較しながら、機密情報が漏洩するリスクを体感しましょう。</p>
-                        {/* <span style={{ color: '#ef4444', fontWeight: 700 }}>正解文字列：</span>
-                        <span style={{ background: '#fca5a5', color: '#fff', padding: '2px 8px', borderRadius: 4, fontWeight: 700, fontSize: 18, letterSpacing: 2 }}>S3CR3T</span>
-                        <span style={{ marginLeft: 18, color: '#0ea5e9', fontWeight: 700 }}>PW最大文字数：</span>
-                        <span style={{ background: '#bae6fd', color: '#0369a1', padding: '2px 8px', borderRadius: 4, fontWeight: 700, fontSize: 18 }}>10文字</span> */}
                     </CardDescription> 
                 </CardHeader>
 
                 <CardContent>
                     <CardAction>
-                        <span style={{ color:'#dc2626', fontWeight: 600 }}>脆弱な実装</span>では、<b>早期リターン</b>や<b>可変長ループ</b>によって入力内容に応じて処理時間が変化し、パスワードの一致度合いが推測されるリスクがあります。一方、<span style={{color:'#138c40ff', fontWeight: 600}}>安全な実装</span>では、<b>常に固定回数のループを回し</b>、途中で処理を打ち切らない<b>定数時間比較</b>を行うことで、入力に依存しない一定の実行時間を保ち、情報漏洩を防いでいます。
+                        <span style={{ color:'#dc2626', fontWeight: 600 }}>脆弱な実装</span>では、
+                        <b>文字が違った瞬間に処理を終了</b>するため、
+                        「どこまで一致しているか」が
+                        <b>実行時間として外に漏れます</b>。
+                        <br /><br />
+                        一方、
+                        <span style={{color:'#138c40ff', fontWeight: 600}}>安全な実装</span>では、
+                        <b>必ず同じ回数の比較</b>を行い、途中で処理をやめません。
+                        その結果、<b>入力が何であっても処理時間がほぼ一定</b>になり、
+                        攻撃の手がかりを与えません。
                     </CardAction>
+
                     
 
 
@@ -85,9 +104,6 @@ export default function TimingAttackPage() {
 
         <div style={styles.comparison}>
             <div style={styles.comparisonColumn}>
-                {/* <h3 style={{...styles.h3, textDecoration: 'underline'}}><b>脆弱な実装</b></h3>
-                <p style={{ fontSize: 17, marginBottom: 12 }}>この実装は、文字が一致しない時点で処理を即座に中断する<b>早期リターン</b>と、パスワードの<b>最大長（10文字）ではなく、入力された実際の長さ</b>に応じてループ回数が変わる<b>可変長ループ</b>を採用しています。この仕組みが、<b>一致文字数</b>に応じて実行時間に<b>明確な差</b>を生み出し、情報漏洩を招きます。</p>         */}
-
                 <div style={{ ...styles.codeContainer, background: '#fef2f2', border: '3px solid #fca5a5' }}>   
                     <div style={{ ...styles.codeLabel, color: '#dc2626' }}>⚠️ 脆弱な実装</div>
                     <pre style={styles.code}>
@@ -103,16 +119,9 @@ export default function TimingAttackPage() {
 }`}
                     </pre>
                 </div>
-                {/* <h3 style={styles.h3}>↓のデモは、<div style={{ ...styles.codeLabel, color: '#dc2626' }}>⚠️ 脆弱な実装</div>を実装した比較処理を<b>100回実行</b>してその分布を表示します。</h3>
-                <h3>「やってみようリスト」の<u>１つ目の項目</u>を体感しましょう。</h3>
-                <div style={{ marginTop: 18 }}>
-                    <InsecureDemo />
-                </div> */}
             </div>
 
             <div style={styles.comparisonColumn}>
-                {/* <h3 style={{...styles.h3, textDecoration: 'underline'}}><b>安全な実装</b></h3>
-                <p style={{ fontSize: 17, marginBottom: 12 }}>この実装は、脆弱性を解消するための<b>定数時間比較</b>の実装です。処理時間が入力内容に依存しないよう、常に<b>固定回数（最大長と同じ10回）のループ</b>を実行し、文字の比較結果にかかわらず<b>最後まで処理を続行（早期リターンなし）</b>します。これにより、比較時間を<b>常に一定</b>に保ち、情報漏洩を防ぎます。</p> */}
                 <div style={{ ...styles.codeContainer, background: '#f0fdf4', border: '3px solid #86efac' }}>
                     <div style={{ ...styles.codeLabel, color: '#16a34a' }}>✓ 安全な実装</div>
                         <pre style={styles.code}>
@@ -129,11 +138,6 @@ export default function TimingAttackPage() {
 }`}
                         </pre>
                     </div>
-                    {/* <h3 style={styles.h3}>↓のデモは、<div style={{ ...styles.codeLabel, color: '#16a34a' }}>✓ 安全な実装</div>を実装した比較処理を<b>100回実行</b>してその分布を表示します。</h3>
-                    <h3>「やってみようリスト」の<u>２つ目の項目</u>を体感しましょう。</h3>
-                    <div style={{ marginTop: 18 }}>
-                        <SecureDemo />
-                    </div> */}
                 </div>
             </div>
         </CardContent>
@@ -169,7 +173,10 @@ export default function TimingAttackPage() {
                             <div>
                             <div style={{ fontWeight: 700 }}>【ステップ2】実行時間を比較</div>
                             <div style={{ color: '#475569', marginTop: 6 }}>
-                                以下の例を順に実行して、実行時間の差を見てみましょう。<br />
+                                以下の入力を順に試すと、
+「どこまで合っているか」が
+<b>時間として見えてくる</b>ことが分かります。
+<br />
                                 <div style={{ marginTop: 8 }}>
                                 <pre style={{ background: '#f1f5f9', padding: '8px 10px', borderRadius: 6, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace', fontSize: 13, margin: 0 }}>
                     Axxxxx  // 先頭が不一致（早く終わる）
@@ -198,11 +205,13 @@ export default function TimingAttackPage() {
                         <ul style={{ marginTop: 8, marginLeft: 18, fontSize: 16 }}>
                         <li style={{ marginBottom: 8 }}>
                             <span style={{ color: '#5f61d8ff', fontWeight: 800, marginRight: 8 }}>☑</span>
-                            <b>脆弱な実装</b>では、一致文字数が増えると実行時間が段階的に長くなる
+                            <b>脆弱な実装</b>では、「1文字多く合うごとに処理時間が伸びる」
+                            → 攻撃者にヒントを与える
                         </li>
                         <li>
                             <span style={{ color: '#5f61d8ff', fontWeight: 800, marginRight: 8 }}>☑</span>
-                            <b>安全な実装</b>では、同じ入力でも実行時間がほぼ一定に保たれる
+                            <b>安全な実装</b>では、「何を入れても処理時間がほぼ同じ」
+→ 推測に使える情報が出ない
                         </li>
                         </ul>
                     </div>
@@ -301,26 +310,6 @@ export default function TimingAttackPage() {
         </>
     );
 
-    // const summary = (
-    //     <section style={{ ...styles.section, background: '#f9fafb', border: '1.5px solid #e5e7eb', marginTop: 32 }}>
-    //         <h2 style={{ ...styles.h2, fontSize: 22, marginBottom: 10 }}>📝 まとめ：ここがポイント！</h2>
-    //         <ul style={{ fontSize: 17, marginLeft: 18 }}>
-    //             <li style={{ marginBottom: 8 }}>
-    //                 <span style={{ background: '#fee2e2', color: '#dc2626', padding: '2px 6px', borderRadius: 4, fontWeight: 700, marginRight: 6 }}>✗ よくない実装</span>
-    //                 <b>早期リターン</b>や<b>可変長ループ</b>を使うと、<span style={{ textDecoration: 'underline' }}>処理時間の差から情報が漏れる</span>原因になる。
-    //             </li>
-    //             <li>
-    //                 <span style={{ background: '#bbf7d0', color: '#15803d', padding: '2px 6px', borderRadius: 4, fontWeight: 700, marginRight: 6 }}>✓ 良い実装</span>
-    //                 <b>早期リターン</b>を避け、<b>固定長ループ</b>で処理を揃えることで、<span style={{ textDecoration: 'underline' }}>比較時間を一定に保ち安全性が高まる</span>。
-    //             </li>
-    //         </ul>
-    //         <div style={{ marginTop: 18, color: '#64748b', fontSize: 16 }}>
-    //             <b>なぜ重要？：</b>パスワードや認証トークン、暗号鍵などの機密情報は、<b>比較処理の「時間差」そのものが攻撃者の手がかり</b>になります。
-    //             <p>そのため、これらを扱う際は、<span style={{ color: '#2563eb', fontWeight: 700 }}>定数時間比較</span>など、時間差の出ないロジックで実装することが重要です。</p>
-    //         </div>
-    //     </section>
-        
-    // );
     const summary = (
         <Card className="border-gray-300 bg-gray-50">
             <CardHeader>
@@ -328,13 +317,16 @@ export default function TimingAttackPage() {
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
                 <p>
-                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded font-bold mr-2">✗ よくない実装</span>
-                    パスワード比較のような機密情報を扱う処理で、早期リターンや可変長ループを用いる実装。
+                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded font-bold mr-2">危険</span>
+                    パスワードやトークンの比較で、
+                    一致しなかった時点で処理を終了する実装。
+                    </p>
+                    <p>
+                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded font-bold mr-2">安全</span>
+                    最後まで必ず比較を行い、
+                    入力内容によって処理時間が変わらない実装。
                 </p>
-                <p>
-                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded font-bold mr-2">✓ いい実装</span>
-                    　早期リターンを避け、固定長ループで処理を統一することで、比較時間を一定に保つ実装。
-                </p>
+
             </CardContent>
         </Card>
     );
@@ -342,8 +334,8 @@ export default function TimingAttackPage() {
 
     return(
     <SectionLayout
-        title1="3. 実行時間がパスワードを暴露！"
-        title2='〜 早期リターンと可変長ループが招くタイミング攻撃 〜'
+        title1="3. パスワードは“速さ”で盗まれる"
+        title2="〜 早期リターンが引き起こすタイミング攻撃 〜"
         description={description}
         checklist={checklist}
         summary={summary}

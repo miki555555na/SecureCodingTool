@@ -7,81 +7,85 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '60px 20px' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e293b 0%, #312e81 100%)', padding: '60px 20px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         {/* タイトル */}
-        <h1 style={{ fontSize: 48, fontWeight: 900, color: '#fff', textAlign: 'center', margin: '0 0 24px 0' }}>
-          🔒 セキュアコーディング道場
+        <h1 style={{ fontSize: 46, fontWeight: 900, color: '#fff', textAlign: 'center', margin: '0 0 20px 0' }}>
+          実例で気づく セキュリティ落とし穴体験
         </h1>
         <p style={{ fontSize: 20, color: '#e0e7ff', textAlign: 'center', marginBottom: 40 }}>
-          「セキュアコーディング？コーディング規約？必要なの？」<br />
-          実際の脆弱性を体験して、セキュリティの重要性を学ぼう
+          「あとで学べばいい」「規約は正直ピンとこない」<br />
+          その感覚のまま書いたコードが、どう壊されるのかを先に体験しよう
         </p>
 
         {/* 導入セクション */}
         <Card style={{ marginBottom: 32, background: '#fff', border: 'none', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}>
           <CardHeader>
-            <CardTitle style={{ fontSize: 28 }}>なぜこのツールが必要？</CardTitle>
+            <CardTitle style={{ fontSize: 28 }}>このツールは何のため？</CardTitle>
             <CardDescription style={{ fontSize: 16 }}>
-              新卒エンジニアが直面する現実
+              セキュリティ研修の「前」に使う理由
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div style={{ padding: 16, background: '#fee2e2', borderRadius: 8, borderLeft: '4px solid #ef4444' }}>
-              <p style={{ margin: 0, fontWeight: 700, color: '#dc2626' }}>❌ よくある思い込み</p>
+              <p style={{ margin: 0, fontWeight: 700, color: '#dc2626' }}>❌ 研修前によくある状態</p>
               <p style={{ margin: '8px 0 0 0', color: '#991b1b' }}>
-                「セキュアコーディングなんて、できるようになってから考えればいいだろう」<br />
-                「コーディング規約？web設計では起きないだろう」
+                「セキュリティは難しそう」<br />
+                「とりあえず研修を受ければいい」<br />
+                「規約は量が多くて、読む前に疲れる」
               </p>
             </div>
 
             <div style={{ padding: 16, background: '#dcfce7', borderRadius: 8, borderLeft: '4px solid #16a34a' }}>
-              <p style={{ margin: 0, fontWeight: 700, color: '#15803d' }}>✅ 実際の危険性</p>
+              <p style={{ margin: 0, fontWeight: 700, color: '#15803d' }}>✅ このツールで起きる変化</p>
               <p style={{ margin: '8px 0 0 0', color: '#166534' }}>
-                たった1行のコードの間違いが、全社のデータを流出させる脆弱性になることも。<br />
-                実例を通じて、セキュリティの重要性を「体験」することができます。
+                自分が書きがちなコードが、実際にどう悪用されるかを目で見て体験。<br />
+                セキュリティを「他人事のルール」ではなく、
+                <b>「自分のコードが引き起こす現実的なリスク」</b>として理解できます。
               </p>
             </div>
           </CardContent>
         </Card>
+
+        {/* 学習ゴール */}
         <Card style={{ marginBottom: 32, background: '#fff', border: 'none', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}>
-  <CardHeader>
-    <CardTitle style={{ fontSize: 28 }}>学習のゴール</CardTitle>
-    <CardDescription style={{ fontSize: 16 }}>
-      セキュリティに詳しくない Web エンジニアが、実践的に「なぜ脆弱性が起きるのか」と「どう対策するか」を理解できるようにする
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="space-y-4">
-    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 16, lineHeight: 1.8 }}>
-      <li><b>対象：</b>セキュリティに詳しくない新卒〜若手 Web エンジニア</li>
-      <li><b>到達目標：</b>脆弱なコードを見分け、原因を説明し、基本的な対策を自力で適用できる</li>
-      <li><b>学習で得られること：</b>実行ベースのデモで脆弱性を体感→差分を理解→安全実装で検証することで“感覚”と“知識”を同時に定着</li>
-      <li><b>学習フロー：</b>①脆弱版を実行 → ②観察（時間差・挙動）→ ③安全版で比較 → ④ポイント確認</li>
-    </ul>
-  </CardContent>
-</Card>
+          <CardHeader>
+            <CardTitle style={{ fontSize: 28 }}>この体験で得られること</CardTitle>
+            <CardDescription style={{ fontSize: 16 }}>
+              知識を学ぶ前に、危機感と納得感をつくる
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul style={{ margin: 0, paddingLeft: 18, fontSize: 16, lineHeight: 1.8 }}>
+              <li><b>対象：</b>新卒〜若手 Web エンジニア（フロントエンド / バックエンド）</li>
+              <li><b>目的：</b>「なぜ守らないと危険なのか」を説明なしでも実感できる状態になる</li>
+              <li><b>学び方：</b>脆弱な実装を実行 → 悪用される様子を観察 → 安全な実装と比較</li>
+              <li><b>次につながる：</b>その後のセキュリティ研修や規約が「意味のある情報」として読めるようになる</li>
+            </ul>
+          </CardContent>
+        </Card>
 
         {/* バックエンド・フロントエンド選択 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           {/* バックエンド */}
           <Card style={{ background: '#f8fafc', border: '2px solid #3b82f6' }}>
             <CardHeader>
-              <CardTitle style={{ fontSize: 24, color: '#1e40af' }}>🔧 バックエンド脆弱性</CardTitle>
+              <CardTitle style={{ fontSize: 24, color: '#1e40af' }}>バックエンド編</CardTitle>
               <CardDescription>
-                サーバーサイドエンジニア向け
+                サーバー側の「やりがちミス」を体験
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <ul style={{ fontSize: 15, marginLeft: 18, lineHeight: 1.8 }}>
-                <li>認可チェックの不備</li>
-                <li>SQLインジェクション</li>
-                <li>パスワード検証時の早期リターン</li>
-                <li>HMAC検証時の早期リターン</li>
-                <li>ユーザー存在確認の時間差</li>
+                <li>認可チェック漏れによる情報閲覧</li>
+                <li>SQLインジェクションの実例</li>
+                <li>パスワード比較の時間差</li>
+                <li>HMAC検証の早期リターン</li>
+                <li>ユーザー存在有無の推測</li>
               </ul>
               <Link href="/Backend">
                 <Button style={{ width: '100%', background: '#3b82f6', color: '#fff', marginTop: 16 }}>
-                  バックエンドコースを始める →
+                  バックエンド体験を始める →
                 </Button>
               </Link>
             </CardContent>
@@ -90,27 +94,26 @@ export default function HomePage() {
           {/* フロントエンド */}
           <Card style={{ background: '#faf8f3', border: '2px solid #f59e0b' }}>
             <CardHeader>
-              <CardTitle style={{ fontSize: 24, color: '#92400e' }}>🎨 フロントエンド脆弱性</CardTitle>
+              <CardTitle style={{ fontSize: 24, color: '#92400e' }}>フロントエンド編</CardTitle>
               <CardDescription>
-                クライアントサイドエンジニア向け
+                クライアント側でも起きる危険
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <ul style={{ fontSize: 15, marginLeft: 18, lineHeight: 1.8 }}>
-                <li>ハードコードされた秘密鍵</li>
-                <li>XSS（クロスサイトスクリプティング）</li>
-                <li>ブラウザキャッシュの時間差</li>
-                <li>リソース読み込み時間差</li>
+                <li>コードに埋め込まれた秘密情報</li>
+                <li>XSS によるスクリプト実行</li>
+                <li>キャッシュ挙動の悪用</li>
+                <li>読み込み時間差からの情報推測</li>
               </ul>
               <Link href="/Frontend">
                 <Button style={{ width: '100%', background: '#f59e0b', color: '#fff', marginTop: 16 }}>
-                  フロントエンドコースを始める →
+                  フロントエンド体験を始める →
                 </Button>
               </Link>
             </CardContent>
           </Card>
         </div>
-
       </div>
     </div>
   );

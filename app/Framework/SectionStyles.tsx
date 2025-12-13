@@ -4,7 +4,6 @@ import { CSSProperties } from 'react';
 export const styles: { [k: string]: CSSProperties } = {
     page: {
         maxWidth: 1400,
-        margin: '32px auto',
         padding: '0 20px',
         fontFamily: '"Noto Sans JP", "ヒラギノ角ゴ ProN", "Segoe UI", Roboto, sans-serif',
         color: '#111',
