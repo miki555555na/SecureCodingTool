@@ -8,7 +8,7 @@ export const styles: { [k: string]: CSSProperties } = {
         fontFamily: '"Noto Sans JP", "ヒラギノ角ゴ ProN", "Segoe UI", Roboto, sans-serif',
         color: '#111',
         lineHeight: 1.7,
-        fontSize: 17
+        fontSize: 16.5
     },
     todoWrapper: {
         top: 0,
@@ -22,6 +22,14 @@ export const styles: { [k: string]: CSSProperties } = {
     header: {
         textAlign: 'center',
         marginBottom: 28
+    },
+    description: {
+        maxWidth: 900,
+        margin: '0 auto 32px',
+        color: '#444',
+        fontSize: 18,
+        lineHeight: 1.75,
+        textAlign: 'left',
     },
     h1: {
     fontSize: 30,
