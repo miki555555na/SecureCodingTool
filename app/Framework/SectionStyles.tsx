@@ -3,20 +3,18 @@ import { CSSProperties } from 'react';
 
 export const styles: { [k: string]: CSSProperties } = {
     page: {
-        maxWidth: 1400,
-        margin: '32px auto',
-        padding: '0 20px',
+        maxWidth: 1600,
+        padding: '0 8px',
         fontFamily: '"Noto Sans JP", "ヒラギノ角ゴ ProN", "Segoe UI", Roboto, sans-serif',
         color: '#111',
         lineHeight: 1.7,
-        fontSize: 17
+        fontSize: 18
     },
     todoWrapper: {
-        position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: '#f8fafc',
-        borderBottom: '2px solid #bae6fd',
+        background: '#f5faffff',
+        borderBottom: '2px solid #aee2feff',
         boxShadow: '0 2px 8px #0001',
         padding: '14px 0 10px 0',
         marginBottom: 18
@@ -25,8 +23,16 @@ export const styles: { [k: string]: CSSProperties } = {
         textAlign: 'center',
         marginBottom: 28
     },
-        h1: {
-        fontSize: 36,
+    description: {
+        maxWidth: 900,
+        margin: '0 auto 32px',
+        color: '#444',
+        fontSize: 19,
+        lineHeight: 1.75,
+        textAlign: 'left',
+    },
+    h1: {
+        fontSize: 34,
         margin: '0 0 6px'
     },
     lead: {
@@ -41,7 +47,7 @@ export const styles: { [k: string]: CSSProperties } = {
         background: '#fbfbfb',
         border: '1px solid #ececec'
     },
-        comparison: {
+    comparison: {
         display: 'flex',
         gap: 24,
         marginTop: 20
@@ -59,7 +65,7 @@ export const styles: { [k: string]: CSSProperties } = {
         margin: '10px 0 6px'
     },
     h4: {
-        fontSize: 19,
+        fontSize: 15,
         margin: '12px 0 6px',
         color: '#333'
     },
@@ -82,7 +88,7 @@ export const styles: { [k: string]: CSSProperties } = {
         borderRadius: 6,
         overflowX: 'auto',
         fontFamily: 'monospace',
-        fontSize: 17,
+        fontSize: 16,
         lineHeight: 1.6,
         margin: 0
     },
@@ -119,4 +125,3 @@ export const styles: { [k: string]: CSSProperties } = {
         marginTop: 32
     }
     };
-

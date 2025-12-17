@@ -4,27 +4,29 @@ import React from 'react';
 import { styles } from './SectionStyles';
 
 type Props = {
-    title: string;               // ページタイトル
-    description?: React.ReactNode;   // ページ説明
-    checklist?: React.ReactNode; // やることリスト
-    children: React.ReactNode;   // Section 内のコンテンツ
-    summary?: React.ReactNode;  // まとめ
-    stickyChecklist?: boolean;
+    title1: React.ReactNode;     // ページタイトル
+    title2?: React.ReactNode;    // サブタイトル
+    description?: React.ReactNode; // ページ説明
+    checklist?: React.ReactNode;   // やることリスト
+    children: React.ReactNode;     // Section 内のコンテンツ
+    summary?: React.ReactNode;     // まとめ
+    framed?: boolean;              // children を枠で囲むか
 };
 
 export default function SectionLayout({
-    title,
+    title1,
+    title2,
     description,
     checklist,
     children,
     summary,
-    stickyChecklist
+    framed = true,
 }: Props) {
     return (
     <main style={styles.page}>
         {/* ▼ やることリスト */}
         {checklist && (
-            <div style={stickyChecklist ? styles.todoWrapper : undefined}>
+            <div style={styles.todoWrapper }>
                 <section style={{ ...styles.section, background: 'transparent', border: 'none', marginBottom: 0, marginTop: 0, padding: 0 }}>
                 {checklist}
                 </section>
@@ -33,14 +35,27 @@ export default function SectionLayout({
         {/* ▲ やることリスト */}
 
         <header style={styles.header}>
-            <h1 style={styles.h1}>{title}</h1>
-            {description && (
-            <p style={styles.lead}>{description}</p>
-            )}
-        </header>
+  <h1 style={styles.h1}>{title1}</h1>
+  {title2 && <h2 style={styles.h2}>{title2}</h2>}
+</header>
+
+{description && (
+  <div style={styles.description}>
+    {description}
+  </div>
+)}
+
 
         {/* ▼ 各 Section の本体 */}
-        <section style={{ ...styles.section}}>{children}</section>
+        <section
+            style={
+                framed
+                    ? { ...styles.section }
+                    : { marginBottom: 26, padding: 0, border: 'none', background: 'transparent' }
+            }
+        >
+            {children}
+        </section>
         {/* ▲ Section内容 */}
 
         {/* ▼ まとめセクション */}
