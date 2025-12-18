@@ -332,6 +332,7 @@ export default function TimingAttackPage() {
                                 ✓ 安全な実装
                             </TabsTrigger>
                         </TabsList>
+                        
 
                         <TabsContent value="insecure" className="mt-4">
                             

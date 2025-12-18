@@ -52,8 +52,20 @@ export default function HmacTimingAttackPage() {
   }, [logs])
 
   function appendLog(line: string) {
-    setLogs((s) => [...s, line].slice(-50))
+  console.log('[DEBUG appendLog] adding:', line); // 追加
+  setLogs((s) => {
+    const next = [...s, line].slice(-50);
+    console.log('[DEBUG logs next length]', next.length); // 追加
+    return next;
+  });
+}
+
+useEffect(() => {
+  console.log('[DEBUG logs changed]', logs); // 追加：state 変更を監視
+  if (scrollRef.current) {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }
+}, [logs]);
 
   // --- サーバーシミュレーション ---
   async function mockServerVerify(receivedHmac: string, isInsecure: boolean) {
@@ -564,15 +576,74 @@ export default function HmacTimingAttackPage() {
 <Card style={{ marginTop: 24 }}>
         <CardHeader>
           <CardTitle>HMAC署名検証デモ：実行時間の差を体感しよう</CardTitle>
+             <CardDescription>
+  <p>
+    このデモでは、
+    <b>HMACそのものではなく、「HMACの検証処理の書き方」</b>によって、
+    外部から観測可能な<b>処理時間の差（タイミング差）</b>が生まれることを確認します。
+  </p>
+  <p style={{ marginTop: 6 }}>
+    同じHMAC検証でも、正解と一致しない文字が見つかった時点で
+    <span style={{ fontWeight: 600 }}>returnを行う実装</span>と、正解・不正解に依らず
+    <span style={{ fontWeight: 600 }}>一定の時間を行う実装</span>では、
+    攻撃者から見える情報量が大きく異なります。
+  </p>
+</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           
-            <h3 style={{ ...styles.h3, marginTop: 10, color: '#0f172a' }}>🚀 試してみよう！</h3>
-            
-            <p style={{ marginBottom: 20 }}>
-              攻撃者が「時間差」を利用して入力データを推測する様子を観察します。
-              <b>脆弱な実装</b>では、正解の文字において処理時間のスパイク（突出）が観測されます。
-            </p>
+            <h3 style={{ ...styles.h3, marginTop: 10, color: '#0f172a' }}>
+  🚀 試してみよう！HMAC検証のタイミング差を観察
+</h3>
+
+<ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
+  <li>
+    <div style={{ fontWeight: 700 }}>【ステップ1】脆弱な実装を選択</div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      まず「⚠️ 脆弱な実装（Early Return）」を選択し、<b>実行</b>を押してください。
+      <br />
+      この実装では、HMACを<b>1文字ずつ比較し、不一致が見つかった時点で処理を終了</b>します。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>【ステップ2】1文字ずつ推測される様子を見る</div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      左のコンソールでは、
+      攻撃者が <b>16通り（0–f）</b> の候補を順に試し、
+      <b>応答時間が最も長い文字</b>を選んでいる様子が表示されます。
+      <br /><br />
+      右のグラフでは、
+      <span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>
+        正解の文字だけ処理時間が突出（スパイク）
+      </span>
+      していることを確認してください。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>【ステップ3】HMACが徐々に完成していく</div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      処理時間の差を手がかりに、
+      攻撃者は <b>HMACを1文字ずつ確定</b>させていきます。
+      <br />
+      これは「総当たり」ではなく、
+      <b>サーバー内部の処理状況を時間から読み取っている</b>ことに注意してください。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>【ステップ4】安全な実装と比較</div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      次に「✓ 安全な実装（Constant Time）」に切り替えて、同じ操作を行ってください。
+      <br />
+      今度は、
+      <b>どの文字を試しても処理時間がほぼ一定</b>になり、
+      正解を推測できなくなることが分かります。
+    </div>
+  </li>
+</ol>
+
 
             {/* モード切替ボタン */}
             <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
