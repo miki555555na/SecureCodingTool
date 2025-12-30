@@ -43,7 +43,7 @@ export default function HmacTimingAttackPage() {
   const [chartData, setChartData] = useState<Array<{ char: string; time: number; isHit?: boolean }>>([])
   
   const abortRef = useRef(false)
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (scrollRef.current) {

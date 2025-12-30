@@ -414,13 +414,13 @@ export default function AuthFlowTimingPage() {
             <span className="font-semibold text-foreground">ヒント:</span> 分からなくなったら「デモ」で体験してみると理解が深まります。
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="xl" className="h-16 px-10 text-xl font-bold" onClick={prev} disabled={stepIndex === 0}>
+            <Button variant="outline" size="lg" className="h-16 px-10 text-xl font-bold" onClick={prev} disabled={stepIndex === 0}>
               ← 戻る
             </Button>
             {stepIndex === STEPS.length - 1 ? (
-              <Button size="xl" className="h-16 px-10 text-xl font-bold" onClick={() => setStep('why')}>最初から</Button>
+              <Button size="lg" className="h-16 px-10 text-xl font-bold" onClick={() => setStep('why')}>最初から</Button>
             ) : (
-              <Button size="xl" className="h-16 px-10 text-xl font-bold" onClick={next}>次へ →</Button>
+              <Button size="lg" className="h-16 px-10 text-xl font-bold" onClick={next}>次へ →</Button>
             )}
           </div>
         </div>

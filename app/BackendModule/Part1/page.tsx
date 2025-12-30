@@ -153,7 +153,6 @@ export default function TimingAttackPage() {
         description={description}
         // checklist={checklist}
         summary={summary}
-        stickyChecklist={true}
     >
         {children}
     </SectionLayout>

@@ -137,11 +137,10 @@ export default function TimingAttackPage() {
 
     return(
     <SectionLayout
-        title="タイミング攻撃チュートリアル"
+        title1="タイミング攻撃チュートリアル"
         description={description}
         checklist={checklist}
         summary={summary}
-        stickyChecklist={true}
     >
         {children}
     </SectionLayout>
