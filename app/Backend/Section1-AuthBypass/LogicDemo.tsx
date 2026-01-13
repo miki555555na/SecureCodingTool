@@ -1,7 +1,19 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Globe, Server, AlertTriangle, CheckCircle, Lock, ShieldAlert, ArrowRight, Terminal } from 'lucide-react'
+import { 
+  Globe, 
+  Server, 
+  AlertTriangle, 
+  CheckCircle, 
+  Terminal, 
+  User, 
+  MapPin, 
+  Mail, 
+  Briefcase,
+  ShieldAlert,
+  Lock
+} from 'lucide-react'
 
 type Scenario = 'IDOR' | 'AdminBypass'
 
@@ -14,39 +26,44 @@ export default function LogicDemo() {
 
   const [adminResult, setAdminResult] = useState<any>(null)
 
-
   const runIdorAttack = () => {
     const myId = '1001'
     
-    if (fixed) {
-      if (idorId === myId) {
-        setIdorResult({ status: 200, data: { id: 1001, name: "自分 (Yamada)", email: "me@example.com" } })
-      } else {
-        setIdorResult({ status: 403, error: "Forbidden: Resource ownership validation failed." })
-      }
-    } else {
-      if (idorId === '1001') {
-        setIdorResult({ status: 200, data: { id: 1001, name: "自分 (Yamada)", email: "me@example.com" } })
-      } else if (idorId === '1002') {
-        setIdorResult({ status: 200, data: { id: 1002, name: "佐藤 太郎", email: "sato@target.com", address: "東京都..." } })
-      } else {
-        setIdorResult({ status: 404, error: "User Not Found" })
-      }
-    }
+    setIdorResult(null)
+    setTimeout(() => {
+        if (fixed) {
+          if (idorId === myId) {
+            setIdorResult({ status: 200, data: { id: 1001, name: "Yamada Taro", role: "Member", email: "me@example.com", bio: "こんにちは、山田です。Web開発を勉強中です。" } })
+          } else {
+            setIdorResult({ status: 403, error: "Access Denied" })
+          }
+        } else {
+          if (idorId === '1001') {
+            setIdorResult({ status: 200, data: { id: 1001, name: "Yamada Taro", role: "Member", email: "me@example.com", bio: "こんにちは、山田です。Web開発を勉強中です。" } })
+          } else if (idorId === '1002') {
+            setIdorResult({ status: 200, data: { id: 1002, name: "Suzuki Jiro", role: "Manager", email: "suzuki@corp.com", bio: "営業部の鈴木です。", address: "東京都千代田区1-1-1 (非公開)", phone: "090-xxxx-xxxx" } })
+          } else {
+            setIdorResult({ status: 404, error: "User Not Found" })
+          }
+        }
+    }, 300)
   }
 
   const runAdminAttack = () => {
-    const userRole: string = 'member'
-
-    if (fixed) {
-      if (userRole !== 'admin') {
-        setAdminResult({ status: 403, error: "Forbidden: Insufficient privileges (Role: Member)." })
-      } else {
-        setAdminResult({ status: 200, message: "Success: User deleted." })
-      }
-    } else {
-      setAdminResult({ status: 200, message: "Success: User deleted." })
-    }
+    const userRole = 'member'
+    setAdminResult(null)
+    
+    setTimeout(() => {
+        if (fixed) {
+          if (userRole.toUpperCase() !== 'ADMIN') {
+            setAdminResult({ status: 403, error: "Forbidden: Insufficient privileges (Role: Member)." })
+          } else {
+            setAdminResult({ status: 200, message: "Success: User deleted." })
+          }
+        } else {
+          setAdminResult({ status: 200, message: "Success: User deleted." })
+        }
+    }, 300)
   }
 
   const panelBase: React.CSSProperties = {
@@ -108,7 +125,7 @@ export default function LogicDemo() {
             color: scenario === 'IDOR' ? '#2563eb' : '#64748b' 
           }}
         >
-          Case A: IDOR (Insecure Direct Object Reference)
+          Case A: IDOR (水平権限昇格)
         </button>
         <button
           onClick={() => { setScenario('AdminBypass'); setFixed(false); setAdminResult(null); }}
@@ -118,70 +135,113 @@ export default function LogicDemo() {
             color: scenario === 'AdminBypass' ? '#2563eb' : '#64748b' 
           }}
         >
-          Case B: Broken Function Level Authorization
+          Case B: 管理者機能バイパス (垂直権限昇格)
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: 400 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: 420 }}>
         <div style={panelBase}>
-          <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <Terminal size={14} /> HTTP Request Simulator
-          </div>
-
+          
           {scenario === 'IDOR' ? (
             <>
-              <div style={urlBarBase}>
-                <span style={{ color: '#94a3b8', fontSize: 12 }}>GET</span>
-                <div style={{ display: 'flex', alignItems: 'center', flex: 1, background: '#334155', borderRadius: 4, paddingRight: 4 }}>
-                   <span style={{ color: '#94a3b8', paddingLeft: 8, fontSize: 13 }}>/api/profile?user_id=</span>
+              <div style={{ padding: '8px 12px', background: '#cbd5e1', color: '#334155', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, borderBottom: '1px solid #94a3b8' }}>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }}></div>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#eab308' }}></div>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e' }}></div>
+                </div>
+                <div style={{ flex: 1, textAlign: 'center', color: '#475569' }}>Vulnerable App - Profile</div>
+              </div>
+
+              <div style={{ ...urlBarBase, background: '#f1f5f9', borderBottom: '1px solid #e2e8f0' }}>
+                <Globe size={14} color="#64748b" />
+                <div style={{ display: 'flex', alignItems: 'center', flex: 1, background: '#fff', borderRadius: 4, border: '1px solid #cbd5e1', paddingRight: 4, boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)' }}>
+                   <span style={{ color: '#94a3b8', paddingLeft: 8, fontSize: 13 }}>example.com/profile?id=</span>
                    <input 
                      value={idorId}
                      onChange={(e) => setIdorId(e.target.value)}
-                     style={{ ...inputBase, background: 'transparent', paddingLeft: 0 }}
+                     style={{ ...inputBase, background: 'transparent', paddingLeft: 0, color: '#334155' }}
                    />
                 </div>
                 <button 
                   onClick={runIdorAttack}
                   style={{ ...btnBase, background: '#2563eb', color: '#fff' }}
                 >
-                  Send
+                  Go
                 </button>
               </div>
-              <div style={{ padding: 20, flex: 1, background: '#fff', color: '#0f172a', fontFamily: 'monospace', fontSize: 13 }}>
+              <div style={{ flex: 1, background: '#fff', color: '#0f172a', position: 'relative', overflowY: 'auto' }}>
                 {!idorResult ? (
-                  <div style={{ color: '#64748b', textAlign: 'center', marginTop: 40, fontFamily: 'sans-serif' }}>
-                    Send request to API endpoint.<br/>
-                    <small>Try accessing ID: 1002</small>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#94a3b8', gap: 10 }}>
+                    <Globe size={48} strokeWidth={1} opacity={0.5} />
+                    <div style={{ fontSize: 14 }}>Enter User ID to view profile</div>
+                    <div style={{ fontSize: 12, background: '#f1f5f9', padding: '4px 8px', borderRadius: 4 }}>Hint: Try ID 1002</div>
                   </div>
                 ) : (
-                  <div>
+                  <>
                     {idorResult.status === 200 ? (
-                      <div style={{ border: '1px solid #e2e8f0', borderRadius: 8, padding: 16, background: '#f8fafc' }}>
-                        <div style={{ color: '#16a34a', fontWeight: 700, marginBottom: 8 }}>HTTP/1.1 200 OK</div>
-                        <div>{`{`}</div>
-                        <div style={{ paddingLeft: 12 }}>"id": {idorResult.data.id},</div>
-                        <div style={{ paddingLeft: 12 }}>"name": "{idorResult.data.name}",</div>
-                        <div style={{ paddingLeft: 12 }}>"email": "{idorResult.data.email}"</div>
-                        <div>{`}`}</div>
-                        
-                        {idorResult.data.id === 1002 && (
-                          <div style={{ marginTop: 12, padding: 8, background: '#fff1f2', color: '#be123c', borderRadius: 4, fontSize: 12, fontFamily: 'sans-serif' }}>
-                            ⚠️ 想定外のリソース（他人）へアクセスできています
+                      <div style={{ padding: 24 }}>
+                        <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 24 }}>
+                          <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <User size={32} color="#64748b" />
                           </div>
-                        )}
+                          <div>
+                            <h2 style={{ margin: '0 0 4px 0', fontSize: 20, fontWeight: 700, color: '#1e293b' }}>{idorResult.data.name}</h2>
+                            <div style={{ display: 'flex', gap: 8 }}>
+                                <span style={{ fontSize: 12, background: '#dbeafe', color: '#1e40af', padding: '2px 8px', borderRadius: 10 }}>{idorResult.data.role}</span>
+                                <span style={{ fontSize: 12, color: '#64748b' }}>ID: {idorResult.data.id}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                          <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#334155' }}>
+                            <Mail size={16} color="#94a3b8" /> {idorResult.data.email}
+                          </div>
+                          <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#334155' }}>
+                            <Briefcase size={16} color="#94a3b8" /> {idorResult.data.bio}
+                          </div>
+
+                          <hr style={{ border: 'none', height: 1, background: '#e2e8f0', margin: '8px 0' }} />
+
+                          {idorResult.data.address ? (
+                            <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6, padding: 12 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#b91c1c', fontSize: 13, fontWeight: 700, marginBottom: 4 }}>
+                                <ShieldAlert size={16} /> Private Info (Leaked)
+                              </div>
+                              <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#7f1d1d', marginBottom: 4 }}>
+                                <MapPin size={16} /> {idorResult.data.address}
+                              </div>
+                              <div style={{ fontSize: 12, color: '#991b1b', marginLeft: 26 }}>
+                                Phone: {idorResult.data.phone}
+                              </div>
+                            </div>
+                          ) : (
+                             <div style={{ fontSize: 13, color: '#94a3b8', fontStyle: 'italic' }}>Private information is hidden.</div>
+                          )}
+                        </div>
                       </div>
                     ) : (
-                      <div style={{ color: '#dc2626', fontWeight: 700, textAlign: 'center', marginTop: 40 }}>
-                        HTTP/1.1 {idorResult.status} <br/>
-                        {idorResult.error}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 12 }}>
+                        <div style={{ width: 50, height: 50, borderRadius: '50%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                           <Lock size={24} color="#64748b" />
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>{idorResult.status === 403 ? "Access Denied" : "Page Not Found"}</div>
+                            <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>{idorResult.error}</div>
+                        </div>
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
               </div>
             </>
           ) : (
             <>
+              <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Terminal size={14} /> HTTP Request Simulator
+              </div>
               <div style={urlBarBase}>
                 <span style={{ color: '#f59e0b', fontWeight: 700, fontSize: 12 }}>POST</span>
                 <input readOnly value="/api/admin/delete_user" style={inputBase} />
@@ -196,11 +256,11 @@ export default function LogicDemo() {
                 Payload: {`{ "target_id": 999 }`} <span style={{ marginLeft: 10, color: '#e2e8f0' }}>Context: Role=Member</span>
               </div>
 
-              <div style={{ padding: 15, flex: 1, fontFamily: 'monospace', fontSize: 13, background: '#fff', color: '#0f172a' }}>
+              <div style={{ padding: 15, flex: 1, fontFamily: 'monospace', fontSize: 13, background: '#0f172a', color: '#e2e8f0' }}>
                 {!adminResult ? (
-                   <div style={{ color: '#64748b' }}>// Waiting for response...</div>
+                   <div style={{ color: '#64748b' }}>// Ready to send request...</div>
                 ) : (
-                  <div style={{ color: adminResult.status === 200 ? '#16a34a' : '#dc2626' }}>
+                  <div style={{ color: adminResult.status === 200 ? '#4ade80' : '#f87171' }}>
                     HTTP/1.1 {adminResult.status} {adminResult.status === 200 ? 'OK' : 'Forbidden'} <br/>
                     Date: {new Date().toTimeString().split(' ')[0]} <br/>
                     Content-Type: application/json <br/>
@@ -215,7 +275,7 @@ export default function LogicDemo() {
 
         <div style={panelBase}>
           <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Server size={14} /> Backend Logic (Controller)</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Server size={14} /> Backend Logic</div>
             
             <button 
               onClick={() => setFixed(!fixed)}
@@ -241,36 +301,40 @@ def get_profile(request):
     target_id = request.params.user_id
     
     # 【Secure Implementation】
-    # クライアントからのIDを信頼せず、
-    # セッション(認証情報)を用いて所有権を確認する
+    # セッション(認証情報)からIDを取得
     current_user_id = request.session.user_id
     
+    # 検索条件に「所有者ID」を強制する
+    # URLで他人のIDが指定されても、
+    # owner_id が一致しないためヒットしない
     data = db.find_one(
         id=target_id, 
-        owner_id=current_user_id # 所有者条件を強制
+        owner_id=current_user_id 
     )
     
     if not data:
-        # 存在しないか、権限がない場合は404/403
-        return error("Not Found", 404)
+        # 他人のIDなら 403 or 404
+        return error("Access Denied", 403)
         
-    return json(data)`
+    return render("profile", data)`
 :
 `# GET /profile
 def get_profile(request):
     target_id = request.params.user_id
     
     # 【Vulnerable Implementation】
-    # パラメータで指定されたIDでそのまま検索を実行
-    # 「誰が」アクセスしているかの認可チェックが漏れている
+    # リクエストされたIDをそのまま検索に使用
+    # 「誰がアクセスしているか」の確認がない
     
     data = db.find_by_id(target_id)
+    
     
     
     if not data:
         return error("Not Found", 404)
         
-    return json(data)`
+    # 他人のデータでもそのまま表示してしまう
+    return render("profile", data)`
 ) : (
 fixed ?
 `# POST /api/admin/delete_user
@@ -279,7 +343,7 @@ def delete_user(request):
     # エンドポイントの実行に必要なロールを明示的に検証
     # @RequiresRole('ADMIN') などのデコレータでも可
     if request.session.role != 'ADMIN':
-        return error("Forbidden: Insufficient Role", 403)
+        return error("Forbidden", 403)
 
 
     target_id = request.data.target_id
