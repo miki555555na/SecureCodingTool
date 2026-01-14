@@ -75,7 +75,7 @@ export default function AuthFlowTimingPage() {
 
   return (
     <SectionLayout
-      title1="5. なぜ「返事の速さ」でユーザーの存在がバレるのか？"
+      title1="5. 返事の速さで、存在がバレる？"
       title2="〜 ログインの流れを見て、時間の違いを体験しよう〜"
       description={description}
       checklist={checklist}

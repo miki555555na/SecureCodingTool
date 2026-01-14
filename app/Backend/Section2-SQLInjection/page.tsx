@@ -258,15 +258,15 @@ export default function SqlInjectionPage() {
           <CardContent style={{ paddingTop: 0 }}>
             <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
               <li>
-                ・入力は、サーバー側でどのように扱われているのか？
+                ・入力は、サーバー側でどのように扱われている？
               </li>
 
               <li>
-                ・入力を検証しないと、何が起きてしまうのか？
+                ・入力を検証しないと、何が起きてしまう？
               </li>
 
               <li>
-                ・入力を制限・検証すると、結果はどう変わるのか？
+                ・入力を制限・検証すると、結果はどう変わる？
               </li>
               <br />
               <ul style={{ fontSize: 16, marginTop: 5 }}>
@@ -301,7 +301,7 @@ export default function SqlInjectionPage() {
 
       <ul className="space-y-2 text-gray-700">
         <li>
-          <b>Q.</b> 入力は、サーバー側でどのように扱われているのか？
+          <b>Q.</b> 入力は、サーバー側でどのように扱われている？
           <br />
           <span className="ml-4">
             <b>→ </b>
@@ -311,7 +311,7 @@ export default function SqlInjectionPage() {
         </li>
 
         <li>
-          <b>Q.</b> 入力を検証しないと、何が起きてしまうのか？
+          <b>Q.</b> 入力を検証しないと、何が起きてしまう？
           <br />
           <span className="ml-4">
             <b>→ </b>
@@ -322,7 +322,7 @@ export default function SqlInjectionPage() {
         </li>
 
         <li>
-          <b>Q.</b> 入力を制限・検証すると、結果はどう変わるのか？
+          <b>Q.</b> 入力を制限・検証すると、結果はどう変わる？
           <br />
           <span className="ml-4">
             <b>→ </b>
@@ -340,8 +340,8 @@ export default function SqlInjectionPage() {
       style={{ lineHeight: 1.8 }}
     >
       <p style={{ fontSize: 16 }}>
-        この章で見てきた問題は、
-        <b>危ない文字が入力された</b>から起きたわけではありません。
+        この章で見てきたSQLインジェクションの根本的な問題は、
+        <b>危ない文字が入力されたことではありません</b>。
         <br />
         本当に問題なのは、
         <span style={{ color: '#4f46e5', fontWeight: 600 }}>
@@ -382,50 +382,6 @@ export default function SqlInjectionPage() {
     </div>
   </CardContent>
 </Card>
-
-
-  
-
-    // <section style={{ ...styles.section, background: '#f9fafb', border: '1.5px solid #e5e7eb', marginTop: 32 }}>
-    //     <h2 style={{ ...styles.h2, fontSize: 22, marginBottom: 15, display: 'flex', alignItems: 'center', gap: 10 }}>
-    //         <ShieldCheck size={24} /> エンジニアのためのSQLインジェクション対策鉄則
-    //     </h2>
-        
-    //     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 15 }}>
-    //         <div style={{ background: '#fff', padding: 15, borderRadius: 8, border: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column' }}>
-    //             <h4 style={{ margin: '0 0 10px 0', fontSize: 15, display: 'flex', alignItems: 'center', gap: 8, color: '#059669' }}>
-    //                 <Filter size={18} /> 1. 入力検証 (Validation)
-    //             </h4>
-    //             <p style={{ fontSize: 13, color: '#4b5563', lineHeight: 1.5, flex: 1 }}>
-    //                 <b>「入り口で弾く」</b><br/>
-    //                 アプリケーションの仕様として、想定外のデータ形式（例：数値フィールドへの文字列入力）を拒否します。
-    //                 データの整合性維持にも寄与する、防御の第一歩です。
-    //             </p>
-    //         </div>
-
-    //         <div style={{ background: '#fff', padding: 15, borderRadius: 8, border: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column' }}>
-    //             <h4 style={{ margin: '0 0 10px 0', fontSize: 15, display: 'flex', alignItems: 'center', gap: 8, color: '#d97706' }}>
-    //                 <SearchCheck size={18} /> 2. サニタイズ
-    //             </h4>
-    //             <p style={{ fontSize: 13, color: '#4b5563', lineHeight: 1.5, flex: 1 }}>
-    //                 <b>「無害化する」</b><br/>
-    //                 SQLにおいて特別な意味を持つ文字（<code>'</code> や <code>;</code> など）をエスケープします。
-    //                 現代の開発では、<b>プレースホルダを利用することで、ライブラリ層で自動的に行わせる</b>のが標準です。
-    //             </p>
-    //         </div>
-
-    //         <div style={{ background: '#fff', padding: 15, borderRadius: 8, border: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column' }}>
-    //             <h4 style={{ margin: '0 0 10px 0', fontSize: 15, display: 'flex', alignItems: 'center', gap: 8, color: '#2563eb' }}>
-    //                 <Lock size={18} /> 3. プレースホルダ
-    //             </h4>
-    //             <p style={{ fontSize: 13, color: '#4b5563', lineHeight: 1.5, flex: 1 }}>
-    //                 <b>「構造と値を分離する」</b><br/>
-    //                 SQL文の構造をコンパイル時に確定させ、ユーザー入力は後から「値」としてバインドします。
-    //                 これにより、入力値がSQLコマンドとして解釈されることを根本的に防ぎます。
-    //             </p>
-    //         </div>
-    //     </div>
-    // </section>
   );
 
   const children = (
@@ -777,9 +733,9 @@ db.execute(query, `}<span style={{
                   </div>
                   <div style={{ color: '#475569', marginTop: 6 }}>
                     入力欄に <code>alice</code> と入力し、
-                    <b>「制限なし（文字列結合）」</b>のまま実行してください。
+                    <b>「脆弱な実装」</b>のまま実行してください。
                     <br />
-                    名前が一致するユーザーだけが取得されることを確認します。
+                    名前が一致するユーザーだけが取得されることが確認できます。
                   </div>
                 </li>
 
@@ -796,7 +752,6 @@ db.execute(query, `}<span style={{
                     ことに注目してください。
                   </div>
                 </li>
-
                 <li>
                   <div style={{ fontWeight: 700 }}>
                     【ステップ3】「入力が命令として解釈された」ことを確認する
@@ -807,17 +762,17 @@ db.execute(query, `}<span style={{
                     <b>SQL文の一部として組み込まれている</b>
                     ことが分かります。
                     <br />
+                    見えるはずのない情報が見えてしまっていることが確認できます。<br />
                     攻撃者はここを狙って、
                     <b>条件式そのものを書き換えています</b>。
                   </div>
                 </li>
-
                 <li>
                   <div style={{ fontWeight: 700 }}>
                     【ステップ4】安全な実装に切り替えて比べる
                   </div>
                   <div style={{ color: '#475569', marginTop: 6 }}>
-                    次に「制限あり（プレースホルダ）」に切り替えて、
+                    次に<b>「安全な実装」</b>に切り替えて、
                     同じ入力を実行してみましょう。
                     <br />
                     今度は、
@@ -897,7 +852,7 @@ db.execute(query, `}<span style={{
               <Card>
                 <CardHeader>
                   <CardTitle style={{ fontSize: 14 }}>
-                    <Database size={14} /> 検索結果 (DB Output)
+                     検索結果 
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -959,7 +914,7 @@ db.execute(query, `}<span style={{
 
   return (
     <SectionLayout
-      title1="2. その入力、本当に“文字列”ですか？"
+      title1="2.その入力、本当にただの文字列？"
       title2="〜 SQLインジェクション入門 〜"
       description={description}
       checklist={checklist}

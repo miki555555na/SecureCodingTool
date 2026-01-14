@@ -7,48 +7,46 @@ import Link from 'next/link';
 
 export default function BackendPage() {
   const sections = [
-    {
-      number: 1,
-      title: '認可チェックの不備',
-      description: '認可の抜け漏れによって、本来許可されていない操作が可能になるケースを確認します。',
-      href: '/Backend/Section1-AuthBypass'
-    },
-    {
-      number: 2,
-      title: 'SQLインジェクション',
-      description: '入力値をそのままクエリに使った場合に起こる、典型的なインジェクションの例を体験します。',
-      href: '/Backend/Section2-SQLInjection'
-    },
-    {
-      number: 3,
-      title: 'パスワード検証時の早期リターン',
-      description: '処理時間の差が情報として利用されてしまう可能性について見ていきます。',
-      href: '/Backend/Section3-EarlyReturn'
-    },
-    {
-      number: 4,
-      title: 'HMACの検証処理',
-      description: 'トークン検証の実装によって生じる、見落とされがちなリスクを確認します。',
-      href: '/Backend/Section4-HMACVerification'
-    },
-    {
-      number: 5,
-      title: 'ユーザー存在確認の時間差',
-      description: '認証フロー中の処理時間の違いが、攻撃につながるケースを学びます。',
-      href: '/Backend/Section5-UserEnumeration'
-    }
-  ];
+  {
+    number: 1,
+    title: 'そのURL、誰でも叩けていませんか？',
+    description: 'アクセス制御の抜け漏れによって、本来許可されていない操作ができてしまうケースを確認します。',
+    href: '/Backend/Section1-AuthBypass'
+  },
+  {
+    number: 2,
+    title: 'その入力、本当にただの文字列？',
+    description: 'ユーザー入力をそのまま使ったことで、データベースの中身が漏れてしまう仕組みを見ていきます。',
+    href: '/Backend/Section2-SQLInjection'
+  },
+  {
+    number: 3,
+    title: 'パスワード、もうバレているかも',
+    description: 'パスワード検証時の「処理時間の差」が、攻撃に利用されてしまう理由を体感します。',
+    href: '/Backend/Section3-EarlyReturn'
+  },
+  {
+    number: 4,
+    title: 'ちゃんと検証している…つもりだった',
+    description: '署名を確認している処理でも、実行時間の違いから情報が漏れるリスクを確認します。',
+    href: '/Backend/Section4-HMACVerification'
+  },
+  {
+    number: 5,
+    title: '返事の速さで、存在がバレる？',
+    description: 'ログイン処理中の反応の違いが、ユーザーの有無を推測される原因になることを学びます。',
+    href: '/Backend/Section5-UserEnumeration'
+  }
+];
+
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl font-black mb-6">バックエンドの実装とセキュリティ</h1>
-
       <p className="text-base text-slate-600">
-        バックエンド実装で起こりやすい代表的なセキュリティ上の落とし穴を、
-        <br />
-        「脆弱な実装」と「改善後の実装」を比較しながら学びます。
+        このセクションでは、バックエンド実装で起こりやすい代表的なセキュリティ上の<b>落とし穴</b>を、
+        <b>「脆弱な実装」と「改善後の安全な実装」</b>を見比べながら学びます。<br></br>
+        各章はどこからでも選んで学習できますが、上から順に進めることで、より理解しやすい構成になっています。
       </p>
-
       <div className="grid gap-4">
         {sections.map((section) => (
           <Card key={section.number}>
@@ -74,7 +72,7 @@ export default function BackendPage() {
               </p>
               <Link href={section.href}>
                 <Button className="bg-blue-500 text-white">
-                  セクション {section.number} を見る →
+                  {section.number} 章を見る →
                 </Button>
               </Link>
             </CardContent>

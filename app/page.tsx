@@ -17,7 +17,7 @@ export default function HomePage() {
   const problems = [
   {
     title: 'フロント・バックエンドの自分には関係なさそう',
-    description: 'セキュリティはインフラや専門の人が見るもの、と思っていた。'
+    description: 'セキュリティはインフラや専門の人が見るものだと思ってる。'
   },
   {
     title: 'セキュリティの規約、正直読む気が起きない',
@@ -131,16 +131,15 @@ export default function HomePage() {
                   />
                 </span>
               </h3>
-              <p className="text-lg text-slate-600">
-                セキュリティは難しそうだし、専門の人が気をつけるもの。<br />
-                フロントエンドやバックエンドの実装をしている自分には、そこまで意識しなくても良さそう。<br /><br />
+                {/* セキュリティは難しそうだし、専門の人が気をつけるもの。<br />
+                フロントエンドやバックエンドの実装をしている自分には、そこまで意識しなくても良さそう。<br /><br /> */}
                 {/* <b>でも実際は、日々書いているコードとセキュリティは深くつながっています。</b> */}
-                <b>下に書いてあるような経験はありませんか？</b>
-              </p>
+                
 
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 mb-16">
+              
               {problems.map((problem, index) => (
                 <motion.div
                   key={index}
@@ -237,7 +236,7 @@ export default function HomePage() {
         </span>
 
         <span className="block text-sm text-slate-600">
-          各セクションは 5〜8 分で完了します。
+          各章は5〜8分で学べます。
         </span>
       </p>
       </motion.div>
@@ -265,11 +264,11 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="space-y-4 flex flex-col">
                 <ul className="list-disc space-y-2 pl-5 text-base text-slate-700">
-                <li>認可チェック漏れによるロジックバイパス</li>
-                <li>SQL インジェクション</li>
-                <li>パスワード比較の早期リターン</li>
-                <li>HMAC 検証の時間差</li>
-                <li>ユーザー存在有無の推測</li>
+                <li>そのURL、誰でも叩けていませんか？</li>
+                <li>その入力、本当にただの文字列？</li>
+                <li>パスワード、もうバレているかも</li>
+                <li>ちゃんと検証している…つもりだった</li>
+                <li>返事の速さで、存在がバレる？</li>
                 </ul>
                 <Link href="/Backend">
                   <Button
@@ -384,7 +383,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <p className="text-xl leading-relaxed text-slate-800 py-2">
               このツールは、セキュリティを学び始める前の<b>「準備運動」</b>です。<br />
-              30分ほど体験して、<b>「セキュリティは自分ごと」</b>と感じられたら成功。<br />
+              体験して、<b>「セキュリティは自分ごと」</b>と感じられたら成功。<br />
               その後の研修での理解が、きっとスムーズになります。
             </p>
           </div>

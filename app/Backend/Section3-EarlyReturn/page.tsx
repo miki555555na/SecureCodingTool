@@ -32,55 +32,55 @@ export default function TimingAttackPage() {
         }
     };
     const description = (
-  <>
-    <p className="text-lg font-medium">
-      文字の比較処理で、<span style={{ background: '#fef9c3', fontWeight: 500 }}>不一致が見つかった時点で return する実装(早期リターン)</span>を見たことはありませんか？
-    </p>
+      <>
+        <p className="text-lg font-medium">
+          文字の比較処理で、<span style={{ background: '#fef9c3', fontWeight: 500 }}>不一致が見つかった時点で return する実装(早期リターン)</span>を見たことはありませんか？
+        </p>
 
-    <p className="mt-2 text-lg font-medium">
-      しかし、この実装をパスワード検証に使ってしまうと<b>パスワードを推測できてしまう</b>可能性があります。
-    </p>
-    <p className="mt-2 text-lg font-medium">
-      この章では、<b>早期リターンが生む問題</b>と、
-      <b>実装を少し変えるだけで防げる理由</b>を
-      動かしながら確認します。
-    </p>
-  </>
-);
+        <p className="mt-2 text-lg font-medium">
+          しかし、この実装をパスワード検証に使ってしまうと<b>パスワードを推測できてしまう</b>可能性があります。
+        </p>
+        <p className="mt-2 text-lg font-medium">
+          この章では、<b>早期リターンが生む問題</b>と、
+          <b>実装を少し変えるだけで防げる理由</b>を
+          動かしながら確認します。
+        </p>
+      </>
+    );
 
 
     const checklist = (
-  <Card
-    style={{
-      border: '2px solid #aee2feff',
-      boxShadow: '0 2px 8px #0001',
-      background: '#f5faffff',
-    }}
-  >
-    <CardHeader style={{ paddingBottom: 3 }}>
-      <CardTitle style={{ fontSize: 17, marginTop: 0 }}>
-        📝 3章の見どころ
-      </CardTitle>
-    </CardHeader>
+      <Card
+        style={{
+          border: '2px solid #aee2feff',
+          boxShadow: '0 2px 8px #0001',
+          background: '#f5faffff',
+        }}
+      >
+        <CardHeader style={{ paddingBottom: 3 }}>
+          <CardTitle style={{ fontSize: 17, marginTop: 0 }}>
+            📝 3章の見どころ
+          </CardTitle>
+        </CardHeader>
 
-    <CardContent style={{ paddingTop: 0 }}>
-      <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
-        <li>
-          ・処理時間のわずかな差から、何が分かってしまうのか？
-        </li>
+        <CardContent style={{ paddingTop: 0 }}>
+          <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
+            <li>
+              ・処理時間のわずかな差から、何が分かってしまう？
+            </li>
 
-        <li>
-          ・比較検証の書き方を少し変えるだけで、結果はどう変わるのか？
-        </li>
+            <li>
+              ・比較検証の書き方を少し変えるだけで、結果はどう変わる？
+            </li>
 
-        <br />
-        <ul style={{ fontSize: 16, marginTop: 5 }}>
-          <b>→ 実際に動かしながら確認します</b>
-        </ul>
-      </ul>
-    </CardContent>
-  </Card>
-);
+            <br />
+            <ul style={{ fontSize: 16, marginTop: 5 }}>
+              <b>→ 実際に動かしながら確認します</b>
+            </ul>
+          </ul>
+        </CardContent>
+      </Card>
+    );
 
 
 
@@ -612,7 +612,7 @@ const children = (
 
         <ul className="space-y-2 text-gray-700">
           <li>
-            <b>Q.</b> 処理時間のわずかな差から、何が分かってしまうのか？
+            <b>Q.</b> 処理時間のわずかな差から、何が分かってしまう？
             <br />
             <span className="ml-4">
               <b>→ パスワードが「どこまで一致しているか」</b>
@@ -620,7 +620,7 @@ const children = (
           </li>
 
           <li>
-            <b>Q.</b> 比較処理の書き方を少し変えると、結果はどう変わるのか？
+            <b>Q.</b> 比較処理の書き方を少し変えると、結果はどう変わる？
             <br />
             <span className="ml-4">
               <b>→ 同じ機能でも、情報が漏れる実装と漏れない実装に分かれる</b>
@@ -678,7 +678,7 @@ const children = (
 
     return(
     <SectionLayout
-        title1="3. 正しく書いたコードが、パスワードを漏らす"
+        title1="3. パスワード、もうバレているかも"
         title2="〜 処理時間から起きる意外な情報漏えい 〜"
         description={description}
         checklist={checklist}
