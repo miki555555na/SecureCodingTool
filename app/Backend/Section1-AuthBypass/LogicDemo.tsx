@@ -1,0 +1,377 @@
+"use client"
+
+import React, { useState } from 'react'
+import { 
+  Globe, 
+  Server, 
+  AlertTriangle, 
+  CheckCircle, 
+  Terminal, 
+  User, 
+  MapPin, 
+  Mail, 
+  Briefcase,
+  ShieldAlert,
+  Lock
+} from 'lucide-react'
+
+type Scenario = 'IDOR' | 'AdminBypass'
+
+export default function LogicDemo() {
+  const [scenario, setScenario] = useState<Scenario>('IDOR')
+  const [fixed, setFixed] = useState(false)
+  
+  const [idorId, setIdorId] = useState('1001')
+  const [idorResult, setIdorResult] = useState<any>(null)
+
+  const [adminResult, setAdminResult] = useState<any>(null)
+
+  const runIdorAttack = () => {
+    const myId = '1001'
+    
+    setIdorResult(null)
+    setTimeout(() => {
+        if (fixed) {
+          if (idorId === myId) {
+            setIdorResult({ status: 200, data: { id: 1001, name: "Yamada Taro", role: "Member", email: "me@example.com", bio: "こんにちは、山田です。Web開発を勉強中です。" } })
+          } else {
+            setIdorResult({ status: 403, error: "Access Denied" })
+          }
+        } else {
+          if (idorId === '1001') {
+            setIdorResult({ status: 200, data: { id: 1001, name: "Yamada Taro", role: "Member", email: "me@example.com", bio: "こんにちは、山田です。Web開発を勉強中です。" } })
+          } else if (idorId === '1002') {
+            setIdorResult({ status: 200, data: { id: 1002, name: "Suzuki Jiro", role: "Manager", email: "suzuki@corp.com", bio: "営業部の鈴木です。", address: "東京都千代田区1-1-1 (非公開)", phone: "090-xxxx-xxxx" } })
+          } else {
+            setIdorResult({ status: 404, error: "User Not Found" })
+          }
+        }
+    }, 300)
+  }
+
+  const runAdminAttack = () => {
+    const userRole = 'member'
+    setAdminResult(null)
+    
+    setTimeout(() => {
+        if (fixed) {
+          if (userRole.toUpperCase() !== 'ADMIN') {
+            setAdminResult({ status: 403, error: "Forbidden: Insufficient privileges (Role: Member)." })
+          } else {
+            setAdminResult({ status: 200, message: "Success: User deleted." })
+          }
+        } else {
+          setAdminResult({ status: 200, message: "Success: User deleted." })
+        }
+    }, 300)
+  }
+
+  const panelBase: React.CSSProperties = {
+    background: '#1e293b',
+    borderRadius: 8,
+    border: '1px solid #334155',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  }
+
+  const urlBarBase: React.CSSProperties = {
+    background: '#0f172a',
+    padding: '8px 12px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    borderBottom: '1px solid #334155'
+  }
+
+  const inputBase: React.CSSProperties = {
+    background: '#334155',
+    border: 'none',
+    color: '#e2e8f0',
+    padding: '4px 8px',
+    borderRadius: 4,
+    fontFamily: 'monospace',
+    fontSize: 13,
+    flex: 1
+  }
+
+  const btnBase: React.CSSProperties = {
+    padding: '6px 12px',
+    borderRadius: 4,
+    fontSize: 12,
+    fontWeight: 600,
+    cursor: 'pointer',
+    border: 'none'
+  }
+
+  const codeBase: React.CSSProperties = {
+    fontFamily: 'monospace',
+    fontSize: 12,
+    lineHeight: 1.5,
+    padding: 15,
+    color: '#e2e8f0',
+    overflowX: 'auto'
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', gap: 8, borderBottom: '1px solid #e5e7eb', paddingBottom: 8 }}>
+        <button
+          onClick={() => { setScenario('IDOR'); setFixed(false); setIdorResult(null); setIdorId('1001'); }}
+          style={{ 
+            ...btnBase, 
+            background: scenario === 'IDOR' ? '#eff6ff' : 'transparent', 
+            color: scenario === 'IDOR' ? '#2563eb' : '#64748b' 
+          }}
+        >
+          Case A: IDOR (水平権限昇格)
+        </button>
+        <button
+          onClick={() => { setScenario('AdminBypass'); setFixed(false); setAdminResult(null); }}
+          style={{ 
+            ...btnBase, 
+            background: scenario === 'AdminBypass' ? '#eff6ff' : 'transparent', 
+            color: scenario === 'AdminBypass' ? '#2563eb' : '#64748b' 
+          }}
+        >
+          Case B: 管理者機能バイパス (垂直権限昇格)
+        </button>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: 420 }}>
+        <div style={panelBase}>
+          
+          {scenario === 'IDOR' ? (
+            <>
+              <div style={{ padding: '8px 12px', background: '#cbd5e1', color: '#334155', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, borderBottom: '1px solid #94a3b8' }}>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }}></div>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#eab308' }}></div>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e' }}></div>
+                </div>
+                <div style={{ flex: 1, textAlign: 'center', color: '#475569' }}>Vulnerable App - Profile</div>
+              </div>
+
+              <div style={{ ...urlBarBase, background: '#f1f5f9', borderBottom: '1px solid #e2e8f0' }}>
+                <Globe size={14} color="#64748b" />
+                <div style={{ display: 'flex', alignItems: 'center', flex: 1, background: '#fff', borderRadius: 4, border: '1px solid #cbd5e1', paddingRight: 4, boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)' }}>
+                   <span style={{ color: '#94a3b8', paddingLeft: 8, fontSize: 13 }}>example.com/profile?id=</span>
+                   <input 
+                     value={idorId}
+                     onChange={(e) => setIdorId(e.target.value)}
+                     style={{ ...inputBase, background: 'transparent', paddingLeft: 0, color: '#334155' }}
+                   />
+                </div>
+                <button 
+                  onClick={runIdorAttack}
+                  style={{ ...btnBase, background: '#2563eb', color: '#fff' }}
+                >
+                  Go
+                </button>
+              </div>
+              <div style={{ flex: 1, background: '#fff', color: '#0f172a', position: 'relative', overflowY: 'auto' }}>
+                {!idorResult ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#94a3b8', gap: 10 }}>
+                    <Globe size={48} strokeWidth={1} opacity={0.5} />
+                    <div style={{ fontSize: 14 }}>Enter User ID to view profile</div>
+                    <div style={{ fontSize: 12, background: '#f1f5f9', padding: '4px 8px', borderRadius: 4 }}>Hint: Try ID 1002</div>
+                  </div>
+                ) : (
+                  <>
+                    {idorResult.status === 200 ? (
+                      <div style={{ padding: 24 }}>
+                        <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 24 }}>
+                          <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <User size={32} color="#64748b" />
+                          </div>
+                          <div>
+                            <h2 style={{ margin: '0 0 4px 0', fontSize: 20, fontWeight: 700, color: '#1e293b' }}>{idorResult.data.name}</h2>
+                            <div style={{ display: 'flex', gap: 8 }}>
+                                <span style={{ fontSize: 12, background: '#dbeafe', color: '#1e40af', padding: '2px 8px', borderRadius: 10 }}>{idorResult.data.role}</span>
+                                <span style={{ fontSize: 12, color: '#64748b' }}>ID: {idorResult.data.id}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                          <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#334155' }}>
+                            <Mail size={16} color="#94a3b8" /> {idorResult.data.email}
+                          </div>
+                          <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#334155' }}>
+                            <Briefcase size={16} color="#94a3b8" /> {idorResult.data.bio}
+                          </div>
+
+                          <hr style={{ border: 'none', height: 1, background: '#e2e8f0', margin: '8px 0' }} />
+
+                          {idorResult.data.address ? (
+                            <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6, padding: 12 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#b91c1c', fontSize: 13, fontWeight: 700, marginBottom: 4 }}>
+                                <ShieldAlert size={16} /> Private Info (Leaked)
+                              </div>
+                              <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#7f1d1d', marginBottom: 4 }}>
+                                <MapPin size={16} /> {idorResult.data.address}
+                              </div>
+                              <div style={{ fontSize: 12, color: '#991b1b', marginLeft: 26 }}>
+                                Phone: {idorResult.data.phone}
+                              </div>
+                            </div>
+                          ) : (
+                             <div style={{ fontSize: 13, color: '#94a3b8', fontStyle: 'italic' }}>Private information is hidden.</div>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 12 }}>
+                        <div style={{ width: 50, height: 50, borderRadius: '50%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                           <Lock size={24} color="#64748b" />
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>{idorResult.status === 403 ? "Access Denied" : "Page Not Found"}</div>
+                            <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>{idorResult.error}</div>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Terminal size={14} /> HTTP Request Simulator
+              </div>
+              <div style={urlBarBase}>
+                <span style={{ color: '#f59e0b', fontWeight: 700, fontSize: 12 }}>POST</span>
+                <input readOnly value="/api/admin/delete_user" style={inputBase} />
+                <button 
+                  onClick={runAdminAttack}
+                  style={{ ...btnBase, background: '#dc2626', color: '#fff' }}
+                >
+                  Execute
+                </button>
+              </div>
+              <div style={{ padding: '8px 12px', background: '#1e293b', borderBottom: '1px solid #334155', fontSize: 11, color: '#94a3b8' }}>
+                Payload: {`{ "target_id": 999 }`} <span style={{ marginLeft: 10, color: '#e2e8f0' }}>Context: Role=Member</span>
+              </div>
+
+              <div style={{ padding: 15, flex: 1, fontFamily: 'monospace', fontSize: 13, background: '#0f172a', color: '#e2e8f0' }}>
+                {!adminResult ? (
+                   <div style={{ color: '#64748b' }}>// Ready to send request...</div>
+                ) : (
+                  <div style={{ color: adminResult.status === 200 ? '#4ade80' : '#f87171' }}>
+                    HTTP/1.1 {adminResult.status} {adminResult.status === 200 ? 'OK' : 'Forbidden'} <br/>
+                    Date: {new Date().toTimeString().split(' ')[0]} <br/>
+                    Content-Type: application/json <br/>
+                    <br/>
+                    {JSON.stringify(adminResult, null, 2)}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        <div style={panelBase}>
+          <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Server size={14} /> Backend Logic</div>
+            
+            <button 
+              onClick={() => setFixed(!fixed)}
+              style={{ 
+                ...btnBase, 
+                background: fixed ? '#16a34a' : '#ef4444', 
+                color: '#fff', 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 4 
+              }}
+            >
+              {fixed ? <><CheckCircle size={12}/> Patched (Secure)</> : <><AlertTriangle size={12}/> Vulnerable</>}
+            </button>
+          </div>
+
+          <div style={{ flex: 1, background: '#0f172a', overflow: 'auto' }}>
+            <pre style={codeBase}>
+{scenario === 'IDOR' ? (
+fixed ? 
+`# GET /profile
+def get_profile(request):
+    target_id = request.params.user_id
+    
+    # 【Secure Implementation】
+    # セッション(認証情報)からIDを取得
+    current_user_id = request.session.user_id
+    
+    # 検索条件に「所有者ID」を強制する
+    # URLで他人のIDが指定されても、
+    # owner_id が一致しないためヒットしない
+    data = db.find_one(
+        id=target_id, 
+        owner_id=current_user_id 
+    )
+    
+    if not data:
+        # 他人のIDなら 403 or 404
+        return error("Access Denied", 403)
+        
+    return render("profile", data)`
+:
+`# GET /profile
+def get_profile(request):
+    target_id = request.params.user_id
+    
+    # 【Vulnerable Implementation】
+    # リクエストされたIDをそのまま検索に使用
+    # 「誰がアクセスしているか」の確認がない
+    
+    data = db.find_by_id(target_id)
+    
+    
+    
+    if not data:
+        return error("Not Found", 404)
+        
+    # 他人のデータでもそのまま表示してしまう
+    return render("profile", data)`
+) : (
+fixed ?
+`# POST /api/admin/delete_user
+def delete_user(request):
+    # 【Secure Implementation】
+    # エンドポイントの実行に必要なロールを明示的に検証
+    # @RequiresRole('ADMIN') などのデコレータでも可
+    if request.session.role != 'ADMIN':
+        return error("Forbidden", 403)
+
+
+    target_id = request.data.target_id
+    db.delete_user(target_id)
+    
+    return success("User deleted")`
+:
+`# POST /api/admin/delete_user
+def delete_user(request):
+    # 【Vulnerable Implementation】
+    # 認証済み(ログイン中)であることのみに依存し、
+    # この機能の実行権限(管理者ロール)の確認がない
+    
+    
+    
+    target_id = request.data.target_id
+    db.delete_user(target_id)
+    
+    return success("User deleted")`
+)}
+            </pre>
+          </div>
+          <div style={{ padding: 10, background: '#1e293b', borderTop: '1px solid #334155', fontSize: 12, color: '#94a3b8' }}>
+            {fixed ? "✅ 対策済み: 信頼できるサーバーサイド情報（セッション等）に基づき認可を制御しています。" : "⚠️ 警告: クライアントからの入力値を過信し、認可制御が不十分です。"}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  )
+}
