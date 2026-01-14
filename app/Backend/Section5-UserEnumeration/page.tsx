@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import SectionLayout from '../../Framework/SectionLayout';
 import { styles } from '../../Framework/SectionStyles';
 import { FlowDemo } from './FlowDemo';
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AuthFlowTimingPage() {
   const [variant, setVariant] = useState<'vulnerable' | 'secure'>('vulnerable');
@@ -31,16 +32,35 @@ export default function AuthFlowTimingPage() {
     </>
   );
 
-  const checklist = (
-    <>
-      <h2 style={{ ...styles.h2, fontSize: 19, marginBottom: 6, marginTop: 0 }}>📝 見どころ</h2>
-      <ul style={{ fontSize: 16, marginLeft: 18, marginBottom: 0 }}>
-        <li>段階的フローが時間差を生む仕組みを可視化</li>
+
+      const checklist = (
+      <Card
+        style={{
+          border: '2px solid #aee2feff',
+          boxShadow: '0 2px 8px #0001',
+          background: '#f5faffff',
+        }}
+      >
+        <CardHeader style={{ paddingBottom: 3 }}>
+          <CardTitle style={{ fontSize: 17, marginTop: 0 }}>
+            📝 5章の見どころ
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent style={{ paddingTop: 0 }}>
+          <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
+            <li>段階的フローが時間差を生む仕組みを可視化</li>
         <li>誤った実装 vs 正しい実装のコード差分を比較</li>
         <li>実際に入力して各段階の計測結果をリアルタイム表示</li>
-      </ul>
-    </>
-  );
+
+            <br />
+            <ul style={{ fontSize: 16, marginTop: 5 }}>
+              <b>→ 実際に動かしながら確認します</b>
+            </ul>
+          </ul>
+        </CardContent>
+      </Card>
+    );
 
   const summary = (
     <div>
@@ -67,7 +87,7 @@ export default function AuthFlowTimingPage() {
           <div style={styles.comparison}>
             <div style={styles.comparisonColumn}>
               <div style={{ ...styles.codeContainer, background: '#fef2f2', border: '3px solid #fca5a5' }}>
-                <div style={{ ...styles.codeLabel, color: '#dc2626' }}>⚠️ 誤った実装（段階ごとに途中終了）</div>
+                <div style={{ ...styles.codeLabel, color: '#dc2626' }}>⚠️ 脆弱な実装</div>
                 <pre style={styles.code}>
                   {`function loginVulnerable(user, pass) {
   if (!db.has(user)) return fail('ユーザーなし');       // ① ここで即終了
@@ -78,9 +98,10 @@ export default function AuthFlowTimingPage() {
                 </pre>
               </div>
             </div>
+                  <div style={styles.divider} />
             <div style={styles.comparisonColumn}>
               <div style={{ ...styles.codeContainer, background: '#f0fdf4', border: '3px solid #86efac' }}>
-                <div style={{ ...styles.codeLabel, color: '#16a34a' }}>✓ 正しい実装（段階を定数時間化）</div>
+                <div style={{ ...styles.codeLabel, color: '#16a34a' }}>✓ 安全な実装</div>
                 <pre style={styles.code}>
                   {`function loginConstantTime(user, pass) {
   const exists = db.has(user);

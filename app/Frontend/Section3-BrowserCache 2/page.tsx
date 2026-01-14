@@ -96,7 +96,7 @@ self.addEventListener('fetch', event => {
                 </pre>
               </div>
             </div>
-
+            <div style={styles.divider} />
             <div style={styles.comparisonColumn}>
               <h3 style={styles.h3}>✓ 推奨例（OK）</h3>
               <p style={{ fontSize: 15, marginBottom: 8 }}>
