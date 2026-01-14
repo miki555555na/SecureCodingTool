@@ -829,7 +829,7 @@ db.execute(query, `}<span style={{
             </CardContent>
           </Card>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 10}}>
               {/* モード切替ボタン */}
               <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
                 <button

@@ -49,10 +49,15 @@ export default function AuthFlowTimingPage() {
 
         <CardContent style={{ paddingTop: 0 }}>
           <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
-            <li>段階的フローが時間差を生む仕組みを可視化</li>
-        <li>誤った実装 vs 正しい実装のコード差分を比較</li>
-        <li>実際に入力して各段階の計測結果をリアルタイム表示</li>
-
+            <li>
+              ・ログイン処理は、どんな順番で動いているのか？
+            </li>
+            <li>
+              ・なぜ「返事の速さ」だけで、ユーザーの存在が分かってしまうのか？
+            </li>
+            <li>
+              ・同じ失敗でも、返し方をそろえると何が変わるのか？
+            </li>
             <br />
             <ul style={{ fontSize: 16, marginTop: 5 }}>
               <b>→ 実際に動かしながら確認します</b>
@@ -70,11 +75,10 @@ export default function AuthFlowTimingPage() {
 
   return (
     <SectionLayout
-      title1="5. ユーザー存在チェックや段階的認証フローの処理時間差"
-      title2="段階フロー“可視化”＋時間差の原因追跡デモ"
+      title1="5. なぜ「返事の速さ」でユーザーの存在がバレるのか？"
+      title2="〜 ログインの流れを見て、時間の違いを体験しよう〜"
       description={description}
       checklist={checklist}
-
       summary={summary}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -136,7 +140,7 @@ export default function AuthFlowTimingPage() {
                 cursor: 'pointer'
               }}
             >
-              誤ったパターン（NG）
+              脆弱な実装
             </button>
             <button
               onClick={() => setVariant('secure')}
@@ -150,7 +154,7 @@ export default function AuthFlowTimingPage() {
                 cursor: 'pointer'
               }}
             >
-              正しいパターン（OK）
+              安全な実装
             </button>
           </div>
           <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))' }}>
