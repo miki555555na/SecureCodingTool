@@ -38,8 +38,8 @@ export default function HardCordPage() {
 
   return (
     <SectionLayout
-      title1="1. フロントエンド：ハードコード（APIキー）"
-      title2="フロントエンドに置かれた秘密情報が簡単に見つかることを体験するデモ"
+      title1="1. その情報、コードに書いて大丈夫？"
+      title2="ハードコードの危険性"
       description={description}
       checklist={checklist}
       summary={summary}

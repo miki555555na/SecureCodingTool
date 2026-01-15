@@ -543,7 +543,7 @@ const summary = (
   <div style={{ background: '#fff', padding: 24, borderRadius: 10, border: '1px solid #e5e7eb' }}>
     <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
       <Unlock size={20} color="#dc2626" />
-      攻撃者のしていること
+      攻撃者の狙い
     </h3>
 
     {/* 一言サマリー */}

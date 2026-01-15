@@ -39,7 +39,6 @@ export default function BackendPage() {
   }
 ];
 
-
   return (
     <div className="space-y-6">
       <p className="text-base text-slate-600">

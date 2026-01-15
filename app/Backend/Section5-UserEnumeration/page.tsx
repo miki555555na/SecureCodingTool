@@ -21,7 +21,6 @@ import {
   BadgeCheck,
   User,
   Database
-
 } from 'lucide-react'
 
 export default function AuthFlowTimingPage() {
@@ -525,7 +524,6 @@ export default function AuthFlowTimingPage() {
           セキュアな実装への第一歩です。
         </div>
       </div>
-
     </CardContent>
   </Card>
 );

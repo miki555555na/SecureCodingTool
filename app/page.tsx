@@ -298,9 +298,9 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="space-y-4 flex flex-col">
               <ul className="list-disc space-y-2 pl-5 text-base text-slate-700">
-                <li>ハードコードされた秘密情報</li>
-                <li>XSS によるスクリプト実行</li>
-                <li>キャッシュ挙動の悪用</li>
+                <li>その情報、コードに書いて大丈夫？</li>
+                <li>入力しただけで、何か動いていませんか？</li>
+                <li>速さの違い、見られています</li>
                 <br  />
                 <br  />
               </ul>
