@@ -42,6 +42,16 @@ export default function AuthFlowTimingPage() {
           },
     [variant]
   );
+    const btnBase: React.CSSProperties = {
+      padding: '8px 12px',
+      borderRadius: 6,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '#d1d5db',
+      background: '#fff',
+      cursor: 'pointer',
+      fontWeight: 600
+    };
    const children = (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* ① ログイン処理の概念 */}
@@ -172,7 +182,7 @@ export default function AuthFlowTimingPage() {
                             <span style={{ color:'#dc2626', fontWeight: 700 }}>脆弱な実装</span>は、
                             <b>「ユーザーがいない」時点で早く終わる</b>作りです。
                             <br />
-                            その結果、
+                            そのため、
                             <b>速い = ユーザーなし</b>
                             のように推測される可能性があります。
                           </p>
@@ -198,7 +208,7 @@ export default function AuthFlowTimingPage() {
                             ユーザーがいてもいなくても
                             <b>なるべく同じ流れ・同じ速さ</b>になるようにします。
                             <br />
-                            これにより、速さから推測されにくくなります。
+                            そのため、速さから推測されにくくなります。
                           </p>
 
                           <div style={{ ...styles.codeContainer, background: '#f0fdf4', border: '3px solid #86efac' }}>
@@ -232,59 +242,129 @@ export default function AuthFlowTimingPage() {
                   </Card>
                 </div>     
                 <br />
-        <section style={{ ...styles.section, background: '#ffffff', border: '1px solid #e2e8f0' }}>
-          <h2 style={styles.h2}>リアルタイムデモ：どの段階で時間差が出る？</h2>
-          <p style={{ marginTop: 0 }}>
-            ユーザー名とパスワードを入力して試行すると、「存在チェック → 照合 → トークン」の各ノードが順に点灯し、計測時間のバーが更新されます。
-            下のボタンで「誤ったパターン」「正しいパターン」を切り替えて、途中終了の有無による差を観察してください。
-          </p>
-          <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setVariant('vulnerable')}
-              style={{
-                padding: '10px 16px',
-                borderRadius: 10,
-                border: variant === 'vulnerable' ? '2px solid #ef4444' : '1px solid #cbd5e1',
-                background: variant === 'vulnerable' ? '#fef2f2' : '#fff',
-                color: '#0f172a',
-                fontWeight: 700,
-                cursor: 'pointer'
-              }}
-            >
-              脆弱な実装
-            </button>
-            <button
-              onClick={() => setVariant('secure')}
-              style={{
-                padding: '10px 16px',
-                borderRadius: 10,
-                border: variant === 'secure' ? '2px solid #16a34a' : '1px solid #cbd5e1',
-                background: variant === 'secure' ? '#f0fdf4' : '#fff',
-                color: '#0f172a',
-                fontWeight: 700,
-                cursor: 'pointer'
-              }}
-            >
-              安全な実装
-            </button>
-          </div>
-          <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))' }}>
-            <FlowDemo
-              variant={variant}
-              accent={variantInfo.accent}
-              title={variantInfo.title}
-              description={variantInfo.description}
-            />
-          </div>
-        </section>
+                <Card>
+                  <CardHeader>
+                    <CardTitle style={{ marginBottom: 10 }}>リアルタイムデモ：どの段階で時間差が出る？</CardTitle>
+                      <CardDescription>
+                        <p>
+                          このデモでは、
+                          <b>ログイン処理の「進み方の違い」</b>が
+                          <b>返事の速さの違い</b>として表れる様子を確認します。
+                        </p>
+                        <p style={{ marginTop: 6 }}>
+                          同じ「ログイン失敗」でも、
+                          <span style={{ fontWeight: 600 }}>
+                            どこで処理が止まったか
+                          </span>
+                          によって、
+                          攻撃者から見える情報が変わってしまうことに注目してください。
+                        </p>
+                      </CardDescription>
+                    </CardHeader>
+                  <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb'}} />
+                  <CardContent className="space-y-4"> 
+                    <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
+                      🚀 試してみよう
+                    </h3>
+                    <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ1】脆弱な実装を選ぶ
+                        </div>
+                        <div style={{ color: '#475569', marginTop: 6 }}>
+                          まず
+                          <b>「⚠️ 脆弱な実装」</b>
+                          を選択してください。
+                          <br />
+                          この実装では、
+                          <b>途中で処理が終わる</b>
+                          場合があります。
+                        </div>
+                      </li>
 
-        <div style={{ background: '#f8fafc', borderRadius: 10, padding: 14, border: '1px dashed #cbd5e1', color: '#475569' }}>
-          💡 パスワードリセットや登録確認 API など「存在するか／しないか」を返したくなる場面でも、レスポンス時間・メッセージ・ステータスコードを統一しよう。
-        </div>
-      </div>
-    </div>
-   )
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ2】条件を変えてログインを試す
+                        </div>
+                        <div style={{ color: '#475569', marginTop: 6 }}>
+                          「正しいパスワード」
+                          「誤ったパスワード」「存在しないユーザー」で、
+                          <b>返事の速さ</b>
+                          がどう変わるかを見てみましょう。
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ3】どこで止まったかを確認する
+                        </div>
+                        <div style={{ color: '#475569', marginTop: 6 }}>
+                          右側の表示では、
+                          <b>どの段階まで処理が進んだか</b>
+                          が光って表示されます。
+                          <br />
+                          <span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>
+                            途中で止まるほど、全体の時間が短くなる
+                          </span>
+                          ことに注目してください。
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ4】安全な実装と比べてみる
+                        </div>
+                        <div style={{ color: '#475569', marginTop: 6 }}>
+                          次に、
+                          <b>「✓ 安全な実装」</b>
+                          に切り替えて、同じ操作をもう一度試してみましょう。<br />
+                          今度は、
+                          <b>ユーザーが存在しなくても、結果が失敗でも毎回ほぼ同じ時間</b>
+                          で返ってくることが分かります。
+                        </div>
+                      </li>
+                    </ol>
 
+                    {/* モード切替ボタン */}
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
+                      <button
+                        type="button"
+                        onClick={() => setVariant('vulnerable')}
+                        style={{
+                          ...btnBase,
+                          border: variant === 'vulnerable' ? '2px solid #ef4444' : '1px solid #cbd5e1',
+                          background: variant === 'vulnerable' ? '#fef2f2' : '#fff',
+                          
+                        }}
+                      >
+                        ⚠️ 脆弱な実装
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setVariant('secure')}
+                        style={{
+                          ...btnBase,
+                          border: variant === 'secure' ? '2px solid #16a34a' : '1px solid #cbd5e1',
+                          background: variant === 'secure' ? '#f0fdf4' : '#fff'
+                        }}
+                      >
+                        ✓ 安全な実装
+                      </button>
+                    </div>
+                    <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))' }}>
+                      <FlowDemo
+                        variant={variant}
+                        accent={variantInfo.accent}
+                        title={variantInfo.title}
+                        description={variantInfo.description}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+                {/* <div style={{ background: '#f8fafc', borderRadius: 10, padding: 14, border: '1px dashed #cbd5e1', color: '#475569' }}>
+                  💡 パスワードリセットや登録確認 API など「存在するか／しないか」を返したくなる場面でも、レスポンス時間・メッセージ・ステータスコードを統一しよう。
+                </div> */}
+              </div>
+            </div>
+    )
     const description = (
       <>
         <p className="text-lg font-medium">
@@ -341,14 +421,15 @@ export default function AuthFlowTimingPage() {
   //   </div>
   // );
   const summary = (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg font-bold">
-          5章のまとめ
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6 text-sm">
-  
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg font-bold">
+        5章のまとめ
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="space-y-6 text-sm">
+
       {/* 見どころ回収 */}
       <div
         className="rounded-md border p-4"
@@ -361,82 +442,94 @@ export default function AuthFlowTimingPage() {
         <p className="font-semibold mb-3 text-slate-800" style={{ fontSize: 16 }}>
           この章のはじめに投げた問い、答えはこうでした
         </p>
-  
+
         <ul className="space-y-2 text-gray-700">
           <li>
             <b>Q.</b> ログイン処理は、どんな順番で動いているの？
             <br />
             <span className="ml-4">
-              <b>→ API署名やトークン検証でも起きる</b>
+              <b>→</b> 入力 → ユーザー確認 → パスワード照合 → 完了、という
+              <b>段階的な流れ</b>で処理されることが多い
             </span>
           </li>
-  
+
           <li>
             <b>Q.</b> なぜ「返事の速さ」だけで、ユーザーの存在が分かってしまうの？
             <br />
             <span className="ml-4">
-              <b>→ 署名が「どこまで一致しているか」</b>
+              <b>→</b> 「途中で止まる処理」と「最後まで進む処理」で
+              <b>かかる時間が変わる</b>から
             </span>
           </li>
-  
+
           <li>
             <b>Q.</b> ログイン失敗の返し方をそろえると、何が変わるの？
             <br />
             <span className="ml-4">
-              <b>→ 同じ処理でも、安全にも危険にもなる</b>
+              <b>→</b> 外から見たときに
+              <b>中で何が起きているか分からなくなる</b>
             </span>
           </li>
         </ul>
       </div>
+
+      {/* 本質の説明 */}
       <div
-      className="rounded-md bg-white p-4 text-gray-800"
-      style={{ lineHeight: 1.8 }}
-    >
+        className="rounded-md bg-white p-4 text-gray-800"
+        style={{ lineHeight: 1.8 }}
+      >
         <p style={{ fontSize: 16 }}>
           この章で見た問題は、
-          <b>HMACの仕組みそのものが弱い</b>から起きたわけではありません。
+          <b>ログイン機能そのものが特別に危険</b>だから起きたわけではありません。
           <br />
-          本当に問題になるのは、
+          多くの人が
           <span style={{ color: '#4f46e5', fontWeight: 600 }}>
-            「HMACをどう比較しているか」
+            「自然に書いてしまいがちな処理」
           </span>
-          です。
-        </p><br />
-  
-        <p style={{ fontSize: 16 }}>
-          「HMACを使っているから安全」と思っていても、
-          検証処理に<b>早期リターン</b>があると、
-          処理時間から
-          <b>署名の正しさを推測される</b>可能性があります。
+          の中に、原因があります。
         </p>
-  
-        <p style={{ fontSize: 16 }}>
-          秘密情報を比較する処理では、
-          正解・不正解に関係なく、
-          <span style={{ color: '#4f46e5', fontWeight: 600 }}>常に同じ流れ・同じ回数で処理する</span>
+
+        <p style={{ fontSize: 16, marginTop: 12 }}>
+          「ユーザーが存在しなければすぐ返す」
+          「存在したら次の処理に進む」
+          <br />
+          こうした
+          <b>分かりやすくて正しそうな書き方</b>が、
+          実は
+          <b>返事の速さの違い</b>を生み出してしまいます。
+        </p>
+
+        <p style={{ fontSize: 16, marginTop: 12 }}>
+          「エラーメッセージを同じにしているから大丈夫」
+          と思っていても、
+          <b>処理の途中で止まる位置が違えば、時間は隠せません。</b>
+        </p>
+
+        <p style={{ fontSize: 16, marginTop: 12 }}>
+          ログインのように
+          <b>存在するか・しないか</b>を扱う処理では、
+          <span style={{ color: '#4f46e5', fontWeight: 600 }}>
+            成功・失敗に関係なく、同じ流れ・同じ重さで処理する
+          </span>
           ことが重要です。
-          <br />
-          実務では
-          <code className="mx-1 rounded bg-gray-100 px-1">
-            timingSafeEqual
-          </code>
-          などの
-          <b>標準APIを使う</b>のが基本になります。
         </p>
-  
+
+        {/* 締め */}
         <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
-          パスワードで起きた問題は、
-          署名検証やトークン検証でも
-          <b>形を変えて現れます</b>。
+          前の章で見たパスワードの早期リターンやHMAC検証の時間差と同じように、
+          ログイン処理でも
+          <b>「返事の速さ」は立派な情報</b>になります。
           <br />
-          「秘密を扱う比較処理」は、
-          <b>常に攻撃者に観測されている前提</b>で
-          設計しましょう。
+          「正しく動いている」だけでなく、
+          <b>どう見えているか</b>まで意識することが、
+          セキュアな実装への第一歩です。
         </div>
       </div>
+
     </CardContent>
   </Card>
-  )
+);
+
 
   return (
     <SectionLayout
@@ -447,8 +540,6 @@ export default function AuthFlowTimingPage() {
       summary={summary}
     >
       {children}
-      
-
     </SectionLayout>
   );
 }

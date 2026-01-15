@@ -873,8 +873,8 @@ const summary = (
 
   return (
     <SectionLayout
-      title1="4. ちゃんと検証している...つもりだった"
-      title2="〜 HMAC検証に潜む落とし穴 〜"
+      title1="4. ちゃんと検証している…つもりだった"
+      title2="〜 HMAC検証に潜む同じ落とし穴 〜"
       description={description}
       summary={summary}
       checklist={checklist}
