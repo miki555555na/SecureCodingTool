@@ -5,8 +5,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -176,7 +176,7 @@ export default function HomePage() {
 
               <div className="text-blue-600 text-4xl animate-bounce gap-y-50 font-bold">↓</div>
               <p className=" bg-blue-50 max-w-4xl leading-relaxed p-4  mt-10">
-                近年、webサービスとセキュリティの関係はますます密接になっています。<b>（後にツール名）</b>は、「守らなかったらどうなるのか」を短時間で<b>体感</b>し、セキュリティを<b>「自分ごと」</b>として理解するための教育ツールです。
+                近年、webサービスとセキュリティの関係はますます密接になっています。<b>「その実装、壊されます」</b>は、「守らなかったらどうなるのか」を短時間で<b>体感</b>し、セキュリティを<b>「自分ごと」</b>として理解するための教育ツールです。
                 <br /><br />
                 <div className='underline'>前提となる専門知識は必要ありません。</div>
                 <br />

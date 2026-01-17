@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import SectionLayout from '../../Framework/SectionLayout'
 import { styles } from '../../Framework/SectionStyles'
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
 import { 
   Shield, 
   Unlock, 
@@ -304,13 +304,7 @@ const summary = (
         正解・不正解に関係なく、
         <span style={{ color: '#4f46e5', fontWeight: 600 }}>常に同じ流れ・同じ回数で処理する</span>
         ことが重要です。
-        <br />
-        実務では
-        <code className="mx-1 rounded bg-gray-100 px-1">
-          timingSafeEqual
-        </code>
-        などの
-        <b>標準APIを使う</b>のが基本になります。
+
       </p>
 
       <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
@@ -363,7 +357,7 @@ const summary = (
 
     {/* 一言まとめ */}
     <p style={{ fontSize: 17, fontWeight: 600, color: '#1f2937', marginBottom: 10 }}>
-      HMACは<span className="text-indigo-600">「送られてきたデータは本物か？」「通信している相手は本物か？」</span>を確かめるための仕組みです。
+      HMACとは<span className="text-indigo-600">「送られてきたデータは本物か？」「通信している相手は本物か？」</span>を確かめるための仕組みです。
     </p>
 
     {/* やさしい説明 */}
@@ -376,10 +370,10 @@ const summary = (
 
     {/* 手順を分解 */}
     <ul style={{ marginTop: 12, marginLeft: 18, fontSize: 15, lineHeight: 1.7, color: '#374151' }}>
-      <li><b>送信者</b>：1.データ＋秘密の鍵 → HMACを作る<br />
-      <b>　　　　</b>2.データとHMACを一緒に送る</li>
-      <li><b>受信者</b>：1.あらかじめ共有している同じ鍵でHMACを作り直す<br />
-      <b>　　　　</b>2.送られてきたHMACと比較する</li><br />
+      <li><b>送信者</b>：1. データ＋秘密の鍵 → HMACを作る<br />
+      <b>　　　　</b>2. データとHMACを一緒に送る</li>
+      <li><b>受信者</b>：1. あらかじめ共有している同じ鍵でHMACを作り直す<br />
+      <b>　　　　</b>2. 送られてきたHMACと比較する</li><br />
 
       <li>HMACが</li>
       <li><b>一致したら</b>：「途中で改ざんされていない」「送信者も正しい」と分かる</li>
@@ -627,7 +621,6 @@ const summary = (
     <CardTitle style={{ marginBottom: 10 }}>
       HMAC検証処理の比較
     </CardTitle>
-
     <CardDescription>
       HMAC署名を検証する際の  
       <b>時間差が生まれる実装</b>と
@@ -638,7 +631,6 @@ const summary = (
   <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb'}} />
   <CardContent>
     <div style={styles.comparison}>
-      
       {/* 脆弱な実装 */}
       <div style={styles.comparisonColumn}>
         <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
@@ -757,7 +749,7 @@ const summary = (
     <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
       🚀 試してみよう
     </h3>
-    <ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
+    <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
       <li>
         <div style={{ fontWeight: 700 }}>
           【ステップ1】脆弱な実装を選ぶ
@@ -770,7 +762,6 @@ const summary = (
           <b>先頭から1文字ずつ比較し、不一致が見つかった時点で処理を終了</b>します。
         </div>
       </li>
-
       <li>
         <div style={{ fontWeight: 700 }}>
           【ステップ2】1文字ずつ推測される様子を見る
@@ -873,7 +864,7 @@ const summary = (
 
   return (
     <SectionLayout
-      title1="4. ちゃんと検証している…つもりだった"
+      title1="4. ちゃんと検証している...つもりだった"
       title2="〜 HMAC検証に潜む同じ落とし穴 〜"
       description={description}
       summary={summary}

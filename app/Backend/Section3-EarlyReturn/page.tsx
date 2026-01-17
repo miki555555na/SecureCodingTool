@@ -2,9 +2,9 @@
 'use client';
 
 import React, { useState, useRef} from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '../../../components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
 import SectionLayout from '../../Framework/SectionLayout';
 import { styles } from '../../Framework/SectionStyles';
 import {InsecureDemo, DemoRef} from './InsecureDemo';
@@ -421,13 +421,13 @@ const children = (
           🚀 試してみよう
         </h3>
 
-        <ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
+        <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
           <li>
             <div style={{ fontWeight: 700 }}>
               【ステップ1】脆弱な実装を試す
             </div>
             <div style={{ color: '#475569', marginTop: 6 }}>
-              まず「⚠️ 脆弱な実装（Early Return）」を選択し、<b>実行</b>を押してみましょう。
+              まず「⚠️ 脆弱な実装（Early Return）」を選択しましょう。
             </div>
           </li>
 

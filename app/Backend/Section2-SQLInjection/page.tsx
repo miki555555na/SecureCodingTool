@@ -567,7 +567,7 @@ export default function SqlInjectionPage() {
                 </div>
                 <pre style={styles.code}>
 {`const query =
-  "SELECT * FROM users WHERE name = '" + `} <span style={{
+  "SELECT * FROM users WHERE name = "'" + `} <span style={{
   background: '#ef4444',
   color: '#fff',
   padding: '2px 4px',
@@ -726,7 +726,7 @@ db.execute(query, `}<span style={{
                 🚀 試してみよう
               </h3>
 
-              <ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
+              <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
                 <li>
                   <div style={{ fontWeight: 700 }}>
                     【ステップ1】まずは普通に検索してみる

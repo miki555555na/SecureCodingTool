@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useRef} from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '../../../components/ui/button';
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
 import SectionLayout from '../../Framework/SectionLayout';
 import { styles } from '../../Framework/SectionStyles';
 import { CacheDemo } from './CacheDemo';
@@ -83,7 +83,7 @@ export default function CacheTimingPage(){
 
   const Row: React.FC<{ leftLabel: string; children: React.ReactNode }> = ({ leftLabel, children }) => (
     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-      <div style={{ width: 90, fontWeight: 900, color: "#0f172a", fontSize: 16 }}>{leftLabel}</div>
+      <div style={{ width: 90, fontWeight: 900, color: "#0f172a", fontSize: 13 }}>{leftLabel}</div>
       {children}
     </div>
   );
@@ -101,7 +101,6 @@ export default function CacheTimingPage(){
   padding: 10,
   textAlign: 'center'
 };
-
 
   const description = (
   <>
@@ -121,20 +120,17 @@ export default function CacheTimingPage(){
       <b>意図せず情報の違いを生んでしまう</b>ことがあります。
       <br />
       見た目が同じでも、
-      <b>返事の速さだけで「何が起きたか」が伝わってしまう</b>のです。
+      <b>返事の速さだけで「何が起きたか」</b>が伝わってしまいます。
       <br />
-      とくに、
+      これは特に
       <b>共有端末で複数人が使うサービス</b>では注意が必要です。
     </p>
-
     <p className="mt-3 text-gray-700">
-      この章では、
-      フロントエンド側の設定ひとつで、
+      この章では、フロントエンド側の設定ひとつで、
       <b>過去のアクセスや状態が推測されてしまう</b>場面を体験します。
     </p>
   </>
 );
-
   const children = (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* ①キャッシュの概念 */}
@@ -153,11 +149,12 @@ export default function CacheTimingPage(){
                     <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
                       同じページに何度もアクセスする場合、
                       毎回サーバーに取りに行かなくても済むため、
-                      表示を速くできます。
+                      表示を速くできます。<br ></br>
                       ポイントは、
                       <b>「2回目以降は、ブラウザとサーバー間の通信が不要になる」</b>
                       という点です。
                     </p>
+                    <br />
                     <div
                       style={{
                         background: "#f3f4f6",
@@ -189,16 +186,14 @@ export default function CacheTimingPage(){
                           <ArrowWithLabel dir="left" label="③ データを送信" color="#2563eb" />
                         </div>
                         <div style={nodeBox}>
-
                           <Server size={24} />
                           <div style={{ fontWeight: 700 }}>サーバー</div>
                           <div style={{ fontSize: 12, color: '#64748b' }}>
                             データを管理
                           </div>
                         </div>
-
                       </Row>
-                      <div style={{ height: 18 }} />
+                      <div style={{ height: 40 }} />
                       {/* 2回目以降 */}
                       <Row leftLabel="2回目以降">
                         <div style={nodeBox}>
@@ -323,9 +318,9 @@ export default function CacheTimingPage(){
                       <b>キャッシュに残る設定</b>になっていた場合、
                       <br />
                       <b>
-                        ・この端末で誰かがログインしたことがあるか  
-                        ・どんな画面を開いたことがあるか  
-                        ・どのサービスを使っていたか
+                        　・この端末で誰かがログインしたことがあるか  <br />
+                        　・どんな画面を開いたことがあるか  <br />
+                        　・どのサービスを使っていたか<br />
                       </b>
                       といった情報が、
                       <b>表示の速さや挙動の違い</b>から推測できてしまいます。
@@ -381,7 +376,7 @@ export default function CacheTimingPage(){
                   <Card>
                     <CardHeader>
                       <CardTitle style={{ marginBottom: 10 }}>
-                        キャッシュ周りの実装比較
+                        キャッシュ設定の実装比較
                       </CardTitle>
                       <CardDescription>
                         キャッシュは表示を速くするために役立ちます。<br />
@@ -389,13 +384,13 @@ export default function CacheTimingPage(){
                         <b>速さの違い</b>から推測されることがあります。
                       </CardDescription>
                     </CardHeader>
-                    <hr style={{ border: 'none', height: 1, background: '#e5e7eb', margin: '3px 0' }} />
+                    <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb', margin: '3px 0' }} />
                     <CardContent>
                       <div style={styles.comparison}>
                         {/* 脆弱な実装 */}
                         <div style={styles.comparisonColumn}>
-                          <p style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.7 }}>
-                            <span style={{ color: '#dc2626', fontWeight: 700 }}>脆弱な実装</span>は、
+                          <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
+                            <span style={{ color: '#dc2626', fontWeight: 600 }}>脆弱な実装</span>は、
                             「速くするために」<b>ログイン後の情報などの機密情報をブラウザ側に残してしまう</b>例です。
                             <br />
                             表示内容が同じでも、<b>残っている / いない</b>で速さが変わると、
@@ -422,8 +417,8 @@ localStorage.setItem('user_history', JSON.stringify(resp));`}
                         <div style={styles.divider} />
                         {/* 安全な実装 */}
                         <div style={styles.comparisonColumn}>
-                          <p style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.7 }}>
-                            <span style={{ color: '#16a34a', fontWeight: 700 }}>安全な実装</span>は、
+                          <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
+                            <span style={{ color: '#16a34a', fontWeight: 600 }}>安全な実装</span>は、
                             <b>機密情報はキャッシュに残さない</b>ことを徹底しつつ、
                             速さが必要な部分だけを最適化する考え方です。
                             「残す / 残さない」を分けると、推測されにくくなります。
@@ -560,7 +555,7 @@ self.addEventListener('fetch', event => {
               キャッシュ設定による処理時間の比較：キャッシュがあると「返事の速さ」はどう変わる？
             </CardTitle>
             <CardDescription>
-              <p style={{ marginTop: 4, color: '#475569', lineHeight: 1.7 }}>
+              <p>
                 このデモでは、
                 <b>同じ画面・同じ操作でも</b>、
                 「前にアクセスしたことがあるかどうか」で
@@ -573,18 +568,134 @@ self.addEventListener('fetch', event => {
           </CardHeader>
           <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb'}} />
           <CardContent className="space-y-4"> 
-              <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
-                    🚀 試してみよう
-              </h3>
+            <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
+              🚀 試してみよう
+            </h3>
+            <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
+              <li>
+                <div style={{ fontWeight: 700 }}>
+                  【ステップ1】脆弱な実装で試す
+                </div>
+                <div style={{ color: '#475569', marginTop: 6 }}>
+                  まず「⚠️ 脆弱な実装」を選択し、
+                  <b>「全キャッシュをクリア」</b>を押してください。<br ></br>
+                  その後、次の順にボタンを押します。
+                  <br />
+                  　・「ロゴ取得時間を2回計測」<br />
+                  　・「ログイン状態取得時間を2回計測」<br />
+                  　・「過去ログ取得時間を2回計測」<br />
+                </div>
+              </li>
+              <li>
+                <div style={{ fontWeight: 700 }}>
+                  【ステップ2】キャッシュ状況とアクセス時間を確認する
+                </div>
+                <div style={{ color: '#475569', marginTop: 6 }}>
+                  現在のキャッシュ状況が<b>「なし」→「あり」</b>に変わることを確認し、結果のテーブルで<b>2回目のアクセスが速くなる</b>ことを見てみましょう。
+                </div>
+              </li>
+              <li>
+                <div style={{ fontWeight: 700 }}>
+                  【ステップ3】安全な実装でも試す
+                </div>
+                <div style={{ color: '#475569', marginTop: 6 }}>
+                  「✓安全な実装」に切り替えて、同じように実行してみましょう。<br ></br>
+                  特に、<b>「ログイン状態取得」</b>と<b>「過去ログ」</b>で時弱な実装と違いが出る点に注目しましょう。<br />
+                  安全な実装では、<span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>サインイン情報（ログイン状態）や過去ログのような機密情報はキャッシュに残らない</span> ため、キャッシュ状況や速度の変化が起きにくいはずです。
+                </div>
+              </li>
+            </ol>
 
-            <div style={{ marginTop: 12 }}>
+<div style={{ marginTop: 12 }}>
+  <CacheDemo />
+</div>
+
+              {/* <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
+  🚀 試してみよう
+</h3>
+
+<ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ1】脆弱な実装を選ぶ
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      まず <b>「⚠️ 脆弱な実装」</b> を選びます。
+      <br />
+      このモードでは、ログイン後の情報や履歴が
+      <b>キャッシュに残る</b>前提です。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ2】同じ操作を2回くり返す
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      <b>「全キャッシュをクリア」</b>を押してから、
+      <br />
+      右側の「ロゴにアクセス」や「過去ログAPIにアクセス」を
+      <b>同じボタンで2回続けて</b>押してください。
+      <br />
+      2回目が速くなれば、<b>「前に見た（残っている）」</b>ことが推測できます。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ3】何が“ヒント”になっているかを見る
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      画面の見た目ではなく、
+      <span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>
+        左側の時間（ms）と「キャッシュあり/なし」
+      </span>
+      に注目してください。
+      <br />
+      ここが変わると、外から「ログイン済み」「履歴を見た」などが推測されることがあります。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ4】安全な実装と比べてみる
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      次に <b>「✓ 安全な実装」</b> に切り替えて、
+      同じボタンを2回押してください。
+      <br />
+      今度は、ログイン後の情報（サインイン画像・過去ログAPI）が
+      <b>2回目でも速くならない</b>ことを確認します。
+    </div>
+  </li>
+</ol>
+
+<div
+  style={{
+    marginTop: 12,
+    background: '#f8fafc',
+    border: '1px solid #e2e8f0',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 14,
+    color: '#475569',
+    lineHeight: 1.7
+  }}
+>
+  <b>見るポイント：</b>
+  「表示が同じ」でも、
+  <b>速さが違う</b>と情報のヒントになります。
+  <br />
+  キャッシュは便利ですが、
+  <b>個人に紐づく情報を“残す”扱いにしない</b>ことが重要です。
+</div> */}
+
+
+            {/* <div style={{ marginTop: 12 }}>
             <CacheDemo />
-          </div>
+          </div> */}
           </CardContent>
         </Card>
-
-          
-
       </div>
       </div>
   )
@@ -607,7 +718,7 @@ self.addEventListener('fetch', event => {
                 ・「前に見たページかどうか」は、どうやって分かる？
               </li>
               <li>
-                ・なぜ表示内容が同じでも、速さが変わるの？
+                ・なぜ表示されている内容が同じでも、速さが変わるの？
               </li>
               <li>
                 ・フロントエンドの実装で、どこに気をつければいい？
@@ -621,53 +732,97 @@ self.addEventListener('fetch', event => {
         </Card>
       );
     const summary = (
-  <Card>
-    <CardHeader>
-      <CardTitle className="text-lg font-bold">
-        3章のまとめ
-      </CardTitle>
-    </CardHeader>
+      <Card>
+  <CardHeader>
+    <CardTitle className="text-lg font-bold">
+      3章のまとめ
+    </CardTitle>
+  </CardHeader>
 
-    <CardContent className="space-y-6 text-sm">
-      <div
-        className="rounded-md border p-4"
-        style={{
-          border: '2px solid #fed7aeff',
-            background: '#fbf1e2ff'
-        }}
-      >
-        <p style={{ fontSize: 16, fontWeight: 600 }}>
-          この章で分かったこと
-        </p>
+  <CardContent className="space-y-6 text-sm">
+    {/* 見どころ回収 */}
+    <div
+      className="rounded-md border p-4"
+      style={{
+        border: '2px solid #fed7aeff',
+        background: '#fbf1e2ff'
+      }}
+    >
+      <p className="font-semibold mb-3 text-slate-800" style={{ fontSize: 16 }}>
+        この章のはじめに投げた問い、答えはこうでした
+      </p>
 
-        <ul className="mt-3 space-y-2">
-          <li>
-            表示内容が同じでも、
-            <b>返事の速さは変わる</b>
-          </li>
-          <li>
-            その速さから、
-            <b>「前に見たかどうか」</b>が推測できる
-          </li>
-          <li>
-            これはフロントエンドの実装でも起きやすい
-          </li>
-        </ul>
-      </div>
-      <div style={{ fontSize: 16, lineHeight: 1.8 }}>
-        「何を表示するか」だけでなく、
-        <b>どれくらい速く返すか</b>も、
-        ユーザーに見られている情報です。
-        <br /><br />
-        キャッシュは便利ですが、
+      <ul className="space-y-2 text-gray-700">
+        <li>
+          <b>Q.</b> 「前に見たページかどうか」は、どうやって分かる？
+          <br />
+          <span className="ml-4">
+            <b>→ </b>
+            ブラウザが<b>過去のデータを手元に残しているかどうか</b>で分かることがある
+          </span>
+        </li>
+
+        <li>
+          <b>Q.</b> なぜ表示されている内容が同じでも、速さが変わるの？
+          <br />
+          <span className="ml-4">
+            <b>→ </b>
+            サーバーに取りに行くか、<b>キャッシュから即座に返るか</b>で処理時間が変わる
+          </span>
+        </li>
+
+        <li>
+          <b>Q.</b> フロントエンドの実装で、どこに気をつければいい？
+          <br />
+          <span className="ml-4">
+            <b>→ </b>
+            <b>個人にひもづく情報をキャッシュに残していないか</b>を意識すること
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    {/* 本質の説明 */}
+    <div
+      className="rounded-md bg-white p-4 text-gray-800"
+      style={{ lineHeight: 1.8 }}
+    >
+      <p style={{ fontSize: 16 }}>
+        この章で見たように、
+        フロントエンドでは
+        <b>「何を表示するか」</b>だけでなく、
+        <b>「どれくらいの速さで返すか」</b>も、
+        外から観測できる情報になります。
+      </p>
+
+      <p style={{ fontSize: 16, marginTop: 12 }}>
+        キャッシュそのものが悪いわけではありません。
+        むしろ、パフォーマンスやユーザー体験のために
+        <b>欠かせない仕組み</b>です。
+        <br />
+        ただし、
         <span style={{ color: '#4f46e5', fontWeight: 600 }}>
-          何を残して、何を残さないか
+          「何を残して、何を残さないか」
         </span>
-        を意識することが、
-        安全なフロントエンド実装につながります。
+        を考えずに使うと、
+        意図しない情報漏えいにつながることがあります。
+      </p>
+
+      {/* 締め */}
+      <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
+        「正しく動いているように見える実装」でも、
+        <b>処理時間や速さの違い</b>が
+        ヒントになってしまうことがあります。
+        <br />
+        次の章では、
+        この考え方が
+        <b>ログインや認証の処理</b>では
+        どのような問題につながるのかを見ていきます。
       </div>
-    </CardContent>
-  </Card>
+    </div>
+  </CardContent>
+</Card>
+
 );
 
   return (

@@ -4,7 +4,7 @@ import React, { Children, useMemo, useState } from 'react';
 import SectionLayout from '../../Framework/SectionLayout';
 import { styles } from '../../Framework/SectionStyles';
 import { FlowDemo } from './FlowDemo';
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
 import { 
   Shield, 
   Unlock, 
@@ -240,7 +240,6 @@ export default function AuthFlowTimingPage() {
                     </CardContent>
                   </Card>
                 </div>     
-                <br />
                 <Card>
                   <CardHeader>
                     <CardTitle style={{ marginBottom: 10 }}>リアルタイムデモ：どの段階で時間差が出る？</CardTitle>
