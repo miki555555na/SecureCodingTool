@@ -7,19 +7,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { 
   ShieldAlert, 
   ArrowRight, 
-  Lock, 
   Key,
   Globe,
   Server,
   FileCode,
-  AlertTriangle,
-  Terminal
+  Terminal,
+  UserCheck,
+  Lock
 } from 'lucide-react'
 import LogicDemo from './LogicDemo' 
 
 export default function LogicBypassPage() {
 
-  
+
   const description = (
     <>
       <p>
@@ -48,14 +48,16 @@ export default function LogicBypassPage() {
   const checklist = (
     <Card style={{ border: '2px solid #aee2feff', boxShadow: '0 2px 8px #0001', background: '#f5faffff' }}>
       <CardHeader style={{ paddingBottom: 3 }}>
-        <CardTitle style={{ fontSize: 17, marginTop: 0 }}>📝 5章の見どころ</CardTitle>
+        <CardTitle style={{ fontSize: 17, marginTop: 0 }}>📝 1章の見どころ</CardTitle>
       </CardHeader>
       <CardContent style={{ paddingTop: 0 }}>
-        <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
-          <li>・IDOR：リクエストパラメータの改変による水平権限昇格</li>
-          <li>・機能レベルのアクセス制御不備：APIの直接実行による垂直権限昇格</li>
-          <li>・セッション情報を起点とした正しい認可ロジックの実装</li>
-        </ul>
+        <div style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
+          <ul className="list-disc list-inside space-y-1">
+            <li>IDOR：リクエストパラメータの改変による水平権限昇格</li>
+            <li>機能レベルのアクセス制御不備：APIの直接実行による垂直権限昇格</li>
+            <li>セッション情報を起点とした正しい認可ロジックの実装</li>
+          </ul>
+        </div>
       </CardContent>
     </Card>
   )
@@ -68,7 +70,7 @@ export default function LogicBypassPage() {
       <CardContent className="space-y-4 text-sm">
         <ul className="space-y-3">
           <li className="flex items-start gap-3">
-            <span className="mt-0.5 rounded bg-red-100 px-2 py-1 text-xs font-bold text-red-700">
+            <span className="mt-0.5 rounded bg-red-100 px-2 py-1 text-xs font-bold text-red-700 whitespace-nowrap">
               リスク
             </span>
             <span>
@@ -79,7 +81,7 @@ export default function LogicBypassPage() {
           </li>
 
           <li className="flex items-start gap-3">
-            <span className="mt-0.5 rounded bg-green-100 px-2 py-1 text-xs font-bold text-green-700">
+            <span className="mt-0.5 rounded bg-green-100 px-2 py-1 text-xs font-bold text-green-700 whitespace-nowrap">
               対策
             </span>
             <span>
@@ -94,6 +96,19 @@ export default function LogicBypassPage() {
       </CardContent>
     </Card>
   )
+  const compactCodeStyle: React.CSSProperties = {
+    ...styles.code,
+    fontSize: '11px',
+    lineHeight: '1.4',
+    padding: '10px',
+    overflowX: 'auto',
+    whiteSpace: 'pre',
+  };
+
+  const containerStyle: React.CSSProperties = {
+    ...styles.codeContainer,
+    marginBottom: '8px'
+  };
 
   const children = (
     <>
@@ -115,7 +130,9 @@ export default function LogicBypassPage() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 16 }}>
               <div style={{ padding: 12, background: '#f0f9ff', borderRadius: 6, border: '1px solid #bae6fd' }}>
-                <div style={{ fontWeight: 700, color: '#0369a1', marginBottom: 4 }}>Authentication (認証)</div>
+                <div style={{ fontWeight: 700, color: '#0369a1', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <UserCheck size={16} /> Authentication (認証)
+                </div>
                 <div style={{ fontSize: 14, color: '#334155' }}>
                   <b>Identity Verification</b><br/>
                   ユーザーが誰であるかを特定する。<br/>
@@ -123,7 +140,9 @@ export default function LogicBypassPage() {
                 </div>
               </div>
               <div style={{ padding: 12, background: '#fefce8', borderRadius: 6, border: '1px solid #fde047' }}>
-                <div style={{ fontWeight: 700, color: '#854d0e', marginBottom: 4 }}>Authorization (認可)</div>
+                <div style={{ fontWeight: 700, color: '#854d0e', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Lock size={16} /> Authorization (認可)
+                </div>
                 <div style={{ fontSize: 14, color: '#334155' }}>
                   <b>Access Control</b><br/>
                   特定のリソースや操作へのアクセスを許可する。<br/>
@@ -133,7 +152,6 @@ export default function LogicBypassPage() {
             </div>
           </div>
 
-          {/* ② APIの公開性 */}
           <div style={{ background: '#fff', padding: 20, borderRadius: 8, border: '1px solid #e5e7eb' }}>
             <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Globe size={20} color="#64748b" /> APIエンドポイントの特性
@@ -184,12 +202,44 @@ export default function LogicBypassPage() {
         </CardHeader>
         <CardContent>
           <div style={{ marginBottom: 20, fontSize: 15, color: '#475569', lineHeight: 1.6 }}>
-            <p>
-              <b>検証手順:</b><br/>
-              1. <b>Vulnerable</b> モードで、リクエストパラメータの改変や直接実行により、本来許可されない操作が可能であることを確認します。<br/>
-              2. <b>Patched (Secure)</b> モードに切り替え、バックエンドロジックの変更点（バリデーションの追加）を確認します。<br/>
-              3. 対策適用後、同様のリクエストが適切に拒否（403 Forbidden / 404 Not Found）されることを検証してください。
-            </p>
+            <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
+               🚀 試してみよう
+            </h3>
+            <ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
+              <li>
+                <div style={{ fontWeight: 700 }}>
+                  【Step 1】Case A (IDOR)：URLの数字を変えてみる
+                </div>
+                <div style={{ color: '#475569', marginTop: 4 }}>
+                  プロフィール画面のURLにあるID（<code>1001</code>）を、隣の番号（<code>1002</code>）に書き換えて「Go」を押してください。
+                  <br/>
+                  <span style={{ color: '#dc2626', fontWeight: 600 }}>本来見えてはいけない他人の個人情報</span>が表示されてしまいます。
+                </div>
+              </li>
+              
+              <li>
+                <div style={{ fontWeight: 700 }}>
+                  【Step 2】Case B (権限昇格)：隠しAPIを叩く
+                </div>
+                <div style={{ color: '#475569', marginTop: 4 }}>
+                  タブを「Case B」に切り替えてください。画面には削除ボタンはありませんが、
+                  ツールを使って直接 <code>delete_user</code> APIを実行してみましょう。
+                  <br/>
+                  一般ユーザー権限（Member）なのに、削除が成功してしまいます。
+                </div>
+              </li>
+
+              <li>
+                <div style={{ fontWeight: 700 }}>
+                  【Step 3】対策：安全な実装（Secure）にして試す
+                </div>
+                <div style={{ color: '#475569', marginTop: 4 }}>
+                  「✅ 安全な実装」ボタンを押し、同じ攻撃を試してください。
+                  <br/>
+                  サーバー側で適切なチェックが行われ、エラー（Access Denied / Forbidden）になることを確認しましょう。
+                </div>
+              </li>
+            </ol>
           </div>
           
           <LogicDemo />
