@@ -17,6 +17,22 @@ import {
 
 type Scenario = 'IDOR' | 'AdminBypass'
 
+const btnBase: React.CSSProperties = {
+  padding: '8px 12px',
+  borderRadius: 6,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: '#d1d5db',
+  background: '#fff',
+  cursor: 'pointer',
+  fontWeight: 600,
+  fontSize: 13,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 6
+}
+
 export default function LogicDemo() {
   const [scenario, setScenario] = useState<Scenario>('IDOR')
   const [fixed, setFixed] = useState(false)
@@ -46,7 +62,7 @@ export default function LogicDemo() {
             setIdorResult({ status: 404, error: "User Not Found" })
           }
         }
-    }, 300)
+    }, 400)
   }
 
   const runAdminAttack = () => {
@@ -63,7 +79,7 @@ export default function LogicDemo() {
         } else {
           setAdminResult({ status: 200, message: "Success: User deleted." })
         }
-    }, 300)
+    }, 400)
   }
 
   const panelBase: React.CSSProperties = {
@@ -96,15 +112,6 @@ export default function LogicDemo() {
     flex: 1
   }
 
-  const btnBase: React.CSSProperties = {
-    padding: '6px 12px',
-    borderRadius: 4,
-    fontSize: 12,
-    fontWeight: 600,
-    cursor: 'pointer',
-    border: 'none'
-  }
-
   const codeBase: React.CSSProperties = {
     fontFamily: 'monospace',
     fontSize: 12,
@@ -116,30 +123,65 @@ export default function LogicDemo() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <div style={{ display: 'flex', gap: 8, borderBottom: '1px solid #e5e7eb', paddingBottom: 8 }}>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
         <button
-          onClick={() => { setScenario('IDOR'); setFixed(false); setIdorResult(null); setIdorId('1001'); }}
+          onClick={() => { setFixed(false); setIdorResult(null); setAdminResult(null); }}
           style={{ 
             ...btnBase, 
-            background: scenario === 'IDOR' ? '#eff6ff' : 'transparent', 
-            color: scenario === 'IDOR' ? '#2563eb' : '#64748b' 
+            ...( !fixed ? { borderColor: '#ef4444', background: '#fff7f7', color: '#b91c1c' } : { color: '#6b7280' } )
+          }}
+        >
+          ⚠️ 脆弱な実装 (Vulnerable)
+        </button>
+        <button
+          onClick={() => { setFixed(true); setIdorResult(null); setAdminResult(null); }}
+          style={{ 
+            ...btnBase, 
+            ...( fixed ? { borderColor: '#16a34a', background: '#f7fffb', color: '#15803d' } : { color: '#6b7280' } )
+          }}
+        >
+          ✓ 安全な実装 (Secure)
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', gap: 4, borderBottom: '1px solid #e5e7eb', paddingBottom: 0 }}>
+        <button
+          onClick={() => { setScenario('IDOR'); setIdorResult(null); setIdorId('1001'); }}
+          style={{ 
+            padding: '8px 16px',
+            fontSize: 14,
+            fontWeight: 600,
+            borderBottom: scenario === 'IDOR' ? '2px solid #2563eb' : '2px solid transparent',
+            color: scenario === 'IDOR' ? '#2563eb' : '#64748b',
+            background: 'none',
+            border: 'none',
+            borderBottomWidth: 2,
+            borderBottomStyle: 'solid',
+            cursor: 'pointer'
           }}
         >
           Case A: IDOR (水平権限昇格)
         </button>
         <button
-          onClick={() => { setScenario('AdminBypass'); setFixed(false); setAdminResult(null); }}
+          onClick={() => { setScenario('AdminBypass'); setAdminResult(null); }}
           style={{ 
-            ...btnBase, 
-            background: scenario === 'AdminBypass' ? '#eff6ff' : 'transparent', 
-            color: scenario === 'AdminBypass' ? '#2563eb' : '#64748b' 
+            padding: '8px 16px',
+            fontSize: 14,
+            fontWeight: 600,
+            borderBottom: scenario === 'AdminBypass' ? '2px solid #2563eb' : '2px solid transparent',
+            color: scenario === 'AdminBypass' ? '#2563eb' : '#64748b',
+            background: 'none',
+            border: 'none',
+            borderBottomWidth: 2,
+            borderBottomStyle: 'solid',
+            cursor: 'pointer'
           }}
         >
-          Case B: 管理者機能バイパス (垂直権限昇格)
+          Case B: 管理者バイパス (垂直権限昇格)
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: 420 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: 440 }}>
         <div style={panelBase}>
           
           {scenario === 'IDOR' ? (
@@ -165,7 +207,7 @@ export default function LogicDemo() {
                 </div>
                 <button 
                   onClick={runIdorAttack}
-                  style={{ ...btnBase, background: '#2563eb', color: '#fff' }}
+                  style={{ ...btnBase, background: '#2563eb', color: '#fff', padding: '4px 12px', height: 28, fontSize: 12, border: 'none' }}
                 >
                   Go
                 </button>
@@ -194,7 +236,6 @@ export default function LogicDemo() {
                           </div>
                         </div>
 
-                        
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                           <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#334155' }}>
                             <Mail size={16} color="#94a3b8" /> {idorResult.data.email}
@@ -240,25 +281,25 @@ export default function LogicDemo() {
           ) : (
             <>
               <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Terminal size={14} /> HTTP Request Simulator
+                <Terminal size={14} /> HTTPリクエスト送信ツール
               </div>
               <div style={urlBarBase}>
                 <span style={{ color: '#f59e0b', fontWeight: 700, fontSize: 12 }}>POST</span>
                 <input readOnly value="/api/admin/delete_user" style={inputBase} />
                 <button 
                   onClick={runAdminAttack}
-                  style={{ ...btnBase, background: '#dc2626', color: '#fff' }}
+                  style={{ ...btnBase, background: '#dc2626', color: '#fff', padding: '4px 12px', height: 28, fontSize: 12, border: 'none' }}
                 >
-                  Execute
+                  送信 (Execute)
                 </button>
               </div>
               <div style={{ padding: '8px 12px', background: '#1e293b', borderBottom: '1px solid #334155', fontSize: 11, color: '#94a3b8' }}>
-                Payload: {`{ "target_id": 999 }`} <span style={{ marginLeft: 10, color: '#e2e8f0' }}>Context: Role=Member</span>
+                送信データ: {`{ "target_id": 999 }`} <span style={{ marginLeft: 10, color: '#e2e8f0' }}>実行権限: 一般ユーザー (Member)</span>
               </div>
 
               <div style={{ padding: 15, flex: 1, fontFamily: 'monospace', fontSize: 13, background: '#0f172a', color: '#e2e8f0' }}>
                 {!adminResult ? (
-                   <div style={{ color: '#64748b' }}>// Ready to send request...</div>
+                   <div style={{ color: '#64748b' }}>// 準備完了。リクエスト待ち...</div>
                 ) : (
                   <div style={{ color: adminResult.status === 200 ? '#4ade80' : '#f87171' }}>
                     HTTP/1.1 {adminResult.status} {adminResult.status === 200 ? 'OK' : 'Forbidden'} <br/>
@@ -275,21 +316,7 @@ export default function LogicDemo() {
 
         <div style={panelBase}>
           <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Server size={14} /> Backend Logic</div>
-            
-            <button 
-              onClick={() => setFixed(!fixed)}
-              style={{ 
-                ...btnBase, 
-                background: fixed ? '#16a34a' : '#ef4444', 
-                color: '#fff', 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: 4 
-              }}
-            >
-              {fixed ? <><CheckCircle size={12}/> Patched (Secure)</> : <><AlertTriangle size={12}/> Vulnerable</>}
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Server size={14} /> バックエンド処理 (Controller)</div>
           </div>
 
           <div style={{ flex: 1, background: '#0f172a', overflow: 'auto' }}>
@@ -313,7 +340,7 @@ def get_profile(request):
     )
     
     if not data:
-        # 他人のIDなら 403 or 404
+        # 他人のデータなら「存在しない」か「拒否」
         return error("Access Denied", 403)
         
     return render("profile", data)`
@@ -323,8 +350,8 @@ def get_profile(request):
     target_id = request.params.user_id
     
     # 【Vulnerable Implementation】
-    # リクエストされたIDをそのまま検索に使用
-    # 「誰がアクセスしているか」の確認がない
+    # リクエストされたIDをそのまま検索に使用。
+    # 「誰がアクセスしているか」の確認が漏れている。
     
     data = db.find_by_id(target_id)
     
@@ -340,8 +367,9 @@ fixed ?
 `# POST /api/admin/delete_user
 def delete_user(request):
     # 【Secure Implementation】
-    # エンドポイントの実行に必要なロールを明示的に検証
-    # @RequiresRole('ADMIN') などのデコレータでも可
+    # 処理を実行する前に、
+    # 必ず「実行権限」を検証する (認可チェック)
+    
     if request.session.role != 'ADMIN':
         return error("Forbidden", 403)
 
@@ -354,8 +382,8 @@ def delete_user(request):
 `# POST /api/admin/delete_user
 def delete_user(request):
     # 【Vulnerable Implementation】
-    # 認証済み(ログイン中)であることのみに依存し、
-    # この機能の実行権限(管理者ロール)の確認がない
+    # ログイン済みであることは確認しているが、
+    # 「管理者であるか」のチェックが漏れている。
     
     
     
