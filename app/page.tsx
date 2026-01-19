@@ -264,7 +264,7 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="space-y-4 flex flex-col">
                 <ul className="list-disc space-y-2 pl-5 text-base text-slate-700">
-                <li>そのURL、誰でも叩けていませんか？</li>
+                <li>そのURL、誰でも実行できていませんか？</li>
                 <li>その入力、本当にただの文字列？</li>
                 <li>パスワード、もうバレているかも</li>
                 <li>ちゃんと検証している…つもりだった</li>

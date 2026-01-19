@@ -160,7 +160,7 @@ export default function LogicDemo() {
             cursor: 'pointer'
           }}
         >
-          Case A: IDOR (水平権限昇格)
+          Case A：他の人のページが見えてしまう
         </button>
         <button
           onClick={() => { setScenario('AdminBypass'); setAdminResult(null); }}
@@ -177,8 +177,20 @@ export default function LogicDemo() {
             cursor: 'pointer'
           }}
         >
-          Case B: 管理者バイパス (垂直権限昇格)
+          Case B：画面にない操作が動いてしまう
         </button>
+      </div>
+      <div style={{
+        padding: '8px 12px',
+        background: '#f8fafc',
+        border: '1px solid #e2e8f0',
+        borderRadius: 8,
+        fontSize: 13.5,
+        color: '#475569'
+      }}>
+        {scenario === 'IDOR'
+          ? '目標：IDを 1001 → 1002 に変えて、見える内容が変わるか確かめる'
+          : '目標：画面にない「削除」を直接送って、止められるか確かめる'}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, height: 440 }}>
@@ -216,8 +228,13 @@ export default function LogicDemo() {
                 {!idorResult ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#94a3b8', gap: 10 }}>
                     <Globe size={48} strokeWidth={1} opacity={0.5} />
-                    <div style={{ fontSize: 14 }}>Enter User ID to view profile</div>
-                    <div style={{ fontSize: 12, background: '#f1f5f9', padding: '4px 8px', borderRadius: 4 }}>Hint: Try ID 1002</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#64748b' }}>
+  まずは「1001」のまま Go を押してみてください
+</div>
+<div style={{ fontSize: 12, background: '#f1f5f9', padding: '6px 10px', borderRadius: 8 }}>
+  次に、URLの数字を 1002 に変えて Go（何が見えるか比べてみよう）
+</div>
+
                   </div>
                 ) : (
                   <>
@@ -249,8 +266,12 @@ export default function LogicDemo() {
                           {idorResult.data.address ? (
                             <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6, padding: 12 }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#b91c1c', fontSize: 13, fontWeight: 700, marginBottom: 4 }}>
-                                <ShieldAlert size={16} /> Private Info (Leaked)
-                              </div>
+  <ShieldAlert size={16} /> 本来は見えないはずの情報
+</div>
+<div style={{ fontSize: 12, color: '#991b1b', marginTop: 2 }}>
+  「URLの数字を変えただけ」で見えてしまっています
+</div>
+<br />
                               <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14, color: '#7f1d1d', marginBottom: 4 }}>
                                 <MapPin size={16} /> {idorResult.data.address}
                               </div>
@@ -281,7 +302,7 @@ export default function LogicDemo() {
           ) : (
             <>
               <div style={{ padding: '8px 12px', background: '#334155', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Terminal size={14} /> HTTPリクエスト送信ツール
+                <Terminal size={14} />  画面にない操作を直接呼ぶ
               </div>
               <div style={urlBarBase}>
                 <span style={{ color: '#f59e0b', fontWeight: 700, fontSize: 12 }}>POST</span>
@@ -290,12 +311,13 @@ export default function LogicDemo() {
                   onClick={runAdminAttack}
                   style={{ ...btnBase, background: '#dc2626', color: '#fff', padding: '4px 12px', height: 28, fontSize: 12, border: 'none' }}
                 >
-                  送信 (Execute)
+                  送信
                 </button>
               </div>
               <div style={{ padding: '8px 12px', background: '#1e293b', borderBottom: '1px solid #334155', fontSize: 11, color: '#94a3b8' }}>
-                送信データ: {`{ "target_id": 999 }`} <span style={{ marginLeft: 10, color: '#e2e8f0' }}>実行権限: 一般ユーザー (Member)</span>
-              </div>
+  送信データ: {`{ "target_id": 999 }`}
+  <span style={{ marginLeft: 10, color: '#e2e8f0' }}>あなたの状態：一般ユーザー</span>
+</div>
 
               <div style={{ padding: 15, flex: 1, fontFamily: 'monospace', fontSize: 13, background: '#0f172a', color: '#e2e8f0' }}>
                 {!adminResult ? (
@@ -327,18 +349,13 @@ fixed ?
 def get_profile(request):
     target_id = request.params.user_id
     
-    # 【Secure Implementation】
     # セッション(認証情報)からIDを取得
     current_user_id = request.session.user_id
     
-    # 検索条件に「所有者ID」を強制する
-    # URLで他人のIDが指定されても、
-    # owner_id が一致しないためヒットしない
-    data = db.find_one(
-        id=target_id, 
-        owner_id=current_user_id 
-    )
-    
+    # ログイン中のユーザーID（サーバー側の情報）を使う
+    # → 「自分のデータだけ」に絞って探す
+    data = db.find_one(id=target_id, owner_id=current_user_id)
+
     if not data:
         # 他人のデータなら「存在しない」か「拒否」
         return error("Access Denied", 403)
@@ -349,14 +366,10 @@ def get_profile(request):
 def get_profile(request):
     target_id = request.params.user_id
     
-    # 【Vulnerable Implementation】
-    # リクエストされたIDをそのまま検索に使用。
-    # 「誰がアクセスしているか」の確認が漏れている。
-    
+    # URLで渡されたIDをそのまま使う
+    # → 「誰のページを見ていいか」を見ていない
     data = db.find_by_id(target_id)
-    
-    
-    
+
     if not data:
         return error("Not Found", 404)
         
@@ -365,14 +378,10 @@ def get_profile(request):
 ) : (
 fixed ?
 `# POST /api/admin/delete_user
-def delete_user(request):
-    # 【Secure Implementation】
-    # 処理を実行する前に、
-    # 必ず「実行権限」を検証する (認可チェック)
-    
+def delete_user(request):    
+    # 先に「この操作をしていい人か」を確認する
     if request.session.role != 'ADMIN':
         return error("Forbidden", 403)
-
 
     target_id = request.data.target_id
     db.delete_user(target_id)
@@ -381,24 +390,22 @@ def delete_user(request):
 :
 `# POST /api/admin/delete_user
 def delete_user(request):
-    # 【Vulnerable Implementation】
-    # ログイン済みであることは確認しているが、
-    # 「管理者であるか」のチェックが漏れている。
-    
-    
-    
     target_id = request.data.target_id
+
+    # ログイン中かは見ているが、
+    # 「この操作をしていい人か」を見ていない
     db.delete_user(target_id)
-    
+
     return success("User deleted")`
 )}
             </pre>
           </div>
           <div style={{ padding: 10, background: '#1e293b', borderTop: '1px solid #334155', fontSize: 12, color: '#94a3b8' }}>
-            {fixed ? "✅ 対策済み: 信頼できるサーバーサイド情報（セッション等）に基づき認可を制御しています。" : "⚠️ 警告: クライアントからの入力値を過信し、認可制御が不十分です。"}
+            {fixed
+              ? "✅ 安全：サーバー側の情報（ログイン中のユーザー情報）を使って、できる操作を決めています。"
+              : "⚠️ 危険：URLや入力をそのまま信じると、本来できない操作が通ってしまいます。"}
           </div>
         </div>
-
       </div>
     </div>
   )

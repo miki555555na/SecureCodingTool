@@ -9,7 +9,7 @@ export default function BackendPage() {
   const sections = [
   {
     number: 1,
-    title: 'そのURL、誰でも叩けていませんか？',
+    title: 'そのURL、誰でも実行できていませんか？',
     description: 'アクセス制御の抜け漏れによって、本来許可されていない操作ができてしまうケースを確認します。',
     href: '/Backend/Section1-AuthBypass'
   },
