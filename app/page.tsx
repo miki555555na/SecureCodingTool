@@ -235,7 +235,6 @@ export default function HomePage() {
         <span className="block">
           まずは、自分の担当領域（フロントエンド / バックエンド）から体験してみてください。
         </span>
-
         <span className="block text-sm text-slate-600">
           各章は5〜8分で学べます。
         </span>

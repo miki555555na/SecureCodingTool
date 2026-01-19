@@ -201,7 +201,7 @@ export default function LogicBypassPage() {
           なぜ「URLを変えるだけ」で危なくなるの？
         </h3>
         {/* 導入（少し丁寧に） */}
-        <p style={{ marginTop: 8, fontSize: 14.5, color: '#475569', lineHeight: 1.7 }}>
+        <p style={{ marginTop: 8, fontSize: 14.5, color: '#313a47ff', lineHeight: 1.7 }}>
           Webアプリのバックエンドでは、
           「ログインしているかどうか」だけを確認して処理を進めてしまうと、
           思わぬ問題につながることがあります。
@@ -248,7 +248,7 @@ export default function LogicBypassPage() {
           <p style={{ margin: 0, fontSize: 16.5, fontWeight: 600, color: '#1f2937' }}>
             まず押さえたい「2段階の確認」
           </p>
-          <p style={{ marginTop: 4, fontSize: 14, color: '#475569' }}>
+          <p style={{ marginTop: 4, fontSize: 14, color: '#313a47ff' }}>
             バックエンドでは、リクエストを受けたときに
             <b>順番に確認すべきこと</b>があります。
           </p>
@@ -279,7 +279,7 @@ export default function LogicBypassPage() {
               </div>
             </div>
           </div>
-          <p style={{ marginTop: 10, fontSize: 14, color: '#475569' }}>
+          <p style={{ marginTop: 10, fontSize: 14, color: '#313a47ff' }}>
             ①で「誰か」が分かっても、②を通らなければ
             <b>その操作は実行してはいけません</b>。<br />
           「ログインしている」ことと、
@@ -359,7 +359,7 @@ export default function LogicBypassPage() {
             <div style={{ fontWeight: 700, color: '#2563eb', marginBottom: 4 }}>
               API（バックエンド）
             </div>
-            <div style={{ fontSize: 11, color: '#475569', lineHeight: 1.5 }}>
+            <div style={{ fontSize: 11, color: '#313a47ff', lineHeight: 1.5 }}>
               毎回、<b>「ログインしている？」</b>と<br />
               <b>「この操作をしていい？」</b>を確認する
             </div>
@@ -402,7 +402,7 @@ export default function LogicBypassPage() {
       <div style={{ fontWeight: 700 }}>
         【ステップ1】Case A：URLの数字を変えてみる
       </div>
-      <div style={{ color: '#475569', marginTop: 4 }}>
+      <div style={{ color: '#313a47ff', marginTop: 4 }}>
         プロフィール画面のURLに含まれている番号
         （<code>1001</code>）を、
         隣の番号（<code>1002</code>）に書き換えて
@@ -419,7 +419,7 @@ export default function LogicBypassPage() {
       <div style={{ fontWeight: 700 }}>
         【ステップ2】Case B：画面にない操作を直接呼んでみる
       </div>
-      <div style={{ color: '#475569', marginTop: 4 }}>
+      <div style={{ color: '#313a47ff', marginTop: 4 }}>
         タブを「Case B」に切り替えてください。
         <br />
         画面には「削除」ボタンはありませんが、
@@ -436,7 +436,7 @@ export default function LogicBypassPage() {
       <div style={{ fontWeight: 700 }}>
         【ステップ3】守った場合：安全な実装に切り替えて試す
       </div>
-      <div style={{ color: '#475569', marginTop: 4 }}>
+      <div style={{ color: '#313a47ff', marginTop: 4 }}>
         「✓ 安全な実装」ボタンを押してから、
         もう一度同じ操作を試してください。
         <br />
