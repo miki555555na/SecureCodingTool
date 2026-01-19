@@ -89,7 +89,7 @@ export default function HomePage() {
                 transition={{ delay: 0.2, duration: 0.4 }}
                 className="text-indigo-600 inline-block"
               >
-                壊されます。
+                壊されます
               </motion.span>
             </h1>
             <p className="text-sm text-slate-600">
