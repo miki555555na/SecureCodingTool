@@ -4,14 +4,24 @@ import React from 'react';
 import SectionLayout from '../../Framework/SectionLayout';
 import { styles } from '../../Framework/SectionStyles';
 import { HardCordDemo } from './HardCordDemo';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function HardCordPage() {
+
   const description = (
-    <p className="text-sm text-slate-600">
-      クライアントに API キーなどの秘密情報をハードコードしてしまうのは危険です。ブラウザからソースやバンドルを確認されると簡単に漏洩します。
-    </p>
-  );
+  <p className="text-lg font-medium">
+    フロントエンドの実装では、
+    <b>「ちょっとしたつもり」で秘密情報をコードに書いてしまう</b>ことがあります。
+    <br />
+    しかしブラウザで動くコードは、
+    <span className="bg-yellow-100 px-1 rounded">誰でも中身を見られる</span>という前提を忘れてはいけません。
+    <br />
+    この章では、
+    「うっかり書いたキーがどうやって見つかるのか」を
+    実際に体験します。
+  </p>
+);
+
 
   const checklist = (
     <Card
@@ -148,25 +158,30 @@ export default function HardCordPage() {
       summary={summary}
     >
       <div>
-        <section style={styles.section}>
-          <h2 style={styles.h2}>フロントエンド実装の注意：良い例 / よくない例</h2>
-          <p style={{ marginTop: 0 }}>
-            下は「やってはいけない例（NG）」と「推奨例（OK）」のまとめです。クライアントに秘密を置かない、環境変数はサーバーで管理する等を徹底してください。
-          </p>
-          
           <Card>
             <CardHeader>
-              <CardTitle style={{ fontSize: 18, marginTop: 0 }}>コード例：よくない例（NG） / 推奨例（OK）</CardTitle>
+              <CardTitle>
+                ハードコードの危険性
+              </CardTitle>
+              <CardDescription>
+                フロントエンドに書いた秘密情報は、
+                意図せずユーザーに配られてしまいます。
+                <br />
+                ここでは、「脆弱な実装」と「安全な実装」の「見え方の違い」を見てみましょう。
+              </CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
-              <div style={{ ...styles.comparison, alignItems: 'flex-start' }}>
-                <div style={{ ...styles.comparisonColumn, display: 'flex', flexDirection: 'column' }}>
-                  <p style={{ fontSize: 15, marginBottom: 8, lineHeight: 1.6, minHeight: 72 }}>
-                    <span style={{ color:'#dc2626', fontWeight: 600 }}>⚠️ よくない例（NG）</span>
-                    <br />
-                    <span style={{ fontSize: 13 }}>フロントエンドに直接キーを置くと、ソースやバンドルから簡単に漏洩します。</span>
-                  </p>
-
+            <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb', margin: '3px 0' }} />
+            <CardContent>
+                  <div style={styles.comparison}>
+                    {/* 脆弱な実装 */}
+                    <div style={styles.comparisonColumn}>
+                      <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
+                        <span style={{ color: '#dc2626', fontWeight: 600 }}>脆弱な実装</span>では、
+                        APIキーをフロントエンドのコードに置いてしまっています。
+                        <br />
+                        ブラウザに配信されたコードはユーザーの手元に届くため、
+                        <b>ソースやバンドルを見られるとキーも一緒に見えてしまいます</b>。
+                      </p>
                   <div
                     style={{
                       ...containerStyle,
@@ -175,25 +190,26 @@ export default function HardCordPage() {
                     }}
                   >
                     <div style={{ ...styles.codeLabel, color: '#dc2626' }}>⚠️ 脆弱な実装</div>
-                    <pre style={compactCodeStyle}>
-{`// BAD: クライアント直書き（誰でも見える）
-export const API_KEY = 
+                    <pre style={styles.code}>
+{`⚠️ 1. フロントエンドに直接書くと、ブラウザで見られる
+export const API_KEY =
   '`}<span style={{ background: '#ef4444', color: '#fff', padding: '1px 3px', borderRadius: 2 }}>sk_test_XXXXXXXXXXXXXXXXXXXX</span>{`';
 
-// BAD: NEXT_PUBLIC_ で公開される環境変数はクライアントで見える
+⚠️ 2. NEXT_PUBLIC_ 付きの環境変数は、ビルド時にコードへ埋め込まれる
 const key = process.env.NEXT_PUBLIC_SECRET_API_KEY;`}
                     </pre>
                   </div>
                 </div>
-                <div style={styles.divider} />
-
-                <div style={{ ...styles.comparisonColumn, display: 'flex', flexDirection: 'column' }}>
-                  <p style={{ fontSize: 15, marginBottom: 8, lineHeight: 1.6, minHeight: 72 }}>
-                    <span style={{ color:'#138c40ff', fontWeight: 600 }}>✓ 推奨例（OK）</span>
-                    <br />
-                    <span style={{ fontSize: 13 }}>サーバー側で秘密を管理し、クライアントは自分のバックエンド経由でアクセスしてください。</span>
-                  </p>
-
+                  <div style={styles.divider} />
+                    {/* 安全な実装 */}
+                    <div style={styles.comparisonColumn}>
+                      <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
+                        <span style={{ color: '#16a34a', fontWeight: 600 }}>安全な実装</span>では、
+                        秘密情報（APIキー）を<b>サーバー側だけ</b>で扱います。
+                        <br />
+                        フロントエンドは直接キーを持たず、
+                        <b>自分のバックエンド（プロキシ）経由</b>で外部APIにアクセスします。
+                      </p>
                   <div
                     style={{
                       ...containerStyle,
@@ -202,16 +218,17 @@ const key = process.env.NEXT_PUBLIC_SECRET_API_KEY;`}
                     }}
                   >
                     <div style={{ ...styles.codeLabel, color: '#16a34a' }}>✓ 安全な実装</div>
-                    <pre style={compactCodeStyle}>
-{`// pages/api/proxy.ts
+                    <pre style={styles.code}>
+{`// pages/api/proxy.ts（サーバー側）
 export default async function handler(req, res) {
-  // サーバー環境変数からキーを読み込む
+  ✓ サーバー環境変数からキーを読む（クライアントには渡さない）
   const key = `}<span style={{ background: '#16a34a', color: '#fff', padding: '1px 3px', borderRadius: 2 }}>process.env.SECRET_KEY</span>{`;
   
-  // サーバーから外部APIを叩く
-  const data = await fetch(..., { 
-    headers: { Authorization: key } 
+  ✓ サーバーが外部APIを呼ぶ
+  const data = await fetch(..., {
+    headers: { Authorization: key }
   });
+
   res.json(data);
 }`}
                     </pre>
@@ -234,55 +251,99 @@ await fetch('/api/proxy', { method: 'POST', ... });`}
               </div>
             </CardContent>
           </Card>
-        </section>
-
-        <section style={{ ...styles.section, marginTop: 24 }}>
+          <br />
           <Card>
-            <CardHeader>
-              <CardTitle>シンプルデモ：ハードコードされたテストキーを探してみる</CardTitle>
-            </CardHeader>
-            <hr style={{ border: 'none', height: 1, background: '#e5e7eb', margin: '3px 0' }} />
-            <CardContent className="space-y-4">
-              
-              <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
-                 開発者ツールでの探し方（例）
-              </h3>
-              
-              <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.6 }}>
-                 <li>
-                   <div style={{ fontWeight: 700 }}>
-                     1. ブラウザで F12 を押して開発者ツールを開く
-                   </div>
-                 </li>
-                 <li>
-                   <div style={{ fontWeight: 700 }}>
-                     2. Sources タブでプロジェクト内のファイルを探す
-                   </div>
-                   <div style={{ color: '#475569', marginTop: 2, fontSize: 14 }}>
-                     開発者ツール（F12）の Sources や 検索（Ctrl+F）を使ってこのファイルを探します。
-                   </div>
-                 </li>
-                 <li>
-                   <div style={{ fontWeight: 700 }}>
-                     3. ソース内のTEST API KEYを見つける
-                   </div>
-                   <div style={{ color: '#475569', marginTop: 2, fontSize: 14 }}>
-                     コメントに埋め込まれたテストキーが見つかります。
-                   </div>
-                 </li>
-                 <li>
-                   <div style={{ fontWeight: 700 }}>
-                     4. そのキーをコピーして左の入力欄に貼り付け、API を叩く
-                   </div>
-                 </li>
-              </ol>
+  <CardHeader>
+    <CardTitle>🔍 まずは探してみよう</CardTitle>
+    <CardDescription>
+      ブラウザに配信されたコードは、ユーザーの手元で確認できます。
+      <br />
+      ここでは「コードに書かれたテストキーが見つかる」ことを体験します。
+    </CardDescription>
+  </CardHeader>
 
-              <div style={{ marginTop: 24 }}>
-                <HardCordDemo />
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+  <hr style={{ border: 'none', height: 1, background: '#e5e7eb' }} />
+
+  <CardContent className="space-y-4">
+
+    <h3 style={{ ...styles.h3, marginTop: 2 }}>
+      開発者ツールの開き方
+    </h3>
+
+    <div
+      style={{
+        background: '#f8fafc',
+        border: '1px solid #e2e8f0',
+        borderRadius: 8,
+        padding: 12,
+        fontSize: 13.5,
+        lineHeight: 1.7
+      }}
+    >
+      <b>ショートカット：</b><br />
+      ・Windows / Linux：<b>F12</b> または <b>Ctrl + Shift + I</b><br />
+      ・Mac：<b>⌥ Option + ⌘ Command + I</b><br />
+      ・うまく開けない場合は、ブラウザのメニューから
+      「表示 → 開発 / 開発者ツール」を探してください
+    </div>
+
+    <ol className="ml-4 space-y-3" style={{ fontSize: 15 }}>
+      <li>
+        <b>1.</b> 開発者ツールを開く
+      </li>
+      <li>
+        <b>2.</b> 「Sources」「Debugger」など、<br />
+        読み込まれたファイルが見られるタブを開く
+      </li>
+      <li>
+        <b>3.</b> 検索で <code>TEST API KEY</code> を探す
+        <br />
+        <span style={{ fontSize: 14, color: '#64748b' }}>
+          （Mac：⌘ + F / 全体検索は ⌘ + Shift + F）
+        </span>
+      </li>
+      <li>
+        <b>4.</b> 見つけた文字列をコピーする
+      </li>
+    </ol>
+
+    <div
+                      style={{
+                        marginTop: 16,
+                        background: '#eef2ff',
+                        borderLeft: '4px solid #6366f1',
+                        borderRadius: 6,
+                        padding: 12
+                      }}
+                    >
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: 15 }}>ポイント</p>
+                      <p style={{ marginTop: 6, fontSize: 14, lineHeight: 1.6 }}>
+      ファイル名や場所が分からなくても大丈夫です。
+      <br />
+      「検索できる」という事実そのものが重要です。
+      </p>
+    </div>
+
+  </CardContent>
+</Card>
+<br />
+<Card>
+  <CardHeader>
+    <CardTitle>🧪 デモ：見つけたキーで API を叩いてみる</CardTitle>
+    <CardDescription>
+      さきほど見つけたテストキーを貼り付けて、
+      実際に API が呼べてしまうことを確認します。
+    </CardDescription>
+  </CardHeader>
+
+  <hr style={{ border: 'none', height: 1, background: '#e5e7eb' }} />
+
+  <CardContent>
+    <HardCordDemo />
+  </CardContent>
+</Card>
+
+
       </div>
     </SectionLayout>
   );
