@@ -1,48 +1,37 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 import Link from 'next/link';
 
 export default function FrontendPage() {
   const sections = [
     {
       number: 1,
-      title: 'ハードコードされた秘密情報',
-      description: 'ソースコードに直接埋め込まれた情報が、どのようなリスクにつながるかを確認します。',
+      title: 'その情報、コードに書いて大丈夫？',
+      description: 'ソースコードに直接書いた値が、誰にどこまで見えてしまうのかを確認します。',
       href: '/Frontend/Section1-HardcodedSecrets'
     },
     {
       number: 2,
-      title: 'XSS（クロスサイトスクリプティング）',
-      description: 'ユーザー入力の扱い方によって、意図しないスクリプト実行が起こる仕組みを体験します。',
+      title: '入力しただけで、何か動いていませんか？',
+      description: 'ユーザー入力の扱い方ひとつで、意図しないスクリプトが実行されてしまう仕組みを体験します。',
       href: '/Frontend/Section2-XSS'
     },
     {
       number: 3,
-      title: 'ブラウザキャッシュと処理時間の差',
-      description: 'キャッシュの有無によって生じる処理時間の違いが、どのように観測され得るかを見ていきます。',
+      title: '速さの違い、見られています',
+      description: 'ブラウザのキャッシュによる処理時間の差が、どのように情報として利用されるかを見ていきます。',
       href: '/Frontend/Section3-BrowserCache'
-    },
-    {
-      number: 4,
-      title: 'リソース読み込みのタイミング',
-      description: 'リソース取得のタイミング情報から、意図しない情報が推測される可能性について学びます。',
-      href: '/Frontend/Section4-SubresourceTiming'
     }
   ];
-
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl font-black mb-6">
-        フロントエンドの実装とセキュリティ
-      </h1>
-
       <p className="text-base text-slate-600">
-        フロントエンド実装で起こりやすい代表的なセキュリティ上の注意点を、
-        <br />
-        「脆弱な実装」と「改善後の実装」を比較しながら学びます。
+        このセクションでは、フロントエンド実装で起こりやすい代表的なセキュリティ上の<b>落とし穴</b>を、
+        <b>「脆弱な実装」と「改善後の安全な実装」</b>を見比べながら学びます。<br></br>
+        各章はどこからでも選んで学習できますが、上から順に進めることで、より理解しやすい構成になっています。
       </p>
 
       <div className="grid gap-4">
@@ -70,7 +59,7 @@ export default function FrontendPage() {
               </p>
               <Link href={section.href}>
                 <Button className="bg-amber-500 text-white">
-                  セクション {section.number} を見る →
+                  {section.number}章を見る →
                 </Button>
               </Link>
             </CardContent>

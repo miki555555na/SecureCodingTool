@@ -1,117 +1,30 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { Children, useMemo, useState } from 'react';
 import SectionLayout from '../../Framework/SectionLayout';
+import { styles } from '../../Framework/SectionStyles';
 import { FlowDemo } from './FlowDemo';
-import { Button } from '@/components/ui/button';
-import { DemoButton, SecureCard, VulnerableCard } from '@/components/educational';
-import { cn } from '@/lib/utils';
-
-type StepId = 'why' | 'bad' | 'fix' | 'demo';
-
-const STEPS: Array<{
-  id: StepId;
-  title: string;
-  kicker: string;
-}> = [
-  { id: 'why', title: 'なぜ危険？', kicker: '時間がメッセージになる' },
-  { id: 'bad', title: 'NGパターン', kicker: '途中終了で分岐する' },
-  { id: 'fix', title: '対策', kicker: '定数時間化＋統一' },
-  { id: 'demo', title: '体験', kicker: '段階ごとの時間差を見る' }
-];
-
-function clampStepIndex(index: number) {
-  return Math.min(Math.max(index, 0), STEPS.length - 1);
-}
-
-function stepIndexOf(stepId: StepId) {
-  const index = STEPS.findIndex((step) => step.id === stepId);
-  return index === -1 ? 0 : index;
-}
-
-function AtAGlanceSheet() {
-  const rows = [
-    { 
-      label: 'ユーザー不在', 
-      desc: 'Step 1: 即座に却下', 
-      time: 150, 
-      width: '15%', 
-      // Using a monochrome scale for sophistication
-      color: 'bg-slate-300 dark:bg-slate-700', 
-    },
-    { 
-      label: 'パスワード不一致', 
-      desc: 'Step 2: ハッシュ計算後', 
-      time: 650, 
-      width: '65%', 
-      color: 'bg-slate-400 dark:bg-slate-600', 
-    },
-    { 
-      label: 'ログイン成功', 
-      desc: 'Step 3: トークン発行まで', 
-      time: 980, 
-      width: '100%', 
-      color: 'bg-slate-600 dark:bg-slate-400', 
-    }
-  ];
-
-  return (
-    <div className="relative h-full w-full overflow-hidden rounded-[2.5rem] bg-slate-50 p-10 dark:bg-slate-900/50 md:p-14">
-      
-      <div className="relative z-10 mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-slate-500">
-            <span className="size-3 rounded-full bg-slate-800 dark:bg-slate-200" />
-            {"ATTACKER'S VIEW"}
-          </div>
-          <h3 className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-            攻撃者の視点
-          </h3>
-        </div>
-      </div>
-
-      <div className="relative z-10 space-y-12">
-        {rows.map((row) => (
-          <div key={row.label} className="group relative">
-            <div className="mb-5 flex items-end justify-between">
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">{row.label}</div>
-                <div className="text-lg font-medium text-slate-500">{row.desc}</div>
-              </div>
-              <div className="font-mono text-4xl font-bold tracking-tighter text-slate-900 dark:text-slate-100">
-                ~{row.time}<span className="text-xl text-slate-400 ml-1">ms</span>
-              </div>
-            </div>
-            
-            <div className="relative h-8 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-              <div 
-                className={cn("h-full rounded-full transition-all duration-1000 ease-out", row.color)} 
-                style={{ width: row.width }}
-              />
-            </div>
-            
-            {/* Visual Guide Line */}
-            <div className="absolute top-14 -z-10 h-full w-px border-l-2 border-dashed border-slate-300 dark:border-slate-700" style={{ left: row.width }} />
-          </div>
-        ))}
-      </div>
-
-      <div className="relative z-10 mt-16 border-t-2 border-slate-200 pt-10 dark:border-slate-800">
-        <p className="text-xl font-medium leading-relaxed text-slate-600 dark:text-slate-300">
-          <span className="mr-2 inline-block font-bold text-slate-900 dark:text-slate-100">なぜ危険か？</span>
-          攻撃者はサーバーからの返答内容を見ていません。<br className="hidden md:block"/>
-          ただストップウォッチで<span className="border-b-2 border-slate-400 font-bold text-slate-900 dark:text-slate-100">「拒否されるまでの時間」</span>を測っているだけです。
-        </p>
-      </div>
-    </div>
-  );
-}
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
+import { 
+  Shield, 
+  Unlock, 
+  Activity, 
+  Terminal, 
+  CheckCircle,
+  ArrowRight,
+  FileDigit,
+  KeyRound,
+  Layers,
+  Code2,
+  ArrowDown,
+  Underline,
+  BadgeCheck,
+  User,
+  Database
+} from 'lucide-react'
 
 export default function AuthFlowTimingPage() {
   const [variant, setVariant] = useState<'vulnerable' | 'secure'>('vulnerable');
-  const [step, setStep] = useState<StepId>('why');
-
-  const stepIndex = stepIndexOf(step);
 
   const variantInfo = useMemo(
     () =>
@@ -128,303 +41,502 @@ export default function AuthFlowTimingPage() {
           },
     [variant]
   );
+    const btnBase: React.CSSProperties = {
+      padding: '8px 12px',
+      borderRadius: 6,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '#d1d5db',
+      background: '#fff',
+      cursor: 'pointer',
+      fontWeight: 600
+    };
+   const children = (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {/* ① ログイン処理の概念 */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
-  const description = (
-    <div className="mx-auto max-w-3xl space-y-6 py-6 text-left">
-      <p className="text-xl leading-10 text-slate-600 dark:text-slate-300">
-        <span className="font-extrabold text-slate-900 dark:text-slate-100">
-          ユーザー存在チェックや段階的な認証フローで
-          <span className="mx-1 inline-block rounded bg-rose-50 px-2 py-0.5 font-bold text-rose-600 ring-1 ring-rose-100 dark:bg-rose-900/30 dark:text-rose-300 dark:ring-rose-800">
-            途中で return
-          </span>
-          すると、処理にかかる
-          <span className="mx-1 inline-block border-b-2 border-slate-300 font-bold text-slate-900 dark:border-slate-600 dark:text-slate-100">
-            レスポンス時間
-          </span>
-          が分岐し、外部からユーザーの有無が推測されてしまいます。
-        </span>
-      </p>
-    </div>
-  );
+                  {/* ログインの流れ（例） */}
+                  <div style={{ background: '#fff', padding: 20, borderRadius: 8, border: '1px solid #e5e7eb' }}>
+                    <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Shield size={20} color="#2563eb" />
+                      ログイン処理は、だいたいどんな順番で動く？
+                    </h3>
 
+                    {/* 一言サマリー（短く） */}
+                    <p style={{ margin: 0, fontSize: 16.5, fontWeight: 600, color: '#1f2937' }}>
+                      多くのログイン処理は、
+                      <span className="text-indigo-600">いくつかの段階</span>
+                      を順番に通ります。
+                    </p>
+                    <p style={{ marginTop: 8, fontSize: 14.5, color: '#313a47ff', lineHeight: 1.7 }}>
+                      ここで大事なのは、
+                      <b>「途中で止まる場所が違うと、返事の速さが変わる」</b>
+                      ことがある点です。
+                    </p>
+
+                    {/* 図 */}
+                    <div
+                      style={{
+                        marginTop: 14,
+                        padding: 14,
+                        background: '#f3f4f6',
+                        borderRadius: 8,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 10,
+                        flexWrap: 'wrap'
+                      }}
+                    >
+                      <div style={{ width: 160, textAlign: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 10 }}>
+                        <User size={22} color="#475569" />
+                        <div style={{ fontWeight: 700, marginTop: 6 }}>入力</div>
+                        <div style={{ fontSize: 12, color: '#64748b' }}>ユーザー名 / パスワード</div>
+                      </div>
+
+                      <ArrowRight size={20} color="#94a3b8" />
+
+                      <div style={{ width: 160, textAlign: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 10 }}>
+                        <Database size={22} color="#475569" />
+                        <div style={{ fontWeight: 700, marginTop: 6 }}>存在の確認</div>
+                        <div style={{ fontSize: 12, color: '#64748b' }}>このユーザーはいる？</div>
+                      </div>
+
+                      <ArrowRight size={20} color="#94a3b8" />
+
+                      <div style={{ width: 160, textAlign: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 10 }}>
+                        <KeyRound size={22} color="#475569" />
+                        <div style={{ fontWeight: 700, marginTop: 6 }}>パスワード確認</div>
+                        <div style={{ fontSize: 12, color: '#64748b' }}>合っている？</div>
+                      </div>
+
+                      <ArrowRight size={20} color="#94a3b8" />
+
+                      <div style={{ width: 160, textAlign: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 10 }}>
+                        <BadgeCheck size={22} color="#475569" />
+                        <div style={{ fontWeight: 700, marginTop: 6 }}>完了</div>
+                        <div style={{ fontSize: 12, color: '#64748b' }}>成功時の処理</div>
+                      </div>
+                    </div>
+
+                    {/* 注意書き（ここは良いので短く） */}
+                    <div
+                      style={{
+                        marginTop: 12,
+                        background: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: 8,
+                        padding: 12,
+                        fontSize: 13.5,
+                        color: '#313a47ff'
+                      }}
+                    >
+                      <b>※注意：</b>実際の内部処理はサービスによって異なります。ここでは理解しやすい「よくある流れ」を例にしています。
+                    </div>
+
+                    {/* よくある誤解（この章で効くやつ） */}
+                    <div
+                      style={{
+                        marginTop: 16,
+                        background: '#eef2ff',
+                        borderLeft: '4px solid #6366f1',
+                        borderRadius: 6,
+                        padding: 12
+                      }}
+                    >
+                      <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>
+                        よくある誤解
+                      </p>
+                      <p style={{ margin: '6px 0 0', fontSize: 14, lineHeight: 1.6 }}>
+                        「エラーメッセージを同じにしているから大丈夫」と思いがちですが、
+                        <b>返事の速さ</b>もヒントになります。
+                        <br />
+                        見た目が同じでも、<b>速さが違う</b>と「中で何が起きたか」を推測されることがあります。
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* ログイン処理の比較（左右） */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle style={{ marginBottom: 10 }}>
+                        ログイン処理の比較
+                      </CardTitle>
+                      <CardDescription>
+                        同じ「ログイン失敗」でも、処理の止まり方が違うと
+                        <b>返事の速さに差</b>が出ることがあります。
+                        その差が「存在チェック」に使われてしまいます。
+                      </CardDescription>
+                    </CardHeader>
+
+                    <hr style={{ border: 'none', height: 1, background: '#e5e7eb' }} />
+
+                    <CardContent>
+                      <div style={styles.comparison}>
+                        {/* 脆弱 */}
+                        <div style={styles.comparisonColumn}>
+                          <p style={{ fontSize: 16, marginBottom: 14, lineHeight: 1.7 }}>
+                            <span style={{ color:'#dc2626', fontWeight: 700 }}>脆弱な実装</span>は、
+                            <b>「ユーザーがいない」時点で早く終わる</b>作りです。
+                            <br />
+                            そのため、
+                            <b>速い = ユーザーなし</b>
+                            のように推測される可能性があります。
+                          </p>
+
+                          <div style={{ ...styles.codeContainer, background: '#fef2f2', border: '3px solid #fca5a5' }}>
+                            <div style={{ ...styles.codeLabel, color: '#dc2626' }}>
+                              ⚠️ 脆弱な実装
+                            </div>
+          <pre style={styles.code}>
+                {`function loginConstantTime(user, pass) {
+    if (!db.has(user)) return fail('ユーザーなし');  // ① ここで終了（速い）
+    const ok = verifyPass(db.get(user).hash, pass);  // ② ユーザーがいる場合だけ進む
+    if (!ok) return fail('パスワード違い');          // 途中で終了
+}`}
+                          </pre>
+                        </div>
+                      </div>
+                      <div style={styles.divider} />
+                        {/* 安全 */}
+                        <div style={styles.comparisonColumn}>
+                          <p style={{ fontSize: 16, marginBottom: 14, lineHeight: 1.7 }}>
+                            <span style={{ color:'#16a34a', fontWeight: 700 }}>安全な実装</span>は、
+                            ユーザーがいてもいなくても
+                            <b>なるべく同じ流れ・同じ速さ</b>になるようにします。
+                            <br />
+                            そのため、速さから推測されにくくなります。
+                          </p>
+
+                          <div style={{ ...styles.codeContainer, background: '#f0fdf4', border: '3px solid #86efac' }}>
+                            <div style={{ ...styles.codeLabel, color: '#16a34a' }}>
+                              ✓ 安全な実装
+                            </div>
+                            <pre style={styles.code}>
+{`function loginConstantTime(user, pass) {
+    const exists = db.has(user);
+    const hash = exists ? db.get(user).hash : dummyHash;  // いなくても同じ処理をする
+    const ok = verifyPass(hash, pass);                    // どちらでも実行する
+    doTokenLikeWork();                                    // 成功/失敗に関係なく実行
+    return exists && ok ? success() : fail('ログイン失敗');
+}`}
+                                        </pre>
+                          </div>
+
+                          <div className="text-xs text-gray-500 mt-2">
+                            ※このコードは仕組みを理解するための例です（実装はサービスや言語で異なります）
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 次のデモへ橋渡し */}
+                      <div style={{ marginTop: 14, fontSize: 14.5, color: '#374151' }}>
+                        では次に、実際に入力して
+                        <b>どの段階で速さが変わるのか</b>
+                        をデモで確かめてみましょう。
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>     
+                <Card>
+                  <CardHeader>
+                    <CardTitle style={{ marginBottom: 10 }}>リアルタイムデモ：どの段階で時間差が出る？</CardTitle>
+                      <CardDescription>
+                        <p>
+                          このデモでは、
+                          <b>ログイン処理の「進み方の違い」</b>が
+                          <b>返事の速さの違い</b>として表れる様子を確認します。
+                        </p>
+                        <p style={{ marginTop: 6 }}>
+                          同じ「ログイン失敗」でも、
+                          <span style={{ fontWeight: 600 }}>
+                            どこで処理が止まったか
+                          </span>
+                          によって、
+                          攻撃者から見える情報が変わってしまうことに注目してください。
+                        </p>
+                      </CardDescription>
+                    </CardHeader>
+                  <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb'}} />
+                  <CardContent className="space-y-4"> 
+                    <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
+                      🚀 試してみよう
+                    </h3>
+                    <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ1】脆弱な実装を選ぶ
+                        </div>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                          まず
+                          <b>「⚠️ 脆弱な実装」</b>
+                          を選択してください。
+                          <br />
+                          この実装では、
+                          <b>途中で処理が終わる</b>
+                          場合があります。
+                        </div>
+                      </li>
+
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ2】条件を変えてログインを試す
+                        </div>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                          「正しいパスワード」
+                          「誤ったパスワード」「存在しないユーザー」で、
+                          <b>返事の速さ</b>
+                          がどう変わるかを見てみましょう。
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ3】どこで止まったかを確認する
+                        </div>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                          右側の表示では、
+                          <b>どの段階まで処理が進んだか</b>
+                          が光って表示されます。
+                          <br />
+                          <span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>
+                            途中で止まるほど、全体の時間が短くなる
+                          </span>
+                          ことに注目してください。
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ fontWeight: 700 }}>
+                          【ステップ4】安全な実装と比べてみる
+                        </div>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                          次に、
+                          <b>「✓ 安全な実装」</b>
+                          に切り替えて、同じ操作をもう一度試してみましょう。<br />
+                          今度は、
+                          <b>ユーザーが存在しなくても、結果が失敗でも毎回ほぼ同じ時間</b>
+                          で返ってくることが分かります。
+                        </div>
+                      </li>
+                    </ol>
+
+                    {/* モード切替ボタン */}
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
+                      <button
+                        type="button"
+                        onClick={() => setVariant('vulnerable')}
+                        style={{
+                          ...btnBase,
+                          border: variant === 'vulnerable' ? '2px solid #ef4444' : '1px solid #cbd5e1',
+                          background: variant === 'vulnerable' ? '#fef2f2' : '#fff',
+                          
+                        }}
+                      >
+                        ⚠️ 脆弱な実装
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setVariant('secure')}
+                        style={{
+                          ...btnBase,
+                          border: variant === 'secure' ? '2px solid #16a34a' : '1px solid #cbd5e1',
+                          background: variant === 'secure' ? '#f0fdf4' : '#fff'
+                        }}
+                      >
+                        ✓ 安全な実装
+                      </button>
+                    </div>
+                    <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))' }}>
+                      <FlowDemo
+                        variant={variant}
+                        accent={variantInfo.accent}
+                        title={variantInfo.title}
+                        description={variantInfo.description}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+                {/* <div style={{ background: '#f8fafc', borderRadius: 10, padding: 14, border: '1px dashed #cbd5e1', color: '#313a47ff' }}>
+                  💡 パスワードリセットや登録確認 API など「存在するか／しないか」を返したくなる場面でも、レスポンス時間・メッセージ・ステータスコードを統一しよう。
+                </div> */}
+              </div>
+            </div>
+    )
+    const description = (
+      <>
+        <p className="text-lg font-medium">
+          前の章で見た
+          <span className="bg-yellow-100 px-1 rounded">「処理時間がヒントになる」</span>
+          という話は、実は<b>ログインのような身近な処理</b>でも起こりえます。
+        </p>
+
+        <p className="mt-3 text-gray-700">
+          この章では、「入力が間違っているだけ」なのに、
+          <b>返事の速さ</b>から
+          「ユーザーが存在するかどうか」が分かってしまうケースを体験します。
+        </p>
+      </>
+    );
+
+      const checklist = (
+      <Card
+        style={{
+          border: '2px solid #aee2feff',
+          boxShadow: '0 2px 8px #0001',
+          background: '#f5faffff',
+        }}
+      >
+        <CardHeader style={{ paddingBottom: 3 }}>
+          <CardTitle style={{ fontSize: 17, marginTop: 0 }}>
+            📝 5章の見どころ
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent style={{ paddingTop: 0 }}>
+          <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
+            <li>
+              ・ログイン処理は、どんな順番で動いているの？
+            </li>
+            <li>
+              ・なぜ「返事の速さ」だけで、ユーザーの存在が分かってしまうの？
+            </li>
+            <li>
+              ・ログイン失敗の返し方をそろえると、何が変わるの？
+            </li>
+            <br />
+            <ul style={{ fontSize: 16, marginTop: 5 }}>
+              <b>→ 実際に動かしながら確認します</b>
+            </ul>
+          </ul>
+        </CardContent>
+      </Card>
+    );
+
+  // const summary = (
+  //   <div>
+  //     <b>ポイント:</b> 「途中終了」「重さの違う処理」がある段階フローは時間差を作り、存在/非存在・一致/不一致が推測される。ダミー処理や定数時間化で段階ごとの重さを揃え、さらにレート制限・監視で計測試行を抑える。
+  //   </div>
+  // );
   const summary = (
-    <div className="space-y-2 text-base">
-      <div className="font-semibold">ポイント</div>
-      <div className="text-muted-foreground">
-        途中終了や段階ごとの重さの違いは、時間を通じて状態（存在/不一致）を漏らす。対策は「同じだけ処理する」「最小応答時間を揃える」「メッセージ/ステータスも統一」。
-      </div>
-    </div>
-  );
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg font-bold">
+        5章のまとめ
+      </CardTitle>
+    </CardHeader>
 
-  const next = () => setStep(STEPS[clampStepIndex(stepIndex + 1)]!.id);
-  const prev = () => setStep(STEPS[clampStepIndex(stepIndex - 1)]!.id);
+    <CardContent className="space-y-6 text-sm">
+
+      {/* 見どころ回収 */}
+      <div
+        className="rounded-md border p-4"
+        style={{
+          background: '#f5faff',
+          borderColor: '#aee2fe',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)'
+        }}
+      >
+        <p className="font-semibold mb-3 text-slate-800" style={{ fontSize: 16 }}>
+          この章のはじめに投げた問い、答えはこうでした
+        </p>
+
+        <ul className="space-y-2 text-gray-700">
+          <li>
+            <b>Q.</b> ログイン処理は、どんな順番で動いているの？
+            <br />
+            <span className="ml-4">
+              <b>→</b> 入力 → ユーザー確認 → パスワード照合 → 完了、という
+              <b>段階的な流れ</b>で処理されることが多い
+            </span>
+          </li>
+
+          <li>
+            <b>Q.</b> なぜ「返事の速さ」だけで、ユーザーの存在が分かってしまうの？
+            <br />
+            <span className="ml-4">
+              <b>→</b> 「途中で止まる処理」と「最後まで進む処理」で
+              <b>かかる時間が変わる</b>から
+            </span>
+          </li>
+
+          <li>
+            <b>Q.</b> ログイン失敗の返し方をそろえると、何が変わるの？
+            <br />
+            <span className="ml-4">
+              <b>→</b> 外から見たときに
+              <b>中で何が起きているか分からなくなる</b>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      {/* 本質の説明 */}
+      <div
+        className="rounded-md bg-white p-4 text-gray-800"
+        style={{ lineHeight: 1.8 }}
+      >
+        <p style={{ fontSize: 16 }}>
+          この章で見た問題は、
+          <b>ログイン機能そのものが特別に危険</b>だから起きたわけではありません。
+          <br />
+          多くの人が
+          <span style={{ color: '#4f46e5', fontWeight: 600 }}>
+            「自然に書いてしまいがちな処理」
+          </span>
+          の中に、原因があります。
+        </p>
+
+        <p style={{ fontSize: 16, marginTop: 12 }}>
+          「ユーザーが存在しなければすぐ返す」
+          「存在したら次の処理に進む」
+          <br />
+          こうした
+          <b>分かりやすくて正しそうな書き方</b>が、
+          実は
+          <b>返事の速さの違い</b>を生み出してしまいます。
+        </p>
+
+        <p style={{ fontSize: 16, marginTop: 12 }}>
+          「エラーメッセージを同じにしているから大丈夫」
+          と思っていても、
+          <b>処理の途中で止まる位置が違えば、時間は隠せません。</b>
+        </p>
+
+        <p style={{ fontSize: 16, marginTop: 12 }}>
+          ログインのように
+          <b>存在するか・しないか</b>を扱う処理では、
+          <span style={{ color: '#4f46e5', fontWeight: 600 }}>
+            成功・失敗に関係なく、同じ流れ・同じ重さで処理する
+          </span>
+          ことが重要です。
+        </p>
+
+        {/* 締め */}
+        <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
+          前の章で見たパスワードの早期リターンやHMAC検証の時間差と同じように、
+          ログイン処理でも
+          <b>「返事の速さ」は立派な情報</b>になります。
+          <br />
+          「正しく動いている」だけでなく、
+          <b>どう見えているか</b>まで意識することが、
+          セキュアな実装への第一歩です。
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
+
 
   return (
     <SectionLayout
-      title1={
-        <div className="flex flex-col items-center text-center">
-          <div className="mb-6 font-mono text-xl font-bold tracking-widest text-slate-400 dark:text-slate-500">
-            SECTION 05
-          </div>
-          <div className="max-w-4xl text-3xl font-extrabold leading-tight text-slate-900 dark:text-slate-100 md:text-5xl lg:leading-[1.2]">
-            ユーザー存在チェックや<br className="hidden md:block" />
-            段階的認証フローの<span className="text-rose-500">処理時間差</span>
-          </div>
-        </div>
-      }
-      title2={undefined}
+      title1="5. 返事の速さで、存在がバレる？"
+      title2="〜 ログイン処理にひそむ時間差の落とし穴 〜"
       description={description}
+      checklist={checklist}
       summary={summary}
-      framed={false}
     >
-      <div className="space-y-8">
-        <div className="flex justify-center py-2">
-          <div className="inline-flex items-center gap-4 rounded-full border border-slate-200 bg-white px-8 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-            <span className="font-mono text-xs font-bold tracking-[0.2em] text-slate-400">STEP</span>
-            <div className="flex items-baseline gap-1.5 font-mono text-lg font-medium leading-none">
-              <span className="text-2xl font-bold text-slate-900 dark:text-slate-100">{stepIndex + 1}</span>
-              <span className="text-slate-300">/</span>
-              <span className="text-slate-500">{STEPS.length}</span>
-            </div>
-          </div>
-        </div>
-
-        <div key={step} className="animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
-          {step === 'why' && (
-            <div className="grid gap-16 lg:grid-cols-12 lg:items-start">
-              
-              {/* Left Column: Narrative */}
-              <div className="flex flex-col justify-center space-y-12 lg:col-span-5 lg:py-8">
-                
-                {/* Header Section */}
-                <div className="space-y-8">
-                  <div className="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-slate-100 px-4 py-1.5 text-sm font-bold tracking-widest text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
-                    <span className="relative flex size-3">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-slate-400 opacity-75"></span>
-                      <span className="relative inline-flex size-3 rounded-full bg-slate-500"></span>
-                    </span>
-                    TIMING ATTACK BASICS
-                  </div>
-                  
-                  <h2 className="text-5xl font-extrabold leading-tight tracking-tight text-slate-900 dark:text-slate-100 md:text-6xl lg:text-7xl">
-                    応答時間の差は、<br />
-                    <span className="text-slate-500 decoration-slate-300 underline-offset-8">
-                      情報漏洩です。
-                    </span>
-                  </h2>
-                  
-                  <p className="text-2xl leading-relaxed text-slate-600 dark:text-slate-300">
-                    存在しないユーザーの処理を「早める」と、<br className="hidden md:block" />
-                    その短縮された時間が<span className="font-bold text-slate-900 dark:text-slate-50">「ユーザーは不在」</span>という事実を伝えてしまいます。
-                  </p>
-                </div>
-
-                {/* Key Takeaways (Large Minimalist List) */}
-                <div className="space-y-8 border-l-4 border-slate-200 pl-8 dark:border-slate-800">
-                  <div className="space-y-2">
-                    <h4 className="text-2xl font-bold text-slate-900 dark:text-slate-100">1. 即時の終了（Early Return）</h4>
-                    <p className="text-xl text-slate-500">処理を途中で打ち切ると、そこで時間が短縮されます。</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-2xl font-bold text-slate-900 dark:text-slate-100">2. 計測可能な差</h4>
-                    <p className="text-xl text-slate-500">ネットワーク越しでも、その数百ミリ秒の差は明確に計測できます。</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-2xl font-bold text-slate-900 dark:text-slate-100">3. 推測の成立</h4>
-                    <p className="text-xl text-slate-500">「速い＝不在」「遅い＝存在」。エラー文言を統一しても、時間は嘘をつきません。</p>
-                  </div>
-                </div>
-
-
-
-              </div>
-
-              {/* Right Column: Visual */}
-              <div className="lg:col-span-7 lg:mt-10">
-                <AtAGlanceSheet />
-              </div>
-
-            </div>
-          )}
-
-          
-
-          {step === 'bad' && (
-            <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-              <div className="order-2 lg:order-1">
-                <VulnerableCard
-                  title="NG: 早期リターン"
-                  description="「ユーザー不在」で即座に関数を抜ける実装"
-                >
-                  <pre className="overflow-x-auto rounded-xl bg-slate-950 p-6 font-mono text-base leading-loose text-slate-50 shadow-2xl">
-                    <code>{`function login(user, pass) {
-  // ユーザーがいない場合
-  if (!db.has(user)) {
-    return fail(); // ⚠️ ここで即終了（高速）
-  }
-
-  // ユーザーがいる場合（重い処理）
-  const ok = verifyPass(hash, pass);
-  
-  if (!ok) return fail();
-  return issueToken(user);
-}`}</code>
-                  </pre>
-                </VulnerableCard>
-              </div>
-
-              <div className="order-1 flex flex-col justify-center space-y-8 lg:order-2">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-rose-500">
-                    <span className="size-2 rounded-full bg-rose-500" />
-                    Vulnerable Pattern
-                  </div>
-                  <h3 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100 lg:text-5xl">
-                    その「効率化」が、<br />
-                    <span className="text-rose-500">命取り</span>になる。
-                  </h3>
-                  <p className="text-xl leading-relaxed text-slate-600 dark:text-slate-300">
-                    プログラマーは無駄な処理を省こうとします。<br />
-                    しかし、セキュリティの世界では<span className="font-bold text-slate-900 dark:text-slate-100">「早く終わること」自体が情報</span>になります。
-                  </p>
-                </div>
-
-                <div className="space-y-6 border-l-4 border-rose-100 pl-6 dark:border-rose-900/30">
-                  <div className="space-y-2">
-                    <h4 className="text-2xl font-bold text-slate-900 dark:text-slate-100">分岐した瞬間、バレる</h4>
-                    <p className="text-lg text-slate-500">
-                      if文で `return` した瞬間、処理時間の計測タイマーが止まります。
-                      攻撃者はその「短さ」を見て、「ああ、このユーザーは登録されていないな」と確信します。
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === 'fix' && (
-            <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-              <div className="order-2 lg:order-1">
-                <SecureCard
-                  title="OK: 定数時間処理"
-                  description="結果に関わらず、常に一定の計算量と時間を消費する"
-                >
-                  <pre className="overflow-x-auto rounded-xl bg-slate-950 p-6 font-mono text-base leading-loose text-slate-50 shadow-2xl">
-                    <code>{`function loginConstantTime(user, pass) {
-  // 1. 常にDB検索（なければダミー）
-  const userRec = db.get(user) || DUMMY_USER;
-  
-  // 2. 常にハッシュ計算を行う
-  const ok = check(userRec.hash, pass);
-
-  // 3. 最小時間まで待機 (Padding)
-  sleepUntil(MIN_RESPONSE_TIME);
-
-  // 4. 結果を返す
-  return (userRec.id && ok) ? success() : fail();
-}`}</code>
-                  </pre>
-                </SecureCard>
-              </div>
-
-              <div className="order-1 flex flex-col justify-center space-y-8 lg:order-2">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-emerald-600">
-                    <span className="size-2 rounded-full bg-emerald-600" />
-                    Secure Pattern
-                  </div>
-                  <h3 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100 lg:text-5xl">
-                    すべての客に、<br />
-                    <span className="text-emerald-600">同じ「待機」</span>を。
-                  </h3>
-                  <p className="text-xl leading-relaxed text-slate-600 dark:text-slate-300">
-                    ユーザーがいても、いなくても、同じ計算量をこなし、同じだけ待ちます。<br />
-                    外から見る人には、中の状態が一切読み取れません。
-                  </p>
-                </div>
-
-                <div className="space-y-6 border-l-4 border-emerald-100 pl-6 dark:border-emerald-900/30">
-                  <div className="space-y-2">
-                    <h4 className="text-2xl font-bold text-slate-900 dark:text-slate-100">徹底的な統一</h4>
-                    <p className="text-lg text-slate-500">
-                      レスポンス時間だけでなく、エラーメッセージやHTTPステータスコードも完全に統一することで、
-                      攻撃者の手がかりをゼロにします。
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === 'demo' && (
-            <div className="w-full space-y-10 py-10">
-              
-              <div className="text-center space-y-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-2 text-sm font-bold uppercase tracking-widest text-slate-900 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
-                  <span className="relative flex size-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
-                    <span className="relative inline-flex size-2 rounded-full bg-blue-500"></span>
-                  </span>
-                  Interactive Demo
-                </div>
-                <h3 className="text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-                  その目で確かめてください
-                </h3>
-                <p className="mx-auto max-w-4xl text-2xl leading-relaxed text-slate-600 dark:text-slate-400">
-                  コードの実行位置と時間の関係を可視化します。<br />
-                  「NG」では処理が途切れる様子を、「OK」では最後まで走り切る様子を確認してください。
-                </p>
-              </div>
-
-              {/* Demo Area - Less constraints for better code visibility */}
-              <div className="space-y-7">
-                <div className="flex flex-wrap justify-center gap-4">
-                  <DemoButton variant="vulnerable" active={variant === 'vulnerable'} onClick={() => setVariant('vulnerable')}>
-                    NGパターン（時間差あり）
-                  </DemoButton>
-                  <DemoButton variant="secure" active={variant === 'secure'} onClick={() => setVariant('secure')}>
-                    対策済み（定数時間）
-                  </DemoButton>
-                </div>
-                
-                {/* Direct rendering of FlowDemo to maximize space for code visualization */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-                  <FlowDemo
-                    variant={variant}
-                    accent={variantInfo.accent}
-                    title={variantInfo.title}
-                    description={variantInfo.description}
-                  />
-                </div>
-              </div>
-              
-            </div>
-          )}
-        </div>
-
-        <div
-          className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-background/70 p-5"
-          style={{
-            backgroundImage:
-              'linear-gradient(90deg, rgba(15,23,42,0.06) 1px, transparent 1px), linear-gradient(rgba(15,23,42,0.06) 1px, transparent 1px)',
-            backgroundSize: '24px 24px'
-          }}
-        >
-          <div className="text-base text-muted-foreground">
-            <span className="font-semibold text-foreground">ヒント:</span> 分からなくなったら「デモ」で体験してみると理解が深まります。
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="lg" className="h-16 px-10 text-xl font-bold" onClick={prev} disabled={stepIndex === 0}>
-              ← 戻る
-            </Button>
-            {stepIndex === STEPS.length - 1 ? (
-              <Button size="lg" className="h-16 px-10 text-xl font-bold" onClick={() => setStep('why')}>最初から</Button>
-            ) : (
-              <Button size="lg" className="h-16 px-10 text-xl font-bold" onClick={next}>次へ →</Button>
-            )}
-          </div>
-        </div>
-      </div>
+      {children}
     </SectionLayout>
   );
 }
