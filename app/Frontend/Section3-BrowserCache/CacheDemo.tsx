@@ -221,7 +221,7 @@ export function CacheDemo() {
                   fontSize:16
                 }}
               >
-                {r.short}取得時間を2回計測
+                {r.short}取得を2回実行
               </button>
             ))}
           </div>

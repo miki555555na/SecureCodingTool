@@ -70,7 +70,7 @@ export default function AuthFlowTimingPage() {
                       <span className="text-indigo-600">いくつかの段階</span>
                       を順番に通ります。
                     </p>
-                    <p style={{ marginTop: 8, fontSize: 14.5, color: '#475569', lineHeight: 1.7 }}>
+                    <p style={{ marginTop: 8, fontSize: 14.5, color: '#313a47ff', lineHeight: 1.7 }}>
                       ここで大事なのは、
                       <b>「途中で止まる場所が違うと、返事の速さが変わる」</b>
                       ことがある点です。
@@ -130,7 +130,7 @@ export default function AuthFlowTimingPage() {
                         borderRadius: 8,
                         padding: 12,
                         fontSize: 13.5,
-                        color: '#475569'
+                        color: '#313a47ff'
                       }}
                     >
                       <b>※注意：</b>実際の内部処理はサービスによって異なります。ここでは理解しやすい「よくある流れ」を例にしています。
@@ -269,7 +269,7 @@ export default function AuthFlowTimingPage() {
                         <div style={{ fontWeight: 700 }}>
                           【ステップ1】脆弱な実装を選ぶ
                         </div>
-                        <div style={{ color: '#475569', marginTop: 6 }}>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
                           まず
                           <b>「⚠️ 脆弱な実装」</b>
                           を選択してください。
@@ -284,7 +284,7 @@ export default function AuthFlowTimingPage() {
                         <div style={{ fontWeight: 700 }}>
                           【ステップ2】条件を変えてログインを試す
                         </div>
-                        <div style={{ color: '#475569', marginTop: 6 }}>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
                           「正しいパスワード」
                           「誤ったパスワード」「存在しないユーザー」で、
                           <b>返事の速さ</b>
@@ -295,7 +295,7 @@ export default function AuthFlowTimingPage() {
                         <div style={{ fontWeight: 700 }}>
                           【ステップ3】どこで止まったかを確認する
                         </div>
-                        <div style={{ color: '#475569', marginTop: 6 }}>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
                           右側の表示では、
                           <b>どの段階まで処理が進んだか</b>
                           が光って表示されます。
@@ -310,7 +310,7 @@ export default function AuthFlowTimingPage() {
                         <div style={{ fontWeight: 700 }}>
                           【ステップ4】安全な実装と比べてみる
                         </div>
-                        <div style={{ color: '#475569', marginTop: 6 }}>
+                        <div style={{ color: '#313a47ff', marginTop: 6 }}>
                           次に、
                           <b>「✓ 安全な実装」</b>
                           に切り替えて、同じ操作をもう一度試してみましょう。<br />
@@ -357,7 +357,7 @@ export default function AuthFlowTimingPage() {
                     </div>
                   </CardContent>
                 </Card>
-                {/* <div style={{ background: '#f8fafc', borderRadius: 10, padding: 14, border: '1px dashed #cbd5e1', color: '#475569' }}>
+                {/* <div style={{ background: '#f8fafc', borderRadius: 10, padding: 14, border: '1px dashed #cbd5e1', color: '#313a47ff' }}>
                   💡 パスワードリセットや登録確認 API など「存在するか／しないか」を返したくなる場面でも、レスポンス時間・メッセージ・ステータスコードを統一しよう。
                 </div> */}
               </div>

@@ -375,7 +375,7 @@ export default function SqlInjectionPage() {
       {/* 締め */}
       <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
         「普通に検索できているから大丈夫」と思えるコードでも、
-        入力の扱い方しだいで
+        入力の扱い方次第で
         <b>意図しない情報の流出</b>
         が起こることがあります。
       </div>
@@ -731,7 +731,7 @@ db.execute(query, `}<span style={{
                   <div style={{ fontWeight: 700 }}>
                     【ステップ1】まずは普通に検索してみる
                   </div>
-                  <div style={{ color: '#475569', marginTop: 6 }}>
+                  <div style={{ color: '#313a47ff', marginTop: 6 }}>
                     入力欄に <code>alice</code> と入力し、
                     <b>「脆弱な実装」</b>のまま実行してください。
                     <br />
@@ -743,7 +743,7 @@ db.execute(query, `}<span style={{
                   <div style={{ fontWeight: 700 }}>
                     【ステップ2】攻撃用の入力を試す
                   </div>
-                  <div style={{ color: '#475569', marginTop: 6 }}>
+                  <div style={{ color: '#313a47ff', marginTop: 6 }}>
                     次に、
                     <code>' OR '1'='1</code>
                     を入力して実行してみましょう。
@@ -756,7 +756,7 @@ db.execute(query, `}<span style={{
                   <div style={{ fontWeight: 700 }}>
                     【ステップ3】「入力が命令として解釈された」ことを確認する
                   </div>
-                  <div style={{ color: '#475569', marginTop: 6 }}>
+                  <div style={{ color: '#313a47ff', marginTop: 6 }}>
                     右側のSQL表示を見ると、
                     入力した文字列が
                     <b>SQL文の一部として組み込まれている</b>
@@ -771,7 +771,7 @@ db.execute(query, `}<span style={{
                   <div style={{ fontWeight: 700 }}>
                     【ステップ4】安全な実装に切り替えて比べる
                   </div>
-                  <div style={{ color: '#475569', marginTop: 6 }}>
+                  <div style={{ color: '#313a47ff', marginTop: 6 }}>
                     次に<b>「安全な実装」</b>に切り替えて、
                     同じ入力を実行してみましょう。
                     <br />

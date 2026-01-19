@@ -27,15 +27,13 @@ export default function LogicBypassPage() {
       Webの裏側では、ページのボタンを押さなくても、
       <span className="bg-yellow-100 px-1 rounded">URLを直接開くだけで</span>操作が動いてしまうことがあります。
     </p>
-
     <p className="mt-3 text-gray-700">
-      だからこそ大事なのは、「ログインしているか」だけで安心しないことです。
+      大事なのは、「ログインしているか」だけで安心しないことです。
       <br />
       それぞれのAPIで、
       <b>「この人がこの操作をしていいか」</b>を毎回確認しないと、
-      URLを少し変えただけで<b>本来できない操作</b>ができてしまうことがあります。
+      URLを少し変えただけで<b>本来できないはずの操作</b>ができてしまうことがあります。
     </p>
-
     <p className="mt-3 text-gray-700">
       この章では、
       <b>URLを変えるだけで勝手に操作できてしまう</b>危ない例を体験しながら、
@@ -197,12 +195,11 @@ export default function LogicBypassPage() {
   const children = (
     <>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <div style={{ background: '#fff', padding: 20, borderRadius: 8, border: '1px solid #e5e7eb' }}>
+      <div style={{ background: '#fff', padding: 24, borderRadius: 8, border: '1px solid #e5e7eb' }}>
         <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Shield size={20} color="#2563eb" />
           なぜ「URLを変えるだけ」で危なくなるの？
         </h3>
-
         {/* 導入（少し丁寧に） */}
         <p style={{ marginTop: 8, fontSize: 14.5, color: '#475569', lineHeight: 1.7 }}>
           Webアプリのバックエンドでは、
@@ -216,16 +213,13 @@ export default function LogicBypassPage() {
           ここが抜けていると、URLを少し変えただけで
           <b>本来は許されていない操作</b>が実行できてしまうことがあります。
         </p>
-
         <br />
-
-        {/* 見出し */}
+        {/* 見出し
         <p style={{ margin: 0, fontSize: 16.5, fontWeight: 600, color: '#1f2937' }}>
           まず押さえたい「2つの確認」
         </p>
-
         {/* 2カラム */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+        {/* <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
           <div style={{ padding: 12, background: '#f0f9ff', borderRadius: 8, border: '1px solid #bae6fd' }}>
             <div style={{ fontWeight: 700, color: '#0369a1', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
               <UserCheck size={16} />
@@ -238,7 +232,6 @@ export default function LogicBypassPage() {
               ここがOKでも、それだけでは十分ではありません。
             </div>
           </div>
-
           <div style={{ padding: 12, background: '#fefce8', borderRadius: 8, border: '1px solid #fde047' }}>
             <div style={{ fontWeight: 700, color: '#854d0e', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Lock size={16} />
@@ -251,25 +244,49 @@ export default function LogicBypassPage() {
               例：<b>自分のデータだけ</b> / <b>管理者だけ</b>
             </div>
           </div>
-        </div>
+        </div>  */}
+          <p style={{ margin: 0, fontSize: 16.5, fontWeight: 600, color: '#1f2937' }}>
+            まず押さえたい「2段階の確認」
+          </p>
+          <p style={{ marginTop: 4, fontSize: 14, color: '#475569' }}>
+            バックエンドでは、リクエストを受けたときに
+            <b>順番に確認すべきこと</b>があります。
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+            <div style={{ padding: 12, background: '#f0f9ff', borderRadius: 8, border: '1px solid #bae6fd' }}>
+              <div style={{ fontWeight: 700, color: '#0369a1', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <UserCheck size={16} />
+                ① 誰からのリクエスト？
+              </div>
+              <div style={{ fontSize: 14, color: '#334155', lineHeight: 1.6 }}>
+                「このリクエストは、ログイン済みのユーザーから来ているか？」
+                を確認します。
+                <br />
+                <b>まず本人かどうか</b>を確かめる段階です。
+              </div>
+            </div>
 
-        {/* ポイント */}
-        <div
-          style={{
-            marginTop: 12,
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: 8,
-            padding: 12,
-            fontSize: 13.5,
-            color: '#475569'
-          }}
-        >
-          <b>※ポイント：</b>
+            <div style={{ padding: 12, background: '#fefce8', borderRadius: 8, border: '1px solid #fde047' }}>
+              <div style={{ fontWeight: 700, color: '#854d0e', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Lock size={16} />
+                ② その操作をしていい？
+              </div>
+              <div style={{ fontSize: 14, color: '#334155', lineHeight: 1.6 }}>
+                「このユーザーが、このデータや操作に触ってよいか？」
+                を確認します。
+                <br />
+                <b>本人でも、できる操作は限られる</b>ことに注意します。
+              </div>
+            </div>
+          </div>
+          <p style={{ marginTop: 10, fontSize: 14, color: '#475569' }}>
+            ①で「誰か」が分かっても、②を通らなければ
+            <b>その操作は実行してはいけません</b>。<br />
           「ログインしている」ことと、
           「その操作をしてよい」ことは別です。
           操作ごとに確認する必要があります。
-        </div>
+          </p>
+
 
         {/* よくある誤解 */}
         <div
@@ -446,7 +463,7 @@ export default function LogicBypassPage() {
   return (
     <SectionLayout
       title1="1.そのURL、誰でも実行できていませんか？"
-      title2="〜 リクエスト起点の厳格なアクセス制御 〜"
+      title2="〜 画面ではなく、リクエストを見る 〜"
       description={description}
       summary={summary}
       checklist={checklist}

@@ -256,7 +256,7 @@ export default function CacheTimingPage(){
                                 zIndex: 0,
                               }}
                             >
-                              <X size={92} color="#111827" style={{ opacity: 0.10 }} />
+                              <X size={95} color="#06080eff" style={{ opacity: 0.20 }} />
                             </div>
                             {/* 矢印＋ラベル（前面） */}
                             <div style={{ position: "relative", zIndex: 1, display: "grid", gap: 10 }}>
@@ -450,7 +450,7 @@ let temp = resp; // 画面表示に使ったら破棄する`}
                           borderRadius: 8,
                           padding: 12,
                           fontSize: 13,
-                          color: '#475569'
+                          color: '#313a47ff'
                         }}
                       >
                         <b>補足（上級）：</b> Service Worker などでキャッシュを扱う場合も同じで、
@@ -576,21 +576,21 @@ self.addEventListener('fetch', event => {
                 <div style={{ fontWeight: 700 }}>
                   【ステップ1】脆弱な実装で試す
                 </div>
-                <div style={{ color: '#475569', marginTop: 6 }}>
+                <div style={{ color: '#313a47ff', marginTop: 6 }}>
                   まず「⚠️ 脆弱な実装」を選択し、
                   <b>「全キャッシュをクリア」</b>を押してください。<br ></br>
                   その後、次の順にボタンを押します。
                   <br />
-                  　・「ロゴ取得時間を2回計測」<br />
-                  　・「ログイン状態取得時間を2回計測」<br />
-                  　・「過去ログ取得時間を2回計測」<br />
+                  　・「ロゴ取得を2回実行」<br />
+                  　・「ログイン状態取得を2回実行」<br />
+                  　・「過去ログ取得を2回実行」<br />
                 </div>
               </li>
               <li>
                 <div style={{ fontWeight: 700 }}>
                   【ステップ2】キャッシュ状況とアクセス時間を確認する
                 </div>
-                <div style={{ color: '#475569', marginTop: 6 }}>
+                <div style={{ color: '#313a47ff', marginTop: 6 }}>
                   現在のキャッシュ状況が<b>「なし」→「あり」</b>に変わることを確認し、結果のテーブルで<b>2回目のアクセスが速くなる</b>ことを見てみましょう。
                 </div>
               </li>
@@ -598,7 +598,7 @@ self.addEventListener('fetch', event => {
                 <div style={{ fontWeight: 700 }}>
                   【ステップ3】安全な実装でも試す
                 </div>
-                <div style={{ color: '#475569', marginTop: 6 }}>
+                <div style={{ color: '#313a47ff', marginTop: 6 }}>
                   「✓安全な実装」に切り替えて、同じように実行してみましょう。<br ></br>
                   特に、<b>「ログイン状態取得」</b>と<b>「過去ログ」</b>で時弱な実装と違いが出る点に注目しましょう。<br />
                   安全な実装では、<span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>サインイン情報（ログイン状態）や過去ログのような機密情報はキャッシュに残らない</span> ため、キャッシュ状況や速度の変化が起きにくいはずです。
@@ -619,7 +619,7 @@ self.addEventListener('fetch', event => {
     <div style={{ fontWeight: 700 }}>
       【ステップ1】脆弱な実装を選ぶ
     </div>
-    <div style={{ color: '#475569', marginTop: 6 }}>
+    <div style={{ color: '#313a47ff', marginTop: 6 }}>
       まず <b>「⚠️ 脆弱な実装」</b> を選びます。
       <br />
       このモードでは、ログイン後の情報や履歴が
@@ -631,7 +631,7 @@ self.addEventListener('fetch', event => {
     <div style={{ fontWeight: 700 }}>
       【ステップ2】同じ操作を2回くり返す
     </div>
-    <div style={{ color: '#475569', marginTop: 6 }}>
+    <div style={{ color: '#313a47ff', marginTop: 6 }}>
       <b>「全キャッシュをクリア」</b>を押してから、
       <br />
       右側の「ロゴにアクセス」や「過去ログAPIにアクセス」を
@@ -645,7 +645,7 @@ self.addEventListener('fetch', event => {
     <div style={{ fontWeight: 700 }}>
       【ステップ3】何が“ヒント”になっているかを見る
     </div>
-    <div style={{ color: '#475569', marginTop: 6 }}>
+    <div style={{ color: '#313a47ff', marginTop: 6 }}>
       画面の見た目ではなく、
       <span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>
         左側の時間（ms）と「キャッシュあり/なし」
@@ -660,7 +660,7 @@ self.addEventListener('fetch', event => {
     <div style={{ fontWeight: 700 }}>
       【ステップ4】安全な実装と比べてみる
     </div>
-    <div style={{ color: '#475569', marginTop: 6 }}>
+    <div style={{ color: '#313a47ff', marginTop: 6 }}>
       次に <b>「✓ 安全な実装」</b> に切り替えて、
       同じボタンを2回押してください。
       <br />
@@ -678,7 +678,7 @@ self.addEventListener('fetch', event => {
     borderRadius: 8,
     padding: 12,
     fontSize: 14,
-    color: '#475569',
+    color: '#313a47ff',
     lineHeight: 1.7
   }}
 >
@@ -807,17 +807,14 @@ self.addEventListener('fetch', event => {
         を考えずに使うと、
         意図しない情報漏えいにつながることがあります。
       </p>
-
       {/* 締め */}
       <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
         「正しく動いているように見える実装」でも、
         <b>処理時間や速さの違い</b>が
         ヒントになってしまうことがあります。
         <br />
-        次の章では、
-        この考え方が
-        <b>ログインや認証の処理</b>では
-        どのような問題につながるのかを見ていきます。
+        画面に何を表示するかだけでなく、
+「どんな情報が、どんな速さで返っているか」まで含めて実装を考えることが大切です。
       </div>
     </div>
   </CardContent>

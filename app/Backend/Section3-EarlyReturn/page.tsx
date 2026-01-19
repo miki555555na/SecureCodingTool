@@ -295,8 +295,6 @@ const children = (
                     <pre style={styles.code}>
 {`function insecureCompare(a: string, b: string): boolean {
   const len = Math.max(a.length, b.length);
-  const noise = randomInt(-100, 101) * 0.005;
-  const perCharDelayMs = cfg.perCharDelayMs + noise;
 
   // ⚠️ 入力内容によってループ回数が変わる
 `} <span style={{
@@ -350,8 +348,6 @@ const children = (
 {`function secureCompare(a: string, b: string): boolean {
   let result = true;
   const len = Math.max(a.length, b.length);
-  const noise = randomInt(-100, 101) * 0.005;
-  const perCharDelayMs = cfg.perCharDelayMs + noise;
 
   // ✓ 入力に関係なく一定回数ループする
 `} <span style={{
@@ -426,7 +422,7 @@ const children = (
             <div style={{ fontWeight: 700 }}>
               【ステップ1】脆弱な実装を試す
             </div>
-            <div style={{ color: '#475569', marginTop: 6 }}>
+            <div style={{ color: '#313a47ff', marginTop: 6 }}>
               まず「⚠️ 脆弱な実装（Early Return）」を選択しましょう。
             </div>
           </li>
@@ -435,7 +431,7 @@ const children = (
             <div style={{ fontWeight: 700 }}>
               【ステップ2】入力を変えて時間を比べる
             </div>
-            <div style={{ color: '#475569', marginTop: 6 }}>
+            <div style={{ color: '#313a47ff', marginTop: 6 }}>
               次の入力を順に試してみてください。
               <br />
               一致する文字が増えるにつれて、
@@ -457,7 +453,7 @@ const children = (
             <div style={{ fontWeight: 700 }}>
               【ステップ3】安全な実装を試す
             </div>
-            <div style={{ color: '#475569', marginTop: 6 }}>
+            <div style={{ color: '#313a47ff', marginTop: 6 }}>
               「✓ 安全な実装（Constant Time）」に切り替えて、
               同じ入力で再度実行してみましょう。
               今度は、

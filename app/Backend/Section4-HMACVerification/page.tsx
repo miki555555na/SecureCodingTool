@@ -754,7 +754,7 @@ const summary = (
         <div style={{ fontWeight: 700 }}>
           【ステップ1】脆弱な実装を選ぶ
         </div>
-        <div style={{ color: '#475569', marginTop: 6 }}>
+        <div style={{ color: '#313a47ff', marginTop: 6 }}>
           まず「⚠️ 脆弱な実装（Early Return）」を選択し、
           <b>実行</b>を押してください。
           <br />
@@ -766,7 +766,7 @@ const summary = (
         <div style={{ fontWeight: 700 }}>
           【ステップ2】1文字ずつ推測される様子を見る
         </div>
-        <div style={{ color: '#475569', marginTop: 6 }}>
+        <div style={{ color: '#313a47ff', marginTop: 6 }}>
           左のコンソールでは、
           攻撃者が
           <b>16通り（0–f）の候補</b>を順番に試し、
@@ -784,7 +784,7 @@ const summary = (
         <div style={{ fontWeight: 700 }}>
           【ステップ3】HMACが少しずつ判明していく
         </div>
-        <div style={{ color: '#475569', marginTop: 6 }}>
+        <div style={{ color: '#313a47ff', marginTop: 6 }}>
           処理時間の差を手がかりに、
           攻撃者は
           <b>HMACを1文字ずつ特定</b>していきます。
@@ -799,7 +799,7 @@ const summary = (
         <div style={{ fontWeight: 700 }}>
           【ステップ4】安全な実装と比べてみる
         </div>
-        <div style={{ color: '#475569', marginTop: 6 }}>
+        <div style={{ color: '#313a47ff', marginTop: 6 }}>
           次に「✓ 安全な実装（Constant Time）」に切り替えて、
           同じ操作を行ってみましょう。
           <br />
