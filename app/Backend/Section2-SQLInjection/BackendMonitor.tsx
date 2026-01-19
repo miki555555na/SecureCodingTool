@@ -12,13 +12,9 @@ type Props = {
 
 export default function BackendMonitor({ renderSqlPreview, logs, scrollRef }: Props) {
   return (
-    <Card style={{ fontSize: 17 }}>
-      <CardHeader>
-        <CardTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Code2 size={18} /> Backend Logic Monitor
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div>
+
+
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 6 }}>実行パイプライン:</div>
           <div style={{ background: '#000', padding: 15, borderRadius: 6, border: '1px solid #374151', overflowX: 'auto', color: '#d1d5db' }}>
@@ -39,7 +35,7 @@ export default function BackendMonitor({ renderSqlPreview, logs, scrollRef }: Pr
             {logs.length === 0 && <span style={{ opacity: 0.5 }}>System ready. Waiting for requests...</span>}
           </div>
         </div>
-      </CardContent>
-    </Card>
+        </div>
+
   )
 }
