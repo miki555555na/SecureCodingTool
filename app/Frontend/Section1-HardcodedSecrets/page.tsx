@@ -14,31 +14,107 @@ export default function HardCordPage() {
   );
 
   const checklist = (
-    <Card style={{ border: '2px solid #aee2feff', boxShadow: '0 2px 8px #0001', background: '#f5faffff' }}>
+    <Card
+      style={{
+        border: '2px solid #fed7aeff',
+        boxShadow: '0 2px 8px #0001',
+        background: '#fbf1e2ff',
+      }}
+    >
       <CardHeader style={{ paddingBottom: 3 }}>
-        <CardTitle style={{ fontSize: 17, marginTop: 0 }}>📝 やってみよう</CardTitle>
+        <CardTitle style={{ fontSize: 17, marginTop: 0 }}>
+          📝 1章の見どころ
+        </CardTitle>
       </CardHeader>
       <CardContent style={{ paddingTop: 0 }}>
-        <div style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
-          手順に沿ってデモを試してみましょう。
-          <ul className="list-disc list-inside mt-2">
-            <li>開発者ツール（F12）の Sources や検索でこのファイルを探す（コメントにテストキーがある）</li>
-            <li>見つけたキーをコピーして、デモの入力欄に貼り付けて「API を叩く」を押す</li>
-            <li>正しいキーであれば成功メッセージが出ることを確認する</li>
+        <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
+          <li>
+            ・なぜ、コードに書いただけで秘密情報がバレてしまう？
+          </li>
+          <li>
+            ・「隠したつもり」の環境変数は、本当に安全？
+          </li>
+          <li>
+            ・ブラウザの開発者ツールを使って、隠されたキーを探してみよう
+          </li>
+          <br />
+          <ul style={{ fontSize: 16, marginTop: 5 }}>
+            <b>→ 実際に動かしながら確認します</b>
           </ul>
-        </div>
+        </ul>
       </CardContent>
     </Card>
   );
 
   const summary = (
-    <Card className="border-gray-300 bg-gray-50">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-bold">推奨</CardTitle>
+        <CardTitle className="text-lg font-bold">
+          1章のまとめ
+        </CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-6 text-sm">
-        <div className="text-sm text-slate-600">
-           秘密情報はサーバー側で管理し、クライアントは自分のバックエンド（API route）を経由してアクセスする設計にしてください。
+        <div
+          className="rounded-md border p-4"
+          style={{
+            border: '2px solid #fed7aeff',
+            background: '#fbf1e2ff'
+          }}
+        >
+          <p className="font-semibold mb-3 text-slate-800" style={{ fontSize: 16 }}>
+            この章のポイントを振り返りましょう
+          </p>
+
+          <ul className="space-y-2 text-gray-700">
+            <li>
+              <b>Q.</b> フロントエンドのコードにAPIキーを書いてもいい？
+              <br />
+              <span className="ml-4">
+                <b>→ No.</b> ブラウザに配信されるコードは全て公開情報です。必ず漏洩します。
+              </span>
+            </li>
+
+            <li>
+              <b>Q.</b> 環境変数 (NEXT_PUBLIC_...) なら安全？
+              <br />
+              <span className="ml-4">
+                <b>→ No.</b> 接頭辞がついた環境変数はビルド時にコードに埋め込まれるため、やはり丸見えです。
+              </span>
+            </li>
+
+            <li>
+              <b>Q.</b> どう管理すべき？
+              <br />
+              <span className="ml-4">
+                <b>→ </b> 秘密情報は<b>サーバー側（バックエンド）</b>だけで管理し、フロントエンドからはプロキシ経由でアクセスさせます。
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div
+          className="rounded-md bg-white p-4 text-gray-800"
+          style={{ lineHeight: 1.8 }}
+        >
+          <p style={{ fontSize: 16 }}>
+            この章で体験したように、
+            <b>「ブラウザで動くコード」＝「世界中に公開しているコード」</b>
+            という認識を持つことが重要です。
+          </p>
+
+          <p style={{ fontSize: 16, marginTop: 12 }}>
+            コメントアウトしたつもりでも、難読化したつもりでも、
+            攻撃者はツールを使って簡単に元の情報を取り出せます。
+          </p>
+
+          <div className="mt-4 pt-3 border-t text-gray-700 font-medium">
+            秘密情報は、絶対に
+            <b>クライアント（ユーザーの手元）</b>
+            には渡さない。
+            <br />
+            これがフロントエンドセキュリティの鉄則です。
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -66,7 +142,7 @@ export default function HardCordPage() {
   return (
     <SectionLayout
       title1="1. その情報、コードに書いて大丈夫？"
-      title2="ハードコードの危険性"
+      title2="〜 ハードコードの危険性 〜"
       description={description}
       checklist={checklist}
       summary={summary}
