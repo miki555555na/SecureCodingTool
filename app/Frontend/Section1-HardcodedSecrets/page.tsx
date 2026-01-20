@@ -16,8 +16,7 @@ export default function HardCordPage() {
     しかしブラウザで動くコードは、
     <span className="bg-yellow-100 px-1 rounded">誰でも中身を見られる</span>という前提を忘れてはいけません。
     <br />
-    この章では、
-    「うっかり書いたキーがどうやって見つかるのか」を
+    この章では、<b>「うっかり書いたキーがどうやって見つかるのか」</b>を
     実際に体験します。
   </p>
 );
@@ -191,11 +190,11 @@ export default function HardCordPage() {
                   >
                     <div style={{ ...styles.codeLabel, color: '#dc2626' }}>⚠️ 脆弱な実装</div>
                     <pre style={styles.code}>
-{`⚠️ 1. フロントエンドに直接書くと、ブラウザで見られる
+{`// ⚠️ フロントエンドに直接書くと、ブラウザで見られる
 export const API_KEY =
   '`}<span style={{ background: '#ef4444', color: '#fff', padding: '1px 3px', borderRadius: 2 }}>sk_test_XXXXXXXXXXXXXXXXXXXX</span>{`';
 
-⚠️ 2. NEXT_PUBLIC_ 付きの環境変数は、ビルド時にコードへ埋め込まれる
+// ⚠️ NEXT_PUBLIC_ 付きの環境変数は、ビルド時にコードへ埋め込まれる
 const key = process.env.NEXT_PUBLIC_SECRET_API_KEY;`}
                     </pre>
                   </div>
@@ -221,10 +220,10 @@ const key = process.env.NEXT_PUBLIC_SECRET_API_KEY;`}
                     <pre style={styles.code}>
 {`// pages/api/proxy.ts（サーバー側）
 export default async function handler(req, res) {
-  ✓ サーバー環境変数からキーを読む（クライアントには渡さない）
+  // ✓ サーバー環境変数からキーを読む（クライアントには渡さない）
   const key = `}<span style={{ background: '#16a34a', color: '#fff', padding: '1px 3px', borderRadius: 2 }}>process.env.SECRET_KEY</span>{`;
   
-  ✓ サーバーが外部APIを呼ぶ
+  // ✓ サーバーが外部APIを呼ぶ
   const data = await fetch(..., {
     headers: { Authorization: key }
   });

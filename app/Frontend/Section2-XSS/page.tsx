@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState} from 'react';
+import React, {useMemo,useState} from 'react';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
 import SectionLayout from '../../Framework/SectionLayout';
@@ -20,6 +20,19 @@ function render(input) {
   // テキストとして挿入してエスケープする
   document.getElementById('output').textContent = input;
 }`;
+const btnBase: React.CSSProperties = {
+  padding: '8px 12px',
+  borderRadius: 6,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: '#d1d5db',
+  background: '#fff',
+  cursor: 'pointer',
+  fontWeight: 600
+};
+
+
+
 
 export default function XSSDemoPage() {
   const [mode, setMode] = useState<'vulnerable' | 'secure'>('vulnerable');
@@ -62,10 +75,10 @@ const checklist = (
     
     //description
     const description = (
-      <p>
-        ユーザーからの入力をそのままウェブページに表示する際、適切な対策を講じないとクロスサイトスクリプティング（XSS）攻撃のリスクがあります。
-        例えば、<code>&lt;script&gt;</code>タグや<code>onerror</code>属性を含む悪意のあるスクリプトが実行される可能性があります。
-        このセクションでは、脆弱な実装例と安全な実装例を比較しながら、XSS攻撃の仕組みと防止方法について学びます。
+      <p className="text-lg font-medium">
+        ユーザーからの入力をそのままウェブページに表示する際、適切な対策を講じないと<b>クロスサイトスクリプティング（XSS）攻撃</b>のリスクがあります。<br />
+        例えば、<code>&lt;script&gt;</code>タグや<code>onerror</code>属性を含む悪意のあるスクリプトが実行される可能性があります。<br />
+        この章では、脆弱な実装例と安全な実装例を比較しながら、XSS攻撃の仕組みと防止方法について学びます。
       </p>
     );
 
@@ -129,7 +142,7 @@ const checklist = (
             </p>
 
             <p style={{ fontSize: 16, marginTop: 12 }}>
-              Reactのようなモダンなフレームワークは、デフォルトでエスケープ処理を行うため、XSSリスクを軽減できます。
+              Reactのようなモダンなフレームワークは、デフォルトでエスケープ処理を行うため、XSSリスクを軽減できます。<br />
               ただし、<code>dangerouslySetInnerHTML</code>を使用する場合は、信頼できるデータのみを扱うように注意が必要です。
             </p>
 
@@ -144,12 +157,53 @@ const checklist = (
     );
 
     //デモ
-    const shownCode = mode === 'vulnerable'
-    ? `// 脆弱な実装\nfunction render(input) {\n  // ユーザー入力をそのままHTMLに埋め込む（危険）\n  document.getElementById('output').innerHTML = ${literalInput};\n}`
-    : `// 安全な実装\nfunction render(input) {\n  // テキストとして挿入してエスケープする\n  document.getElementById('output').textContent = ${literalInput};\n}`;
+    
+    
+
+
+    const shownCode =
+  mode === 'vulnerable'
+    ? `// 脆弱な実装
+function render(input) {
+  // ユーザー入力をそのままHTMLとして表示してしまう（危険）
+  document.getElementById('output').innerHTML = input;
+}
+
+// 入力例
+render(${literalInput});`
+    : `// 安全な実装
+function render(input) {
+  // テキストとして表示する（HTMLとして解釈しない）
+  document.getElementById('output').textContent = input;
+}
+
+// 入力例
+render(${literalInput});`;
+
+
+
+    const [rendered, setRendered] = useState(''); // 出力に反映する値（実行ボタンで更新）
+
+    const resetFlag = () => {
+      const el = document.getElementById('xss-flag');
+      if (el) el.textContent = 'まだ何も起きていません';
+    };
+
+    const run = () => {
+      resetFlag();
+      setRendered(input);
+    };
+
+    const clearOutput = () => {
+      resetFlag();
+      setInput('');      // ← 入力欄も消す
+      setRendered('');   // ← 出力も消す
+    };
+
+
 
     const children = (<>
-      <div style={{ background: '#fff', padding: 24, borderRadius: 10, border: '1px solid #e5e7eb', marginBottom: 12 }}>
+      <div style={{ background: '#fff', padding: 20, borderRadius: 8, border: '1px solid #e5e7eb' }}>
         <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Unlock size={20} color="#b91c1c" />
           攻撃者は、何を見ている？
@@ -165,7 +219,6 @@ const checklist = (
           また、攻撃者は、<b>どのようなデータがどのように表示されるか</b>を観察し、脆弱性を探します。
           例えば、<b>エラーメッセージや出力内容</b>に含まれる情報が、攻撃の手がかりになることがあります。
         </p>
-
         <div
           style={{
             marginTop: 14,
@@ -183,6 +236,7 @@ const checklist = (
           ・Reactの<code>dangerouslySetInnerHTML</code>は、名前の通り<b>危険</b>であり、信頼できるデータ以外には使用しない。
         </div>
       </div>
+      <br />
 
       <div style={{ marginBottom: 12 }}>
         <div
@@ -218,12 +272,12 @@ const checklist = (
           </CardTitle>
           <CardDescription>
             <p>
-              このデモでは、あなたが入力した内容が、ウェブページ上でどのように表示されるかを確認できます。
+              このデモでは、入力した文字がページにどう表示されるかを比べます。
               <br />
-              ユーザーからの入力をそのまま表示する場合（⚠️ 脆弱な実装）と、
-              テキストとして安全に表示する場合（✓ 安全な実装）を比較できます。
+              「⚠️ 脆弱な実装」では入力が<b>そのままHTMLとして扱われる</b>ため、
+              見た目が変わったり、勝手に動くものを仕込めてしまうことがあります。
               <br />
-              ユーザーからの入力をそのまま表示した場合、<b>ページ閲覧者への任意のJavaScript実行</b>につながる点に注目してください。
+              「✓ 安全な実装」では入力を<b>文字として表示</b>するので、同じことが起きません。
             </p>
           </CardDescription>
         </CardHeader>
@@ -232,34 +286,54 @@ const checklist = (
           <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
             🚀 試してみよう
           </h3>
-          <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
-            <li>
-              <div style={{ fontWeight: 700 }}>
-                【ステップ1】脆弱な実装で試す
-              </div>
-              <div style={{ color: '#475569', marginTop: 6 }}>
-                まず「脆弱な実装」を選択し、
-                入力欄に以下のようなコードを入力してみましょう。<br />
-                <code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>
-                  &lt;img src=x onerror=alert('This is XSS')&gt;
-                </code><br />
-                入力後、表示エリアでアラートが出ることを確認してください。<br />
-                これは、攻撃者が悪意のあるスクリプトを実行できる例です。
-              </div>
-            </li>
-            <li>
-              <div style={{ fontWeight: 700 }}>
-                【ステップ2】安全な実装で試す
-              </div>
-              <div style={{ color: '#475569', marginTop: 6 }}>
-                次に、それを「安全な実装」に切り替えて、同じコードを入力してみましょう。<br />
-                今度はアラートが出ず、コードがそのまま表示されることを確認してください。<br />
-                これは、攻撃者が悪意のあるスクリプトを実行できない例です。
-              </div>
-            </li>
-          </ol>
+
+<ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ1】まずは「見た目が変わる」入力で試す（確実に分かる）
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      「⚠️ 脆弱な実装」を選び、次を入力してみてください：
+      <br />
+      <code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>
+        &lt;b style="color:red"&gt;赤くなったら成功&lt;/b&gt;
+      </code>
+      <br />
+      出力が<b>赤い太字</b>になれば、「入力がそのままHTMLとして解釈されている」状態です。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ2】次に「勝手に動く」入力で試す（危険さが分かる）
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      つづけて次を入力してみてください：
+      <br />
+      <code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>
+        &lt;img src=x onerror="document.getElementById('xss-flag').textContent='✅ スクリプトが動いた'"&gt;
+      </code>
+      <br />
+      出力の下にある<b>「実行結果」</b>が変われば成功です。
+    </div>
+  </li>
+
+  <li>
+    <div style={{ fontWeight: 700 }}>
+      【ステップ3】「✓ 安全な実装」に切り替えて比べる
+    </div>
+    <div style={{ color: '#475569', marginTop: 6 }}>
+      同じ入力を「✓ 安全な実装」で試してください。
+      <br />
+      今度は<b>赤字にならず</b>、<b>実行結果も変わらない</b>ことを確認しましょう。
+      <br />
+      つまり「入力を文字として扱う」と、勝手に動かせなくなります。
+    </div>
+  </li>
+</ol>
         </CardContent>
       </Card>
+      <br />
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* 左: コード例 */}
@@ -268,52 +342,111 @@ const checklist = (
             <h2 className="font-semibold">コード例</h2>
             <div className="flex gap-2">
               <button
+              type='button'
                 aria-pressed={mode === 'vulnerable'}
-                onClick={() => setMode('vulnerable')}
-                className={`px-3 py-1 rounded ${mode === 'vulnerable' ? 'bg-red-600 text-white' : 'bg-red-100 text-red-700'}`}>
-                脆弱な実装
+                onClick={() => { setMode('vulnerable');
+                    const el = document.getElementById('xss-flag');
+                    if (el) el.textContent = 'まだ何も起きていません';
+                    resetFlag();
+                    setRendered('');
+                }}
+                
+                style={{
+                  ...btnBase,
+                  border: mode === 'vulnerable' ? '2px solid #ef4444' : '1px solid #cbd5e1',
+                  background: mode === 'vulnerable' ? '#fef2f2' : '#fff',
+                }}
+                >
+                  ⚠️ 脆弱な実装
               </button>
               <button
-                aria-pressed={mode === 'secure'}
-                onClick={() => setMode('secure')}
-                className={`px-3 py-1 rounded ${mode === 'secure' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-700'}`}>
-                安全な実装
+                type="button"
+                onClick={() => {setMode('secure');
+                    const el = document.getElementById('xss-flag');
+                    if (el) el.textContent = 'まだ何も起きていません';
+                    resetFlag();
+                    setRendered('');
+                }}
+                style={{
+                  ...btnBase,
+                  border: mode === 'secure' ? '2px solid #16a34a' : '1px solid #cbd5e1',
+                  background: mode === 'secure' ? '#f0fdf4' : '#fff'
+                }}
+              >
+                ✓ 安全な実装
               </button>
             </div>
           </div>
 
-          <div className={`whitespace-pre-wrap text-sm p-3 rounded ${mode === 'vulnerable' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
-            <div className="text-sm font-medium mb-2">コード例</div>
-            <pre className="p-3 bg-white rounded min-h-[120px] break-words text-gray-800 overflow-auto"><code>{shownCode}</code></pre>
+          <div className={`whitespace-pre-wrap text-sm p-3 rounded}`}>
+            <pre style={styles.code} className="p-3 bg-white rounded min-h-[120px] break-words text-gray-800 overflow-auto"><code>{shownCode}</code></pre>
           </div>
         </aside>
 
         {/* 右: デモ */}
         <section className="md:w-1/2 bg-white p-4 rounded border">
-          <h2 className="font-semibold mb-2">デモ</h2>
+          <h2 className="font-semibold mb-2">入力</h2>
 
           <label className="sr-only" htmlFor="xss-input">入力</label>
           <div className="flex gap-2 mb-3">
-            <input
-              id="xss-input"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1 border p-2 rounded"
-              placeholder="ここに入力... (例: &lt;img src=x onerror=alert('This is XSS')&gt;)"
-              aria-label="ユーザー入力"
-            />
-          </div>
+  <input
+    id="xss-input"
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    className="flex-1 border p-2 rounded"
+    placeholder="ここに入力... (例: <img src=x onerror=...>)"
+    aria-label="ユーザー入力"
+  />
+
+  <button
+    type="button"
+    onClick={run}
+    style={{
+      ...btnBase,
+      background: '#2563eb',
+      color: '#fff',
+      border: 'none',
+      fontWeight: 700
+    }}
+  >
+    実行
+  </button>
+
+  <button
+    type="button"
+    onClick={clearOutput}
+    style={{
+      ...btnBase,
+      background: '#fff',
+      border: '1px solid #cbd5e1',
+      color: '#334155'
+    }}
+  >
+    クリア
+  </button>
+</div>
 
           <div>
-            <h3 className="font-medium">出力</h3>
-            <div id="output" className="mt-2 p-3 border rounded min-h-[80px] bg-gray-50">
-              {mode === 'vulnerable' ? (
-                <div dangerouslySetInnerHTML={{ __html: input }} />
-              ) : (
-                <div>{input}</div>
-              )}
-            </div>
-          </div>
+  <h3 className="font-medium">出力</h3>
+
+  {/* ここが実際の出力 */}
+  <div id="output" className="mt-2 p-3 border rounded min-h-[80px] bg-gray-50">
+    {mode === 'vulnerable' ? (
+      <div dangerouslySetInnerHTML={{ __html: rendered }} />
+    ) : (
+      <div>{rendered}</div>
+    )}
+  </div>
+
+  {/* 実行結果 */}
+  <div className="mt-3 rounded border bg-white p-3 text-sm text-gray-700">
+    <div className="font-semibold mb-1">実行結果</div>
+    <div id="xss-flag" className="text-gray-600">
+      まだ何も起きていません
+    </div>
+  </div>
+</div>
+
 
           <p className="mt-3 text-sm text-gray-600">モード: {mode === 'vulnerable' ? '脆弱（dangerous: innerHTML を使用）' : '安全（textContent / React の自動エスケープ）'}</p>
         </section>
