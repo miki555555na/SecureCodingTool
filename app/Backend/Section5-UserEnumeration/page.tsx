@@ -406,7 +406,7 @@ export default function AuthFlowTimingPage() {
             </li>
             <br />
             <ul style={{ fontSize: 16, marginTop: 5 }}>
-              <b>→ 実際に動かしながら確認します</b>
+              <b>→ 実際に操作しながら、違いを体験します</b>
             </ul>
           </ul>
         </CardContent>
@@ -529,7 +529,7 @@ export default function AuthFlowTimingPage() {
 
 
   return (
-    <SectionLayout
+    <SectionLayout  
       title1="5. 返事の速さで、存在がバレる？"
       title2="〜 ログイン処理にひそむ時間差の落とし穴 〜"
       description={description}

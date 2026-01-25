@@ -75,7 +75,7 @@ export default function TimingAttackPage() {
 
             <br />
             <ul style={{ fontSize: 16, marginTop: 5 }}>
-              <b>→ 実際に動かしながら確認します</b>
+              <b>→ 実際に操作しながら、違いを体験します</b>
             </ul>
           </ul>
         </CardContent>

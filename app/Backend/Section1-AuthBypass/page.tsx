@@ -3,6 +3,7 @@
 import React from 'react'
 import SectionLayout from '../../Framework/SectionLayout'
 import { styles } from '../../Framework/SectionStyles'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { 
   Shield,
@@ -64,7 +65,7 @@ export default function LogicBypassPage() {
                 <li>・たった1つの確認を足すだけで、危なさはどう変わる？</li>
                 <br />
                 <ul style={{ fontSize: 16, marginTop: 5 }}>
-                  <b>→ 実際に動かしながら確認します</b>
+                  <b>→ 実際に操作しながら、違いを体験します</b>
                 </ul>
               </ul>
             </CardContent>
@@ -214,37 +215,6 @@ export default function LogicBypassPage() {
           <b>本来は許されていない操作</b>が実行できてしまうことがあります。
         </p>
         <br />
-        {/* 見出し
-        <p style={{ margin: 0, fontSize: 16.5, fontWeight: 600, color: '#1f2937' }}>
-          まず押さえたい「2つの確認」
-        </p>
-        {/* 2カラム */}
-        {/* <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div style={{ padding: 12, background: '#f0f9ff', borderRadius: 8, border: '1px solid #bae6fd' }}>
-            <div style={{ fontWeight: 700, color: '#0369a1', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <UserCheck size={16} />
-              ① ログインしている？
-            </div>
-            <div style={{ fontSize: 14, color: '#334155', lineHeight: 1.6 }}>
-              「このリクエストは、ログイン済みのユーザーから来ているか？」
-              を確認します。
-              <br />
-              ここがOKでも、それだけでは十分ではありません。
-            </div>
-          </div>
-          <div style={{ padding: 12, background: '#fefce8', borderRadius: 8, border: '1px solid #fde047' }}>
-            <div style={{ fontWeight: 700, color: '#854d0e', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Lock size={16} />
-              ② この操作をしていい？
-            </div>
-            <div style={{ fontSize: 14, color: '#334155', lineHeight: 1.6 }}>
-              「このユーザーが、このデータや操作に触ってよいか？」
-              を確認します。
-              <br />
-              例：<b>自分のデータだけ</b> / <b>管理者だけ</b>
-            </div>
-          </div>
-        </div>  */}
           <p style={{ margin: 0, fontSize: 16.5, fontWeight: 600, color: '#1f2937' }}>
             まず押さえたい「2段階の確認」
           </p>
@@ -459,7 +429,6 @@ export default function LogicBypassPage() {
 
     </>
   )
-
   return (
     <SectionLayout
       title1="1.そのURL、誰でも実行できていませんか？"

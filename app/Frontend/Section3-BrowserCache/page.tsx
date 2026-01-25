@@ -34,7 +34,8 @@ import {
   Globe,
   X,
   CornerUpLeft,
-  CornerDownLeft
+  CornerDownLeft,
+  Section
 } from 'lucide-react'
 
 
@@ -127,577 +128,426 @@ export default function CacheTimingPage(){
     </p>
     <p className="mt-3 text-gray-700">
       この章では、フロントエンド側の設定ひとつで、
-      <b>過去のアクセスや状態が推測されてしまう</b>場面を体験します。
+      <b>「前に誰かがアクセスしたか」「ログインしていたか」</b>
+      といった情報が、
+      <b>速さの違いだけで推測されてしまう</b>場面を体験します。
     </p>
   </>
 );
   const children = (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            {/* ①キャッシュの概念 */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                  {/* キャッシュとは） */}
-                  <div style={{ background: '#fff', padding: 20, borderRadius: 8, border: '1px solid #e5e7eb' }}>
-                    <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <HardDrive size={20} color="#2563eb" />キャッシュとは？
-                    </h3>
-                    {/* 一言まとめ */}
-                    <p style={{ fontSize: 17, fontWeight: 600, color: '#1f2937', marginBottom: 10 }}>
-                      キャッシュとは
-                      <span className="text-indigo-600">サーバーから取得したデータを、あとで使えるように保存しておく</span>仕組みです。
-                    </p>
-                    {/* やさしい説明 */}
-                    <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
-                      同じページに何度もアクセスする場合、
-                      毎回サーバーに取りに行かなくても済むため、
-                      表示を速くできます。<br ></br>
-                      ポイントは、
-                      <b>「2回目以降は、ブラウザとサーバー間の通信が不要になる」</b>
-                      という点です。
-                    </p>
-                    <br />
+    <>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {/* ①キャッシュの概念 */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* キャッシュとは） */}
+            <div style={{ background: '#fff', padding: 20, borderRadius: 8, border: '1px solid #e5e7eb' }}>
+              <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <HardDrive size={20} color="#2563eb" />キャッシュとは？
+              </h3>
+              {/* 一言まとめ */}
+              <p style={{ fontSize: 17, fontWeight: 600, color: '#1f2937', marginBottom: 10 }}>
+                キャッシュとは、
+                <span className="text-indigo-600">サーバーから取得したデータを、あとで使えるように保存しておく</span>仕組みです。
+              </p>
+              {/* やさしい説明 */}
+              <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
+                同じページに何度もアクセスする場合、
+                毎回サーバーに取りに行かなくても済むため、
+                表示を速くできます。<br ></br>
+                ポイントは、
+                <b>「2回目以降は、ブラウザとサーバー間の通信が不要になる」</b>
+                という点です。
+              </p><br />
+              {/* 図解 */}
+              <p style={{ fontSize: 14, color: '#475569', marginBottom: 10 }}>
+                ここでは、<b>1回目と2回目以降で「サーバーとの通信があるかどうか」</b>に注目してください。
+              </p>
+              <div
+                style={{
+                  background: "#f3f4f6",
+                  borderRadius: 10,
+                  padding: 18,
+                  alignItems: 'stretch',
+                  border: "1px solid #e5e7eb",
+                }}
+              >
+                {/* 1回目 */}
+                <Row leftLabel="1回目">
+                  <div style={nodeBox}>
+                    <Laptop size={24} />
+                    <div style={{ fontWeight: 700 }}>デバイス</div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10,  alignItems: 'stretch'}}>
+                    <ArrowWithLabel dir="right" label="① アドレスを入力" color="#16a34a" />
+                    <ArrowWithLabel dir="left" label="④ 表示" color="#b625ebff" />
+                  </div>
+                  <div style={nodeBox }>
+                    <Globe size={24} />
+                    <div style={{ fontWeight: 700 }}>ブラウザ</div>
+                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                      以前取得したデータを確認
+                    </div>
+                  </div>                     
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: 'stretch' }}>
+                    <ArrowWithLabel dir="right" label="② データの要求" color="#ef4444" />
+                    <ArrowWithLabel dir="left" label="③ データを送信" color="#2563eb" />
+                  </div>
+                  <div style={nodeBox}>
+                    <Server size={24} />
+                    <div style={{ fontWeight: 700 }}>サーバー</div>
+                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                      データを管理
+                    </div>
+                  </div>
+                </Row>
+                <div style={{ height: 40 }} />
+                {/* 2回目以降 */}
+                <Row leftLabel="2回目以降">
+                  <div style={nodeBox}>
+                    <Laptop size={24} />
+                    <div style={{ fontWeight: 700 }}>デバイス</div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: 'stretch' }}>
+                    <ArrowWithLabel dir="right" label="① アドレスを入力" color="#16a34a" />
+                    <ArrowWithLabel dir="left" label="③ 表示" color="#b625ebff" />
+                  </div>
+                  <div style={nodeBox}>
+                  <Globe size={24} />
+                  <div style={{ fontWeight: 700 }}>ブラウザ</div>
+                  <div style={{ fontSize: 11, color: '#64748b' }}>
+                    以前取得したデータを確認
+                  </div>
+                </div>
+                  {/* ② キャッシュを発見（ブラウザ右側） */}
+                  <div style={{ width: 140, display: "flex", flexDirection: "column", alignItems: 'stretch' }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "#eb25a6ff" }}>
+                      ② キャッシュを
+                      発見
+                    </div>
+                    <div style={{ marginTop: 4 }}>
+                      <CornerDownLeft size={20} color="#eb25a6ff" />
+                    </div>
+                  </div>
+                  {/* 通信不要を×で表現 */}
+              
+                  <div
+                    style={{
+                      width: 180,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 10,
+                      alignItems: 'stretch',
+                    }}
+                  >
+                    {/* 点線ボックス：通信の矢印だけを見せる */}
                     <div
                       style={{
-                        background: "#f3f4f6",
+                        width: "100%",
+                        position: "relative",
                         borderRadius: 10,
-                        padding: 18,
-                        alignItems: 'stretch',
-                        border: "1px solid #e5e7eb",
+                        border: "1px dashed #cbd5e1",
+                        background: "#fff",
+                        padding: 12,
+                        overflow: "hidden",
                       }}
                     >
-                      {/* 1回目 */}
-                      <Row leftLabel="1回目">
-                        <div style={nodeBox}>
-                          <Laptop size={24} />
-                          <div style={{ fontWeight: 700 }}>デバイス</div>
+                      {/* 背景の×（情報にかぶせない） */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          display: "flex",
+                          alignItems: 'stretch',
+                          justifyContent: "center",
+                          pointerEvents: "none",
+                          zIndex: 0,
+                        }}
+                      >
+                        <X size={95} color="#06080eff" style={{ opacity: 0.20 }} />
+                      </div>
+                      {/* 矢印＋ラベル（前面） */}
+                      <div style={{ position: "relative", zIndex: 1, display: "grid", gap: 10 }}>
+                        <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
+                          <ArrowRight size={20} color="#ef4444" />
+                          <span style={{ fontSize: 10, fontWeight: 800, color: "#ef4444" }}>
+                            データの要求
+                          </span>
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 10,  alignItems: 'stretch'}}>
-                          <ArrowWithLabel dir="right" label="① アドレスを入力" color="#16a34a" />
-                          <ArrowWithLabel dir="left" label="④ 表示" color="#b625ebff" />
-                        </div>
-                        <div style={nodeBox }>
-                          <Globe size={24} />
-                          <div style={{ fontWeight: 700 }}>ブラウザ</div>
-                          <div style={{ fontSize: 12, color: '#64748b' }}>
-                            キャッシュを確認
-                          </div>
-                        </div>                     
-                        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: 'stretch' }}>
-                          <ArrowWithLabel dir="right" label="② データの要求" color="#ef4444" />
-                          <ArrowWithLabel dir="left" label="③ データを送信" color="#2563eb" />
-                        </div>
-                        <div style={nodeBox}>
-                          <Server size={24} />
-                          <div style={{ fontWeight: 700 }}>サーバー</div>
-                          <div style={{ fontSize: 12, color: '#64748b' }}>
-                            データを管理
-                          </div>
-                        </div>
-                      </Row>
-                      <div style={{ height: 40 }} />
-                      {/* 2回目以降 */}
-                      <Row leftLabel="2回目以降">
-                        <div style={nodeBox}>
-                          <Laptop size={24} />
-                          <div style={{ fontWeight: 700 }}>デバイス</div>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: 'stretch' }}>
-                          <ArrowWithLabel dir="right" label="① アドレスを入力" color="#16a34a" />
-                          <ArrowWithLabel dir="left" label="③ 表示" color="#b625ebff" />
-                        </div>
-                        <div style={nodeBox}>
-                        <Globe size={24} />
-                        <div style={{ fontWeight: 700 }}>ブラウザ</div>
-                        <div style={{ fontSize: 10, color: '#64748b' }}>
-                          キャッシュを確認
+                        <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
+                          <ArrowLeft size={20} color="#2563eb" />
+                          <span style={{ fontSize: 10, fontWeight: 800, color: "#2563eb" }}>
+                            データを送信
+                          </span>
                         </div>
                       </div>
-                        {/* ② キャッシュを発見（ブラウザ右側） */}
-                        <div style={{ width: 140, display: "flex", flexDirection: "column", alignItems: 'stretch' }}>
-                          <div style={{ fontSize: 12, fontWeight: 800, color: "#eb25a6ff" }}>
-                            ② キャッシュを
-                            発見
-                          </div>
-                          <div style={{ marginTop: 4 }}>
-                            <CornerDownLeft size={20} color="#eb25a6ff" />
-                          </div>
-                        </div>
-                        {/* 通信不要を×で表現 */}
-                    
-                        <div
-                          style={{
-                            width: 180,
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 10,
-                            alignItems: 'stretch',
-                          }}
-                        >
-                          {/* 点線ボックス：通信の矢印だけを見せる */}
-                          <div
-                            style={{
-                              width: "100%",
-                              position: "relative",
-                              borderRadius: 10,
-                              border: "1px dashed #cbd5e1",
-                              background: "#fff",
-                              padding: 12,
-                              overflow: "hidden",
-                            }}
-                          >
-                            {/* 背景の×（情報にかぶせない） */}
-                            <div
-                              style={{
-                                position: "absolute",
-                                inset: 0,
-                                display: "flex",
-                                alignItems: 'stretch',
-                                justifyContent: "center",
-                                pointerEvents: "none",
-                                zIndex: 0,
-                              }}
-                            >
-                              <X size={95} color="#06080eff" style={{ opacity: 0.20 }} />
-                            </div>
-                            {/* 矢印＋ラベル（前面） */}
-                            <div style={{ position: "relative", zIndex: 1, display: "grid", gap: 10 }}>
-                              <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
-                                <ArrowRight size={20} color="#ef4444" />
-                                <span style={{ fontSize: 10, fontWeight: 800, color: "#ef4444" }}>
-                                  データの要求
-                                </span>
-                              </div>
-                              <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
-                                <ArrowLeft size={20} color="#2563eb" />
-                                <span style={{ fontSize: 10, fontWeight: 800, color: "#2563eb" }}>
-                                  データを送信
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          {/* 下のラベルを独立させて見やすく */}
-                          <div style={{ fontSize: 11, color: "#64748b", fontWeight: 800 }}>
-                            ブラウザとサーバー間の通信が要らなくなる
-                          </div>
-                        </div>               
-                        <div style={nodeBox}>
-                          <Server size={24} />
-                          <div style={{ fontWeight: 700 }}>サーバー</div>
-                          <div style={{ fontSize: 12, color: '#64748b' }}>
-                            データを生成
-                          </div>
-                        </div>
-                      </Row>                      
+                    </div>
+                    {/* 下のラベルを独立させて見やすく */}
+                    <div style={{ fontSize: 11, color: "#64748b", fontWeight: 800 }}>
+                      ブラウザとサーバー間の通信が要らなくなる
+                    </div>
+                  </div>               
+                  <div style={nodeBox}>
+                    <Server size={24} />
+                    <div style={{ fontWeight: 700 }}>サーバー</div>
+                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                      データを管理
                     </div>
                   </div>
-                  <div style={{ background: '#fff', padding: 24, borderRadius: 10, border: '1px solid #e5e7eb' }}>
-                    <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Unlock size={20} color="#b91c1c" />
-                      攻撃者は、何を見ている？
-                    </h3>
-                    <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
-                      開発者にとってキャッシュは、
-                      <b>表示を速くし、サーバー負荷を下げるための便利な仕組み</b>です。
-                      <br />
-                      「一度取得したデータを再利用する」のは、
-                      ごく自然で、よくある判断でしょう。
-                    </p>
+                </Row>                      
+              </div>
+              <p style={{ fontSize: 14, color: '#374151', marginTop: 12 }}>
+                このように、2回目以降はブラウザ内のキャッシュが使われるため、
+                <b>サーバーとの通信が省略され、表示が速くなります。</b>
+              </p>
+            </div>
+            <div style={{ background: '#fff', padding: 24, borderRadius: 10, border: '1px solid #e5e7eb' }}>
+              <h3 style={{ ...styles.h3, marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Unlock size={20} color="#b91c1c" />
+                攻撃者は、何を見ている？
+              </h3>
+              <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
+                開発者にとってキャッシュは、
+                <b>表示を速くし、サーバー負荷を下げるための便利な仕組み</b>です。
+                <br />
+                「一度取得したデータを再利用する」のは、
+                ごく自然で、よくある判断でしょう。
+              </p>
 
-                    <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7, marginTop: 12 }}>
-                      しかし、攻撃者の視点は少し違います。
-                      <br />
-                      攻撃者は、
-                      <span className="bg-yellow-100 px-1 rounded">
-                        「その速さは、なぜ速いのか？」
-                      </span>
-                      を見ています。
-                    </p>
+              <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7, marginTop: 12 }}>
+                しかし、攻撃者の視点は少し違います。
+                <br />
+                攻撃者は、
+                <span className="bg-yellow-100 px-1 rounded">
+                  「その速さは、なぜ速いのか？」
+                </span>
+                を見ています。
+              </p>
 
-                    <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7, marginTop: 12 }}>
-                      もしログイン後の情報や、
-                      ユーザーごとに異なるデータが
-                      <b>キャッシュに残る設定</b>になっていた場合、
-                      <br />
-                      <b>
-                        　・この端末で誰かがログインしたことがあるか  <br />
-                        　・どんな画面を開いたことがあるか  <br />
-                        　・どのサービスを使っていたか<br />
-                      </b>
-                      といった情報が、
-                      <b>表示の速さや挙動の違い</b>から推測できてしまいます。
-                    </p>
+              <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7, marginTop: 12 }}>
+                もしログイン後の情報や、
+                ユーザーごとに異なるデータが
+                <b>キャッシュに残る設定</b>になっていた場合、
+                <br />
+                <b>
+                  　・この端末で誰かがログインしたことがあるか  <br />
+                  　・どんな画面を開いたことがあるか  <br />
+                  　・どのサービスを使っていたか<br />
+                </b>
+                といった情報が、
+                <b>
+                  「初めてアクセスしたとき」と
+                  「すでにキャッシュがあるとき」
+                  の表示の速さの違い
+                </b>
+                から推測できてしまいます。
+              </p>
 
-                    <div
-                      style={{
-                        marginTop: 14,
-                        background: '#fef2f2',
-                        border: '1px solid #fca5a5',
-                        borderRadius: 8,
-                        padding: 12,
-                        fontSize: 14,
-                        color: '#7f1d1d'
-                      }}
-                    >
-                      <b>ポイント：</b><br />
-                      攻撃者は「画面の中身」ではなく、
-                      <b>キャッシュに残っていそうな情報があるかどうか</b>を確かめています。
+              <div
+                style={{
+                  marginTop: 14,
+                  background: '#fef2f2',
+                  border: '1px solid #fca5a5',
+                  borderRadius: 8,
+                  padding: 12,
+                  fontSize: 14,
+                  color: '#7f1d1d'
+                }}
+              >
+                <b>ポイント：</b><br />
+                攻撃者は「画面の中身」ではなく、
+                <b>キャッシュに残っていそうな情報があるかどうか</b>を確かめています。
+                <br />
+                表示が同じでも、<b>初回と2回目以降で速さが違えば</b>ヒントになります。
+
+              </div>
+              <div
+                style={{
+                  marginTop: 16,
+                  background: '#eef2ff',
+                  borderLeft: '4px solid #6366f1',
+                  borderRadius: 6,
+                  padding: 12
+                }}
+              >
+                <p style={{ margin: 0, fontWeight: 600, fontSize: 15 }}>
+                  よくある勘違い
+                </p>
+                <p style={{ marginTop: 6, fontSize: 14, lineHeight: 1.6 }}>
+                  「表示される内容が同じなら、問題は起きない」
+                  <br />
+                  → <b>実際には、表示の速さそのものが手がかりになることがあります。</b>
+                </p>
+                <p style={{ marginTop: 6, fontSize: 14, lineHeight: 1.6 }}>
+                  「速さが情報になるなら、キャッシュは使わない方がいい？」
+                  <br />
+                  → <b>キャッシュ自体が悪いわけではありません。</b>
+                  <br /><br />
+                  <b>大切なのは、
+                  <span className="bg-yellow-100 px-1 rounded">
+                    何をキャッシュしてよいか・いけないかを分けて考える
+                  </span>
+                  ことです。</b>
+                </p>
+              </div>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle style={{ marginBottom: 10 }}>
+                  キャッシュ設定の実装比較
+                </CardTitle>
+                <CardDescription>
+                  キャッシュは表示を速くするために役立ちます。<br />
+                  ただし、<b>ログイン後の情報や履歴</b>を「残す」扱いにすると、
+                  <b>速さの違い</b>から推測されることがあります。
+                </CardDescription>
+              </CardHeader>
+              <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb', margin: '3px 0' }} />
+              <CardContent>
+                <div style={styles.comparison}>
+                  {/* 脆弱な実装 */}
+                  <div style={styles.comparisonColumn}>
+                    <p style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.7 }}>
+                      <span style={{ color: '#dc2626', fontWeight: 600 }}>脆弱な実装</span>は、
+                      表示を速くする目的で、
+                      <b>ログイン後の情報などの機密情報までブラウザ側に残してしまう</b>例です。
                       <br />
-                      表示が同じでも、<b>速さが違えばヒントになります。</b>
+                      見た目が同じでも、
+                      <b>「前にアクセスがあったかどうか」</b>で速さが変わると、
+                      行動履歴のヒントになり得ます。
+                    </p>
+                    <div style={{ ...styles.codeContainer, background: '#fff7f6', border: '3px solid #fca5a5' }}>
+                      <div style={{ ...styles.codeLabel, color: '#dc2626' }}>
+                        ⚠️ 脆弱な実装
+                        <p style={{fontSize:14}}>（全ての情報を「残す」ことで速くしてしまう）</p>
+                      </div>
+                      <pre style={styles.code}>
+{`⚠️ 例1 キャッシュを強制（毎回、残っている可能性がある）
+fetch('/api/user/history', { cache: 'force-cache' })
+  .then(r => r.json());
+
+⚠️ 例2 履歴データをブラウザに保存（次回以降ずっと残る）
+localStorage.setItem('user_history', JSON.stringify(resp));`}
+                        </pre>
+                        <div style={{ fontSize: 12, color: '#7f1d1d', marginTop: 8 }}>
+                          ※「ログイン後の履歴」などを残すと、別ユーザーや共有端末で問題になりやすい。
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      style={{
-                        marginTop: 16,
-                        background: '#eef2ff',
-                        borderLeft: '4px solid #6366f1',
-                        borderRadius: 6,
-                        padding: 12
-                      }}
-                    >
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: 15 }}>
-                        よくある勘違い
+                    <div style={styles.divider} />
+                    {/* 安全な実装 */}
+                    <div style={styles.comparisonColumn}>
+                      <p style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.7 }}>
+                        <span style={{ color: '#16a34a', fontWeight: 600 }}>安全な実装</span>は、
+                        <b>機密情報はキャッシュに残さない</b>ことを徹底しつつ、
+                        速さが必要な部分だけを最適化する考え方です。<br />
+                        「残す / 残さない」を分けると、
+                        <b>攻撃者が速さを比較しても、違いが出にくくなります。</b>
+                        <br /> 
                       </p>
-                      <p style={{ marginTop: 6, fontSize: 14, lineHeight: 1.6 }}>
-                        「表示される内容が同じなら、問題は起きない」
-                        <br />
-                        → <b>実際には、表示の速さそのものが手がかりになることがあります。</b>
-                      </p>
-                      <p style={{ marginTop: 6, fontSize: 14, lineHeight: 1.6 }}>
-                        「速さが情報になるなら、キャッシュは使わない方がいい？」
-                        <br />
-                        → <b>キャッシュ自体が悪いわけではありません。</b>
-                        <br />
-                        大切なのは、
-                        <span className="bg-yellow-100 px-1 rounded">
-                          何をキャッシュしてよいか・いけないかを分けて考える
-                        </span>
-                        ことです。
-                      </p>
+                      <div style={{ ...styles.codeContainer, background: '#f7fffa', border: '3px solid #86efac' }}>
+                        <div style={{ ...styles.codeLabel, color: '#16a34a' }}>
+                          ✓ 安全な実装<p style = {{fontSize:14}}>(機密情報は残さず、その場で使う)</p>
+                        </div>
+                        <pre style={styles.code}>
+{`✓例1 毎回取りに行く（ブラウザに残さない）
+fetch('/api/user/history', { cache: 'no-store', credentials: 'include' })
+  .then(r => r.json());
+
+✓例2 永続化しない（必要ならメモリに一時保持して破棄）
+let temp = resp; // 画面表示に使ったら破棄する`}
+                        </pre>
+                        <div style={{ fontSize: 12, color: '#14532d', marginTop: 8 }}>
+                          ※ 画像ロゴなど「公開してよいもの」はキャッシュしてOK。問題は「個人に紐づく情報」を残すこと。
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
+                <div>
                   <Card>
                     <CardHeader>
                       <CardTitle style={{ marginBottom: 10 }}>
-                        キャッシュ設定の実装比較
+                        キャッシュ設定による処理時間の比較：キャッシュがあると「返事の速さ」はどう変わる？
                       </CardTitle>
                       <CardDescription>
-                        キャッシュは表示を速くするために役立ちます。<br />
-                        ただし、<b>ログイン後の情報や履歴</b>を「残す」扱いにすると、
-                        <b>速さの違い</b>から推測されることがあります。
+                        <p>
+                          このデモでは、
+                          <b>同じ画面・同じ操作でも</b>、
+                          「前にアクセスしたことがあるかどうか」で
+                          <b>返事の速さが変わる</b>様子を体験します。
+                          <br />
+                          速さの違いが、
+                          <b>ログイン状況や利用履歴の推測</b>につながる点に注目してください。
+                        </p>
                       </CardDescription>
                     </CardHeader>
-                    <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb', margin: '3px 0' }} />
-                    <CardContent>
-                      <div style={styles.comparison}>
-                        {/* 脆弱な実装 */}
-                        <div style={styles.comparisonColumn}>
-                          <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
-                            <span style={{ color: '#dc2626', fontWeight: 600 }}>脆弱な実装</span>は、
-                            「速くするために」<b>ログイン後の情報などの機密情報をブラウザ側に残してしまう</b>例です。
+                    <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb'}} />
+                    <CardContent className="space-y-4"> 
+                      <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
+                        🚀 試してみよう
+                      </h3>
+                      <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
+                        <li>
+                          <div style={{ fontWeight: 700 }}>
+                            【ステップ1】まずはキャッシュが「空の状態」から始める
+                          </div>
+                          <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                            「⚠️ 脆弱な実装」を選択し、<b>「全キャッシュをクリア」</b>を押してください。<br />
+                            これは、<b>「初めてアクセスした状態」</b>を再現するためです。
+                          </div>
+                        </li>
+                        <li>
+                          <div style={{ fontWeight: 700 }}>
+                            【ステップ2】同じ操作を2回ずつ実行する
+                          </div>
+                          <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                            次に、以下のボタンを、それぞれ<b>続けて2回</b>押してください。
                             <br />
-                            表示内容が同じでも、<b>残っている / いない</b>で速さが変わると、
-                            行動履歴のヒントになり得ます。
-                          </p>
-                          <div style={{ ...styles.codeContainer, background: '#fff7f6', border: '3px solid #fca5a5' }}>
-                            <div style={{ ...styles.codeLabel, color: '#dc2626' }}>
-                              ⚠️ 脆弱な実装
-                              <p style={{fontSize:14}}>（全ての情報を「残す」ことで速くしてしまう）</p>
-                            </div>
-                            <pre style={styles.code}>
-{`⚠️ 例1) 速さ優先でキャッシュを強制（毎回、残っている可能性がある）
-fetch('/api/user/history', { cache: 'force-cache' })
-  .then(r => r.json());
-
-⚠️ 例2) 履歴データをブラウザに保存（次回以降ずっと残る）
-localStorage.setItem('user_history', JSON.stringify(resp));`}
-                            </pre>
-                            <div style={{ fontSize: 12, color: '#7f1d1d', marginTop: 8 }}>
-                              ※「ログイン後の履歴」などを残すと、別ユーザーや共有端末で問題になりやすい
-                            </div>
+                            　・ロゴにアクセスする<br />
+                            　・ログイン状態にアクセスする<br />
+                            　・過去ログにアクセスする<br />
                           </div>
-                        </div>
-                        <div style={styles.divider} />
-                        {/* 安全な実装 */}
-                        <div style={styles.comparisonColumn}>
-                          <p style={{ fontSize: 16, marginBottom: 20, lineHeight: 1.6 }}>
-                            <span style={{ color: '#16a34a', fontWeight: 600 }}>安全な実装</span>は、
-                            <b>機密情報はキャッシュに残さない</b>ことを徹底しつつ、
-                            速さが必要な部分だけを最適化する考え方です。
-                            「残す / 残さない」を分けると、推測されにくくなります。
-                          </p>
-                          <div style={{ ...styles.codeContainer, background: '#f7fffa', border: '3px solid #86efac' }}>
-                            <div style={{ ...styles.codeLabel, color: '#16a34a' }}>
-                              ✓ 安全な実装<p style = {{fontSize:14}}>(機密情報は残さず、その場で使う)</p>
-                            </div>
-                            <pre style={styles.code}>
-{`✓例1) 毎回取りに行く（ブラウザに残さない）
-fetch('/api/user/history', { cache: 'no-store', credentials: 'include' })
-  .then(r => r.json());
-
-✓例2) 永続化しない（必要ならメモリに一時保持して破棄）
-let temp = resp; // 画面表示に使ったら破棄する`}
-                            </pre>
-                            <div style={{ fontSize: 12, color: '#14532d', marginTop: 8 }}>
-                              ※ 画像ロゴなど「公開してよいもの」はキャッシュしてOK。問題は「個人に紐づく情報」を残すこと。
-                            </div>
+                        </li>
+                        <li>
+                          <div style={{ fontWeight: 700 }}>
+                            【ステップ3】キャッシュと処理時間の関係を見る
                           </div>
-                        </div>
-                      </div>
-                      {/* 上級向け補足（最小） */}
-                      <div
-                        style={{
-                          marginTop: 14,
-                          background: '#f8fafc',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: 8,
-                          padding: 12,
-                          fontSize: 13,
-                          color: '#313a47ff'
-                        }}
-                      >
-                        <b>補足（上級）：</b> Service Worker などでキャッシュを扱う場合も同じで、
-                        「残してよいもの」だけを対象にし、個人情報が混ざるレスポンスは残さない方針にします。
-                      </div>
-                    </CardContent>
-                  </Card>
-                  {/* <Card>
-                    <CardHeader>
-                      <CardTitle style={{ marginBottom: 10 }}>
-                        キャッシュ設定の比較
-                      </CardTitle>
-                      <CardDescription>
-                        キャッシュ設定の際の  
-                        <b>時間差が生まれる実装</b>と
-                        <b>時間差を防ぐ安全な実装</b>を
-                        比較して見てみましょう。
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-          <div style={styles.comparison}>
-            <div style={styles.comparisonColumn}>
-              <h3 style={styles.h3}>⚠️ 脆弱な実装</h3>
-              <p style={{ fontSize: 15, marginBottom: 8 }}>
-                クライアントで強制的にキャッシュを利用したり、敏感なデータを永続ストレージに残す例。
-              </p>
-              <div style={{ ...styles.codeContainer, background: '#fff7f6', border: '3px solid #fca5a5' }}>
-                <div style={{ ...styles.codeLabel, color: '#dc2626' }}>✗ NG: fetch でキャッシュを強制</div>
-                <pre style={styles.code}>
-{`// fetch で force-cache を使うと、共有キャッシュや古いレスポンスを参照してしまう可能性がある
-fetch('/api/user/history', { cache: 'force-cache' })
-  .then(r => r.json())
-  .then(data => console.log(data));`}
-                </pre>
-
-                <div style={{ ...styles.codeLabel, color: '#dc2626', marginTop: 10 }}>✗ NG: localStorage に機微データを保存</div>
-                <pre style={styles.code}>
-{`// localStorage はブラウザに永続的に残り、他のスクリプトから参照されるリスクがある
-localStorage.setItem('user_history', JSON.stringify(resp));
-const saved = JSON.parse(localStorage.getItem('user_history'));`}
-                </pre>
-
-                <div style={{ ...styles.codeLabel, color: '#dc2626', marginTop: 10 }}>✗ NG: Service Worker が検証なしにキャッシュ</div>
-                <pre style={styles.code}>
-{`// Service Worker で検証せずにレスポンスをキャッシュすると機微情報が共有キャッシュ層に残る
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.open('v1').then(cache =>
-      cache.match(event.request).then(resp => resp || fetch(event.request).then(r => { cache.put(event.request, r.clone()); return r; }))
-    )
-  );
-});
-`}
-                </pre>
+                          <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                            左の「現在のキャッシュ状況」が
+                            <b>「なし → あり」</b>に変わる様子と、<br />
+                            「結果」で<b>2回目のアクセスが速くなる</b>点に注目してください。<br />
+                            これは、<b>ブラウザが過去のデータを手元に残している</b>ために起きています。<br />
+                          </div>
+                        </li>
+                        <li>
+                          <div style={{ fontWeight: 700 }}>
+                            【ステップ4】安全な実装と比べる
+                          </div>
+                          <div style={{ color: '#313a47ff', marginTop: 6 }}>
+                            次に<b>「✓ 安全な実装」</b>に切り替えて、
+                            同じ操作をもう一度行ってみましょう。<br />
+                            今度は、ログイン状態と過去ログでは、
+                            キャッシュ状況や処理時間がほとんど変わらないことが確認できます。<br />
+                            これは、
+                            <span style={{ color: '#4f46e5', fontWeight: 600 }}>
+                              機密情報をキャッシュに残さない設計
+                            </span>
+                            になっているためです。
+                          </div>
+                        </li>
+                      </ol>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 10}}>
+                    <CacheDemo />
+                  </div>
+                </div>
               </div>
             </div>
-            <div style={styles.divider} />
-            <div style={styles.comparisonColumn}>
-              <h3 style={styles.h3}>✓ 安全な実装</h3>
-              <p style={{ fontSize: 15, marginBottom: 8 }}>
-                クライアント側で明示的にキャッシュを無効化し、機微な情報はブラウザ永続ストレージに残さないことを推奨します。Service Worker はヘッダを検査してからキャッシュ。
-              </p>
-              <div style={{ ...styles.codeContainer, background: '#f7fffa', border: '3px solid #86efac' }}>
-                <div style={{ ...styles.codeLabel, color: '#16a34a' }}>✓ OK: fetch でキャッシュを無効化</div>
-                <pre style={styles.code}>
-{`// 即時の最新データが必要な場合は no-store を指定（中間キャッシュも使わせない）
-fetch('/api/user/history', { cache: 'no-store', credentials: 'include' })
-  .then(r => r.json())
-  .then(data => console.log(data));`}
-                </pre>
-
-                <div style={{ ...styles.codeLabel, color: '#16a34a', marginTop: 10 }}>✓ OK: 機微データを永続化しない</div>
-                <pre style={styles.code}>
-{`// 永続化は避ける。必要なら短時間のメモリ保持のみ。
-let temp = resp; // メモリ内で一時利用して破棄する
-// 不要なフィールドはサーバ側で除去して返す（例: full logs -> count のみ）`}
-                </pre>
-
-                <div style={{ ...styles.codeLabel, color: '#16a34a', marginTop: 10 }}>✓ OK: Service Worker はヘッダを確認してキャッシュ</div>
-                <pre style={styles.code}>
-{`// Service Worker 側で Cache-Control を確認してからキャッシュする
-self.addEventListener('fetch', event => {
-  event.respondWith(fetch(event.request).then(resp => {
-    const cc = resp.headers.get('Cache-Control') || '';
-    if (cc.includes('no-store')) return resp;
-    // 条件を満たす場合のみキャッシュする（検証した上で）
-    const copy = resp.clone();
-    caches.open('v1').then(cache => cache.put(event.request, copy));
-    return resp;
-  }));
-});
-`}
-                </pre>
-              </div>
-            </div>
-          </div>
-          </CardContent>
-                  </Card> */}
-        <Card>
-          <CardHeader>
-            <CardTitle style={{ marginBottom: 10 }}>
-              キャッシュ設定による処理時間の比較：キャッシュがあると「返事の速さ」はどう変わる？
-            </CardTitle>
-            <CardDescription>
-              <p>
-                このデモでは、
-                <b>同じ画面・同じ操作でも</b>、
-                「前にアクセスしたことがあるかどうか」で
-                <b>返事の速さが変わる</b>様子を体験します。
-                <br />
-                速さの違いが、
-                <b>ログイン状況や利用履歴の推測</b>につながる点に注目してください。
-              </p>
-            </CardDescription>
-          </CardHeader>
-          <hr style={{ border: 'none', height: 0.1, background: '#e5e7eb'}} />
-          <CardContent className="space-y-4"> 
-            <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
-              🚀 試してみよう
-            </h3>
-            <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
-              <li>
-                <div style={{ fontWeight: 700 }}>
-                  【ステップ1】脆弱な実装で試す
-                </div>
-                <div style={{ color: '#313a47ff', marginTop: 6 }}>
-                  まず「⚠️ 脆弱な実装」を選択し、
-                  <b>「全キャッシュをクリア」</b>を押してください。<br ></br>
-                  その後、次の順にボタンを押します。
-                  <br />
-                  　・「ロゴ取得を2回実行」<br />
-                  　・「ログイン状態取得を2回実行」<br />
-                  　・「過去ログ取得を2回実行」<br />
-                </div>
-              </li>
-              <li>
-                <div style={{ fontWeight: 700 }}>
-                  【ステップ2】キャッシュ状況とアクセス時間を確認する
-                </div>
-                <div style={{ color: '#313a47ff', marginTop: 6 }}>
-                  現在のキャッシュ状況が<b>「なし」→「あり」</b>に変わることを確認し、結果のテーブルで<b>2回目のアクセスが速くなる</b>ことを見てみましょう。
-                </div>
-              </li>
-              <li>
-                <div style={{ fontWeight: 700 }}>
-                  【ステップ3】安全な実装でも試す
-                </div>
-                <div style={{ color: '#313a47ff', marginTop: 6 }}>
-                  「✓安全な実装」に切り替えて、同じように実行してみましょう。<br ></br>
-                  特に、<b>「ログイン状態取得」</b>と<b>「過去ログ」</b>で時弱な実装と違いが出る点に注目しましょう。<br />
-                  安全な実装では、<span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>サインイン情報（ログイン状態）や過去ログのような機密情報はキャッシュに残らない</span> ため、キャッシュ状況や速度の変化が起きにくいはずです。
-                </div>
-              </li>
-            </ol>
-
-<div style={{ marginTop: 12 }}>
-  <CacheDemo />
-</div>
-
-              {/* <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
-  🚀 試してみよう
-</h3>
-
-<ol className="ml-4 space-y-4" style={{ fontSize: 16, lineHeight: 1.8 }}>
-  <li>
-    <div style={{ fontWeight: 700 }}>
-      【ステップ1】脆弱な実装を選ぶ
-    </div>
-    <div style={{ color: '#313a47ff', marginTop: 6 }}>
-      まず <b>「⚠️ 脆弱な実装」</b> を選びます。
-      <br />
-      このモードでは、ログイン後の情報や履歴が
-      <b>キャッシュに残る</b>前提です。
-    </div>
-  </li>
-
-  <li>
-    <div style={{ fontWeight: 700 }}>
-      【ステップ2】同じ操作を2回くり返す
-    </div>
-    <div style={{ color: '#313a47ff', marginTop: 6 }}>
-      <b>「全キャッシュをクリア」</b>を押してから、
-      <br />
-      右側の「ロゴにアクセス」や「過去ログAPIにアクセス」を
-      <b>同じボタンで2回続けて</b>押してください。
-      <br />
-      2回目が速くなれば、<b>「前に見た（残っている）」</b>ことが推測できます。
-    </div>
-  </li>
-
-  <li>
-    <div style={{ fontWeight: 700 }}>
-      【ステップ3】何が“ヒント”になっているかを見る
-    </div>
-    <div style={{ color: '#313a47ff', marginTop: 6 }}>
-      画面の見た目ではなく、
-      <span style={{ background: '#fef9c3', padding: '2px 6px', borderRadius: 4 }}>
-        左側の時間（ms）と「キャッシュあり/なし」
-      </span>
-      に注目してください。
-      <br />
-      ここが変わると、外から「ログイン済み」「履歴を見た」などが推測されることがあります。
-    </div>
-  </li>
-
-  <li>
-    <div style={{ fontWeight: 700 }}>
-      【ステップ4】安全な実装と比べてみる
-    </div>
-    <div style={{ color: '#313a47ff', marginTop: 6 }}>
-      次に <b>「✓ 安全な実装」</b> に切り替えて、
-      同じボタンを2回押してください。
-      <br />
-      今度は、ログイン後の情報（サインイン画像・過去ログAPI）が
-      <b>2回目でも速くならない</b>ことを確認します。
-    </div>
-  </li>
-</ol>
-
-<div
-  style={{
-    marginTop: 12,
-    background: '#f8fafc',
-    border: '1px solid #e2e8f0',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 14,
-    color: '#313a47ff',
-    lineHeight: 1.7
-  }}
->
-  <b>見るポイント：</b>
-  「表示が同じ」でも、
-  <b>速さが違う</b>と情報のヒントになります。
-  <br />
-  キャッシュは便利ですが、
-  <b>個人に紐づく情報を“残す”扱いにしない</b>ことが重要です。
-</div> */}
-
-
-            {/* <div style={{ marginTop: 12 }}>
-            <CacheDemo />
-          </div> */}
-          </CardContent>
-        </Card>
-      </div>
-      </div>
+          </> 
   )
   const checklist = (
         <Card
@@ -715,17 +565,17 @@ self.addEventListener('fetch', event => {
           <CardContent style={{ paddingTop: 0 }}>
             <ul style={{ fontSize: 15, marginLeft: 18, marginBottom: 0 }}>
               <li>
-                ・「前に見たページかどうか」は、どうやって分かる？
+                ・「前に見たページかどうか」は、実は速さで分かってしまう
               </li>
               <li>
-                ・なぜ表示されている内容が同じでも、速さが変わるの？
+                ・表示される内容が同じでも、処理のしかたで速さが変わる
               </li>
               <li>
-                ・フロントエンドの実装で、どこに気をつければいい？
+                ・その違いが起きないよう、フロントエンド実装で何を意識すべきか
               </li>
               <br />
               <ul style={{ fontSize: 16, marginTop: 5 }}>
-                <b>→ 実際に動かしながら確認します</b>
+                <b>→ デモを動かしながら、速さが情報になる瞬間を体験します</b>
               </ul>
             </ul>
           </CardContent>
@@ -749,12 +599,12 @@ self.addEventListener('fetch', event => {
       }}
     >
       <p className="font-semibold mb-3 text-slate-800" style={{ fontSize: 16 }}>
-        この章のはじめに投げた問い、答えはこうでした
+        この章のポイントを振り返りましょう
       </p>
 
       <ul className="space-y-2 text-gray-700">
         <li>
-          <b>Q.</b> 「前に見たページかどうか」は、どうやって分かる？
+          <b>Q.</b>「前に見たページかどうか」は、どうやって分かる？
           <br />
           <span className="ml-4">
             <b>→ </b>
@@ -763,7 +613,7 @@ self.addEventListener('fetch', event => {
         </li>
 
         <li>
-          <b>Q.</b> なぜ表示されている内容が同じでも、速さが変わるの？
+          <b>Q.</b> 同じ内容なのに、なぜ表示の速さが変わるの？
           <br />
           <span className="ml-4">
             <b>→ </b>
@@ -772,11 +622,11 @@ self.addEventListener('fetch', event => {
         </li>
 
         <li>
-          <b>Q.</b> フロントエンドの実装で、どこに気をつければいい？
+          <b>Q.</b> その違いを生まないために、フロントエンド実装で何に気をつけるべき？
           <br />
           <span className="ml-4">
             <b>→ </b>
-            <b>個人にひもづく情報をキャッシュに残していないか</b>を意識すること
+            <b>個人に紐ずく情報をキャッシュに残していないか</b>を意識する
           </span>
         </li>
       </ul>
