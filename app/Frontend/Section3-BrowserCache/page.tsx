@@ -83,24 +83,32 @@ export default function CacheTimingPage(){
   );
 
   const Row: React.FC<{ leftLabel: string; children: React.ReactNode }> = ({ leftLabel, children }) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-      <div style={{ width: 90, fontWeight: 900, color: "#0f172a", fontSize: 13 }}>{leftLabel}</div>
-      {children}
-    </div>
+    <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "80px repeat(6, auto)", // 左ラベル + 本体
+      columnGap: 14,
+      alignItems: "center", // ★ 縦基準を統一
+      justifyContent: "center",
+      fontSize: 13,
+    }}
+  >
+    <div style={{ fontWeight: 700 }}>{leftLabel}</div>
+    {children}
+  </div>
   );
-  const nodeBox: React.CSSProperties = {
-  width: 130,
-  minHeight: 110,            // ← 高さを固定 or 最小値指定
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: 4,
-  background: '#fff',
-  border: '1px solid #e5e7eb',
-  borderRadius: 8,
-  padding: 10,
-  textAlign: 'center'
+  const nodeBox: React.CSSProperties = 
+{
+  width: 140,
+  height: 120,               // ★ 高さを固定
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",  // ★ 縦中央
+  alignItems: "center",      // ★ 横中央
+  gap: 6,
+  background: "#fff",
+  borderRadius: 10,
+  border: "1px solid #e5e7eb",
 };
 
   const description = (
@@ -162,22 +170,23 @@ export default function CacheTimingPage(){
               <p style={{ fontSize: 14, color: '#475569', marginBottom: 10 }}>
                 ここでは、<b>1回目と2回目以降で「サーバーとの通信があるかどうか」</b>に注目してください。
               </p>
-              <div
-                style={{
-                  background: "#f3f4f6",
-                  borderRadius: 10,
-                  padding: 18,
-                  alignItems: 'stretch',
-                  border: "1px solid #e5e7eb",
-                }}
-              >
+              <div style={{ background: "#f3f4f6", borderRadius: 10, padding: 18, alignItems: 'stretch', border: "1px solid #e5e7eb", }} >
                 {/* 1回目 */}
                 <Row leftLabel="1回目">
                   <div style={nodeBox}>
                     <Laptop size={24} />
                     <div style={{ fontWeight: 700 }}>デバイス</div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10,  alignItems: 'stretch'}}>
+                  <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center", // ★ nodeBox と縦位置を合わせる
+    gap: 10,
+    minHeight: 120,           // ★ nodeBox と同じ
+  }}
+>
+
                     <ArrowWithLabel dir="right" label="① アドレスを入力" color="#16a34a" />
                     <ArrowWithLabel dir="left" label="④ 表示" color="#b625ebff" />
                   </div>
@@ -188,7 +197,16 @@ export default function CacheTimingPage(){
                       以前取得したデータを確認
                     </div>
                   </div>                     
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: 'stretch' }}>
+                  <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center", // ★ nodeBox と縦位置を合わせる
+    gap: 10,
+    minHeight: 120,           // ★ nodeBox と同じ
+  }}
+>
+
                     <ArrowWithLabel dir="right" label="② データの要求" color="#ef4444" />
                     <ArrowWithLabel dir="left" label="③ データを送信" color="#2563eb" />
                   </div>
@@ -207,7 +225,16 @@ export default function CacheTimingPage(){
                     <Laptop size={24} />
                     <div style={{ fontWeight: 700 }}>デバイス</div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: 'stretch' }}>
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center", // ★ nodeBox と縦位置を合わせる
+    gap: 10,
+    minHeight: 120,           // ★ nodeBox と同じ
+  }}
+>
+
                     <ArrowWithLabel dir="right" label="① アドレスを入力" color="#16a34a" />
                     <ArrowWithLabel dir="left" label="③ 表示" color="#b625ebff" />
                   </div>
@@ -219,7 +246,15 @@ export default function CacheTimingPage(){
                   </div>
                 </div>
                   {/* ② キャッシュを発見（ブラウザ右側） */}
-                  <div style={{ width: 140, display: "flex", flexDirection: "column", alignItems: 'stretch' }}>
+                  <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center", // ★ nodeBox と縦位置を合わせる
+    gap: 10,
+    minHeight: 120,           // ★ nodeBox と同じ
+  }}
+>
                     <div style={{ fontSize: 12, fontWeight: 800, color: "#eb25a6ff" }}>
                       ② キャッシュを
                       発見
@@ -232,7 +267,7 @@ export default function CacheTimingPage(){
               
                   <div
                     style={{
-                      width: 180,
+                      width: 160,
                       display: "flex",
                       flexDirection: "column",
                       gap: 10,
@@ -263,36 +298,56 @@ export default function CacheTimingPage(){
                           zIndex: 0,
                         }}
                       >
-                        <X size={95} color="#06080eff" style={{ opacity: 0.20 }} />
+                        <X size={90} color="#06080eff" style={{ opacity: 0.20 }} />
                       </div>
                       {/* 矢印＋ラベル（前面） */}
-                      <div style={{ position: "relative", zIndex: 1, display: "grid", gap: 10 }}>
-                        <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
-                          <ArrowRight size={20} color="#ef4444" />
-                          <span style={{ fontSize: 10, fontWeight: 800, color: "#ef4444" }}>
-                            データの要求
-                          </span>
-                        </div>
-                        <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
-                          <ArrowLeft size={20} color="#2563eb" />
-                          <span style={{ fontSize: 10, fontWeight: 800, color: "#2563eb" }}>
-                            データを送信
-                          </span>
-                        </div>
-                      </div>
+                      <div
+  style={{
+    position: "relative",
+    zIndex: 1,
+    display: "flex",          // ★ 横並び
+    alignItems: "center",     // ★ 縦中央で揃える
+    gap: 16,
+    marginLeft: 'auto',
+  }}
+>
+  {/* 要求・送信（縦並び） */}
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column", // ★ 上下を維持
+      gap: 10,
+      alignItems: "center",
+    }}
+  >
+    <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+      <ArrowRight size={20} color="#ef4444" />
+      <span style={{ fontSize: 10, fontWeight: 800, color: "#ef4444" }}>
+        データの要求
+      </span>
+    </div>
+
+    <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+      <ArrowLeft size={20} color="#2563eb" />
+      <span style={{ fontSize: 10, fontWeight: 800, color: "#2563eb" }}>
+        データを送信
+      </span>
+    </div>
+  </div>
+
+  {/* サーバー（横） */}
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <Server size={24} />
+  </div>
+</div>
+
+
                     </div>
                     {/* 下のラベルを独立させて見やすく */}
-                    <div style={{ fontSize: 11, color: "#64748b", fontWeight: 800 }}>
-                      ブラウザとサーバー間の通信が要らなくなる
+                    <div style={{ fontSize: 11, color: "#64748b", fontWeight: 800, textAlign: 'center' }}>
+                      ブラウザとサーバー間の通信が<br />要らなくなる
                     </div>
                   </div>               
-                  <div style={nodeBox}>
-                    <Server size={24} />
-                    <div style={{ fontWeight: 700 }}>サーバー</div>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>
-                      データを管理
-                    </div>
-                  </div>
                 </Row>                      
               </div>
               <p style={{ fontSize: 14, color: '#374151', marginTop: 12 }}>
