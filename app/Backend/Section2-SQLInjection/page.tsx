@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import SectionLayout from '../../Framework/SectionLayout'
 import { styles } from '../../Framework/SectionStyles'
+
 import { 
   Shield,
   Database, 
@@ -24,7 +25,7 @@ import { Card, CardHeader, CardTitle, CardContent,CardDescription } from '@/comp
 const MOCK_DB_USERS = [
   { id: 1, name: 'alice', role: 'user', email: 'alice@example.com' },
   { id: 2, name: 'bob', role: 'user', email: 'bob@example.com' },
-  { id: 99, name: 'admin', role: 'admin', email: 'admin@corp.secret' },
+  { id: 3, name: 'admin', role: 'admin', email: 'admin@corp.secret' },
 ]
 
   const btnBase: React.CSSProperties = {
@@ -218,7 +219,7 @@ export default function SqlInjectionPage() {
     </p>
 
     <p className="mt-3 text-lg font-medium">
-      しかし、その入力を
+      しかし、その入力をサーバー側が
       <span style={{ background: '#fef9c3', fontWeight: 500 }}>
         「そのまま信じて使ってしまう」
       </span>
@@ -230,13 +231,6 @@ export default function SqlInjectionPage() {
       <b>入力がどのように処理に影響するのか</b>を実際に確かめながら、
       <b>「なぜ入力の検証や制限が必要なのか」</b>を学びます。
     </p>
-
-    {/* <p className="mt-2 text-gray-700">
-      まだ「SQLインジェクション」という言葉を知らなくても大丈夫です。
-      まずは、
-      <b>入力の扱い方ひとつで、システムの安全性が大きく変わる</b>
-      ことを体感してみましょう。
-    </p> */}
   </>
 );
 
@@ -270,7 +264,7 @@ export default function SqlInjectionPage() {
               </li>
               <br />
               <ul style={{ fontSize: 16, marginTop: 5 }}>
-                <b>→ 実際に動かしながら確認します</b>
+                <b>→ 実際に操作しながら、違いを体験します</b>
               </ul>
             </ul>
           </CardContent>
@@ -391,17 +385,15 @@ export default function SqlInjectionPage() {
             <Shield size={20} color="#2563eb" /> SQLインジェクションとは？
           </h3>
           {/* 一言まとめ */}
-              <p style={{ fontSize: 17, fontWeight: 600, color: '#1f2937', marginBottom: 10 }}>
-                SQLインジェクションは<span className="text-indigo-600">「入力されたデータがSQL文として解釈されてしまう」</span>ことによって、意図しないデータ操作が行われる脆弱性です。
-              </p>
-
+          <p style={{ fontSize: 17, fontWeight: 600, color: '#1f2937', marginBottom: 10 }}>
+            SQLインジェクションとは、<span className="text-indigo-600">利用者が入力した文字が、そのままデータベースへの命令として扱われてしまうことで起こる問題</span>です。
+            その結果、本来は想定していないデータの取得や変更が行われてしまうことがあります。
+          </p>
           {/* やさしい説明 */}
           <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
-            ユーザーの入力を使ってデータベースを検索する処理は、
-            多くのWebアプリケーションで使われています。
+            Webアプリケーションでは、利用者が入力した内容をもとに、データベースから情報を探す仕組みがよく使われています。
             <br />
-            しかし、入力の扱い方を誤ると、
-            <b>開発者の意図とは違う動き</b>が起きてしまうことがあります。
+            しかし、入力内容の扱い方に注意しないと、<b>開発者が意図していない動作</b>を引き起こしてしまう可能性があります。
           </p>
 
 
@@ -419,10 +411,14 @@ export default function SqlInjectionPage() {
               
               {/* 入力 */}
               <div style={{ marginBottom: 12 }}>
-                <div style={{ fontWeight: 700, marginTop: 4 }}>
+                <div style={{ fontWeight: 700, marginTop: 4, fontSize:13, marginBottom: 3 }}>
                   ユーザーの入力
                 </div>
-                <div
+                <div style={{ fontSize: 12, color: '#6b7280' }}>
+                  例：名前やIDを入力する
+                </div>
+
+                {/* <div
                   style={{
                     marginTop: 6,
                     background: '#fff',
@@ -433,7 +429,7 @@ export default function SqlInjectionPage() {
                   }}
                 >
                   Alice
-                </div>
+                </div> */}
               </div>
 
               <ArrowDown size={18} style={{ margin: '6px auto' }} />
@@ -479,6 +475,9 @@ export default function SqlInjectionPage() {
                 <div>
                   入力が <b>命令の一部</b> として解釈されてしまう
                 </div>
+                <div style={{ fontSize: 12, color: '#7f1d1d', marginTop: 4 }}>
+                  ※ 入力がそのまま処理に混ざってしまうため
+                </div>
               </div>
 
               <ArrowDown size={18} style={{ margin: '6px auto' }} />
@@ -501,15 +500,15 @@ export default function SqlInjectionPage() {
                   </span>
                 </div>
                 <div>
-                  本来見せないはずの<br />
-                  <b>すべてのデータが返る</b>
+                  本来ユーザーに見せないはずの
+                  <b>データが返る</b>
                 </div>
               </div>
             </div>
           </div>
           {/* 補足（軽く） */}
           <p style={{ marginTop: 12, fontSize: 14, color: '#6b7280' }}>
-            ※ <b>入力をどのようにSQLに組み込んでいるか</b>が重要です。
+            ※ 入力を<b>どのように処理しているか</b>によって、安全か危険かが変わります。
           </p>
         </div>
         <br />
@@ -519,9 +518,8 @@ export default function SqlInjectionPage() {
               データベース検索処理の比較
             </CardTitle>
             <CardDescription>
-              同じ「ユーザー検索」でも、  
-              <b>入力の扱い方</b>によって、  
-              安全にも危険にもなります。
+              同じ「ユーザー検索」でも、<b>入力をSQLにどう渡すか</b>で結果が変わります。<br />
+              左は<b>入力が命令として混ざる</b>例、右は<b>入力を値として分ける</b>例です。
             </CardDescription>
           </CardHeader>
           <hr style={{ border: 'none', height: 1, background: '#e5e7eb', margin: '3px 0' }} />
@@ -529,14 +527,8 @@ export default function SqlInjectionPage() {
           <div style={styles.comparison}>
             <div style={styles.comparisonColumn}>
               <p style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.7 }}>
-                <span style={{ color:'#dc2626', fontWeight: 600 }}>脆弱な実装</span>では、
-                ユーザーの入力を
-                <b>「検索条件の一部」</b>として
-                そのままSQL文に組み込んでいます。
-                <br />
-                そのため、
-                入力の中に<b>SQLの条件や命令として解釈できる文字列</b>が含まれていると、
-                <b>開発者の想定とは異なるSQL</b>が実行されてしまいます。
+                <span style={{ color:'#dc2626', fontWeight: 700 }}>脆弱な実装</span>では、入力を文字列としてつなげてSQLを作っています。<br />
+                その結果、入力の一部が<b>命令（条件）</b>として解釈されることがあります。
               </p>
               <div
                 style={{
@@ -549,10 +541,10 @@ export default function SqlInjectionPage() {
                 }}
               >
                 <span style={{ margin: 0, fontWeight: 600 }}>
-                  攻撃者が入力する例 ：　
-                <code style={{ fontFamily: 'monospace', fontSize: 15,color: '#991b1b' }}>
-                  ' OR '1'='1
-                </code>
+                  例：入力にこれを入れると...　
+                  <code style={{ fontFamily: 'monospace', fontSize: 15, color: '#991b1b' }}>
+                    ' OR '1'='1
+                  </code>
                 </span>
               </div>
               <div
@@ -582,68 +574,29 @@ export default function SqlInjectionPage() {
                 <ArrowDown size={18} style={{ margin: '6px auto' }} />
               </div>
 
-              <p style={{ fontSize: 15, lineHeight: 1.7 }}>
-                このコードに対して、ユーザーが
-                <b> <code>' OR '1'='1</code> </b>
-                を入力したとします。
-                <br />
-                すると、実際にデータベースに送られるSQLは次のようになります。
+              <p style={{ fontSize: 14, lineHeight: 1.7 }}>
+                すると、入力された文字列がそのままつながり、SQLは次の形になります。
               </p>
 
-              <div
-                style={{
-                  background: '#fef2f2',
-                  border: '1px solid #fca5a5',
-                  borderRadius: 8,
-                  padding: 12,
-                  fontFamily: 'monospace',
-                  fontSize: 14,
-                  color: '#7f1d1d',
-                  marginBottom: 12
-                }}
-              >
+              <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: 12, fontFamily: 'monospace', fontSize: 14, color: '#7f1d1d', marginBottom: 12 }}>
                 SELECT * FROM users WHERE name = '' OR '1'='1'
               </div>
+
               <p style={{ fontSize: 14, lineHeight: 1.7 }}>
-                ここで注目したいのが
-                <code> '1'='1' </code>
-                という部分です。
-                <br />
-                これは
-                <b>必ず成り立つ条件（常に true）</b>
-                になります。
-                <br /><br />
-                つまり、このSQLは
-                <br />
-                <span style={{ marginLeft: 12 }}>
-                  「名前が空文字である <b>または</b> 条件が true」
-                </span>
-                <br />
-                という意味になり、
-                <b>すべての行が条件を満たす</b>
-                ことになります。
-                <br /><br />
-                その結果、
-                <b>本来は1人だけを取得するはずの検索が、全ユーザー分のデータ取得に変わってしまいます。</b>
+                <code>'1'='1'</code> は<b>いつでも成り立つ条件</b>です。<br />
+                つまりこのSQLは「名前が空文字(何も入力されていない) <b>または</b> いつでもtrue」という意味になり、<br />
+                結果として<b>usersテーブルの全データを取得する</b>ことになります。
               </p>
+              <p style={{ fontSize: 13, fontWeight: 700, color: '#991b1b', marginTop: 8 }}>
+                つまり、入力がSQLの「条件」として解釈されてしまったことが原因です。
+              </p>
+
             </div>
             <div style={styles.divider} />
             <div style={styles.comparisonColumn}>
-              <p style={{ fontSize: 16, marginBottom: 16, lineHeight: 1.7 }}>
-                <span style={{ color:'#138c40ff', fontWeight: 600 }}>
-                  安全な実装
-                </span>
-                では、
-                ユーザーの入力を
-                <b>SQL文の命令として解釈させない</b>
-                ことを前提に設計します。
-                <br />
-                入力はあくまで
-                <b>「検索に使う値（データ）」</b>
-                として扱われ、
-                SQLの構造そのものとは
-                <b>はっきりと分離</b>
-                されます。
+              <p style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.7 }}>
+                <span style={{ color:'#138c40ff', fontWeight: 700 }}>安全な実装</span>では、SQLの形を先に決め、入力は<b>値として別に渡します</b>。<br />
+                そのため入力がSQLの命令部分に混ざらず、SQLの構造が変わりません。
               </p>
               <div
                 style={{
@@ -673,30 +626,18 @@ db.execute(query, `}<span style={{
                 <ArrowDown size={18} style={{ margin: '6px auto' }} />
               </div>
               <p style={{ fontSize: 15, lineHeight: 1.7 }}>
-                このコードに対して、ユーザーが
-                <b> <code>' OR '1'='1</code> </b>
-                を入力として渡しても、
-                <br />
-                それは
-                <b>「名前としての文字列」</b>
-                として扱われます。
-                <br /><br />
-                SQLの命令構造は書き換わらないため、
-                <b>条件が勝手に true になることはありません。</b>
-                <br /><br />
-                その結果、
-                <b>
-                  意図したユーザーだけが検索され、
-                  全件取得のような事態は起きません。
-                </b>
+                ここに <b><code>' OR '1'='1</code></b> を入力しても、これは<b>ただの名前の文字列</b>として扱われます。<br />
+                SQLの条件が増えたり変わったりしないので、<b>全データの取得にはつながりません</b>。
+              </p>
+              <p style={{ fontSize: 13, fontWeight: 700, color: '#1b9938ff', marginTop: 8 }}>
+                つまり、入力はあくまで<b>検索に使う文字</b>として扱われ、SQLの命令部分には入り込みません。
+
               </p>
             </div>
-
             </div>
           </CardContent>
         </Card>
         <br />
-
       <section style={styles.section}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
           <div>
@@ -707,16 +648,15 @@ db.execute(query, `}<span style={{
               </CardTitle>
               <CardDescription>
                 <p>
-                  このデモでは、
-                  <b>SQLインジェクションという攻撃そのもの</b>ではなく、
-                  <b>「ユーザー入力の扱い方」</b>によって、
-                  データベースの挙動がどれほど変わるかを確認します。
+                  このデモでは、<b>SQLインジェクションという攻撃手法</b>そのものではなく、
+                  <b>ユーザー入力の扱い方の違い</b>によって、
+                  データベースの動きがどう変わるかを体験します。
                 </p>
                 <p style={{ marginTop: 6 }}>
                   同じ検索入力でも、
-                  <span style={{ fontWeight: 600 }}>文字列をそのままSQLに結合する実装</span>と、
-                  <span style={{ fontWeight: 600 }}>入力を値として安全に渡す実装</span>では、
-                  データベースに伝わる意味がまったく異なります。
+                  <b>入力をそのままSQLに組み込む場合</b>と、
+                  <b>入力を値として安全に渡す場合</b>では、
+                  データベースに伝わる意味が大きく異なります。
                 </p>
               </CardDescription>
             </CardHeader>
@@ -725,31 +665,24 @@ db.execute(query, `}<span style={{
               <h3 style={{ ...styles.h3, marginTop: 2, color: '#0f172a' }}>
                 🚀 試してみよう
               </h3>
-
               <ol className="ml-4 space-y-4" style={{ fontSize: 15, lineHeight: 1.8 }}>
                 <li>
                   <div style={{ fontWeight: 700 }}>
-                    【ステップ1】まずは普通に検索してみる
+                    【ステップ1】まずは「普通の検索」を確認する
                   </div>
                   <div style={{ color: '#313a47ff', marginTop: 6 }}>
                     入力欄に <code>alice</code> と入力し、
-                    <b>「脆弱な実装」</b>のまま実行してください。
-                    <br />
-                    名前が一致するユーザーだけが取得されることが確認できます。
+                    <b>「脆弱な実装」</b>のまま実行してください。<br />
+                    <b>名前が一致するユーザーだけ</b>が取得されることが確認できます。
                   </div>
                 </li>
-
                 <li>
                   <div style={{ fontWeight: 700 }}>
                     【ステップ2】攻撃用の入力を試す
                   </div>
                   <div style={{ color: '#313a47ff', marginTop: 6 }}>
-                    次に、
-                    <code>' OR '1'='1</code>
-                    を入力して実行してみましょう。
-                    <br />
-                    <b>検索条件が変わっていないはずなのに、結果が激変する</b>
-                    ことに注目してください。
+                    次に、<code>' OR '1'='1</code> を入力して実行してみましょう。<br />
+                    今度は、<b>本来1人だけ取得されるはずの検索が、全ユーザー取得に変わる</b>ことが確認できます。
                   </div>
                 </li>
                 <li>
@@ -757,27 +690,20 @@ db.execute(query, `}<span style={{
                     【ステップ3】「入力が命令として解釈された」ことを確認する
                   </div>
                   <div style={{ color: '#313a47ff', marginTop: 6 }}>
-                    右側のSQL表示を見ると、
-                    入力した文字列が
-                    <b>SQL文の一部として組み込まれている</b>
-                    ことが分かります。
+                    検索結果を見ると、入力した文字列が<b>SQL文の一部(条件)として組み込まれている</b>ことが分かります。
                     <br />
-                    見えるはずのない情報が見えてしまっていることが確認できます。<br />
-                    攻撃者はここを狙って、
-                    <b>条件式そのものを書き換えています</b>。
+                    全てのユーザーデータが取得されており、
+                    本来は見えるはずのない情報が見えてしまっていることが確認できます。
                   </div>
                 </li>
                 <li>
                   <div style={{ fontWeight: 700 }}>
-                    【ステップ4】安全な実装に切り替えて比べる
+                    【ステップ4】安全な実装に切り替えて比較する
                   </div>
                   <div style={{ color: '#313a47ff', marginTop: 6 }}>
                     次に<b>「安全な実装」</b>に切り替えて、
-                    同じ入力を実行してみましょう。
-                    <br />
-                    今度は、
-                    <b>どんな入力をしてもSQLの意味が変わらない</b>
-                    ことが確認できます。
+                    同じ入力をもう一度実行してみましょう。<br />
+                    今度は、<b>どんな入力をしても</b>、<b>SQLに書かれた条件の形が固定されたまま</b>であることが確認できます。
                   </div>
                 </li>
               </ol>

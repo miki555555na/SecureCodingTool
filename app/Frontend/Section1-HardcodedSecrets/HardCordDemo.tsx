@@ -63,7 +63,6 @@ export function HardCordDemo() {
       <div className="flex flex-col gap-4">
         
         <div className="p-4 rounded-md border bg-slate-50">
-          <h3 className="text-lg font-bold mb-2">デモ：ハードコードされた API キーの危険性</h3>
           <p className="text-sm text-slate-600 mb-3">
              開発者ツールを使ってこのファイルのソースを探すと、コメントに埋め込まれたテストキーが見つかります。
           </p>
