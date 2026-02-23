@@ -179,7 +179,7 @@ export default function HomePage() {
                 近年、Webサービスとセキュリティの関係はますます密接になっています。<br />
                 <b>「その実装、壊されます」</b>では、「守らなかったらどうなるのか」を短時間で<b>体感</b>し、セキュリティを<b>「自分ごと」</b>として理解してもらうことを目標とした教育ツールです。
                 <br /><br />
-                <div className='underline'>前提となる専門知識は必要ありません。</div>
+                <span className='underline block'>前提となる専門知識は必要ありません。</span>
                 <br />
                 脆弱な実装とその悪用、そして安全な実装を<b>実際に比較しながら</b>体験することで、  
                 Webエンジニアとして<b>「なぜセキュリティが必要なのか」</b>を自然に理解できる設計になっています。
@@ -252,6 +252,41 @@ export default function HomePage() {
           className="space-y-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20"
         >
           <div className="grid gap-8 md:grid-cols-2">
+            <Card className="bg-white border-l-4 border-amber-400 shadow-sm hover:shadow-md transition">
+              <CardHeader>
+                <CardTitle className="text-2xl text-amber-700">
+                  フロントエンド編
+                </CardTitle>
+                <CardDescription>
+                  UI・JavaScriptを書く人向け
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 flex flex-col">
+              <ul className="list-disc space-y-2 pl-5 text-base text-slate-700">
+                <li>その情報、コードに書いて大丈夫？</li>
+                <li>入力しただけで、何か動いていませんか？</li>
+                <li>速さの違い、見られています</li>
+                <br  />
+                <br  />
+              </ul>
+                <Link href="/Frontend">
+                  <Button
+                    className="
+                      w-full text-lg mt-4
+                      bg-amber-500 text-white
+                      hover:bg-amber-600
+                      transition-all duration-200
+                      hover:scale-[1.02]
+                      hover:shadow-lg
+                      shadow-md
+                    "
+                  >
+                    体験してみる →
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
             <Card className="bg-white border-l-4 border-blue-500 shadow-sm hover:shadow-md transition">
 
               <CardHeader>
@@ -276,40 +311,6 @@ export default function HomePage() {
                       w-full text-lg mt-4
                       bg-blue-500 text-white
                       hover:bg-blue-700
-                      transition-all duration-200
-                      hover:scale-[1.02]
-                      hover:shadow-lg
-                      shadow-md
-                    "
-                  >
-                    体験してみる →
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-            <Card className="bg-white border-l-4 border-amber-400 shadow-sm hover:shadow-md transition">
-              <CardHeader>
-                <CardTitle className="text-2xl text-amber-700">
-                  フロントエンド編
-                </CardTitle>
-                <CardDescription>
-                  UI・JavaScriptを書く人向け
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 flex flex-col">
-              <ul className="list-disc space-y-2 pl-5 text-base text-slate-700">
-                <li>その情報、コードに書いて大丈夫？</li>
-                <li>入力しただけで、何か動いていませんか？</li>
-                <li>速さの違い、見られています</li>
-                <br  />
-                <br  />
-              </ul>
-                <Link href="/Frontend">
-                  <Button
-                    className="
-                      w-full text-lg mt-4
-                      bg-amber-500 text-white
-                      hover:bg-amber-600
                       transition-all duration-200
                       hover:scale-[1.02]
                       hover:shadow-lg
