@@ -1,4 +1,8 @@
-import React from 'react';
+"use client";
+import React, { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { styles } from './SectionStyles';
 
 type Props = {
@@ -22,11 +26,29 @@ export default function SectionLayout({
   framed = true,
   nav,
 }: Props) {
+  const containerRef = useRef<HTMLElement | null>(null);
+
+  const pathname = usePathname();
+  const segments = pathname ? pathname.split('/').filter(Boolean) : [];
+
+  const topSegment = segments[0] || '';
+  const isTopOfSegment = segments.length === 1;
+
+  let backHref = '/';
+  let backLabel = '章一覧に戻る';
+  if (topSegment === 'Backend') {
+    backHref = isTopOfSegment ? '/' : '/Backend';
+    backLabel = isTopOfSegment ? 'トップページに戻る' : '章一覧に戻る';
+  } else if (topSegment === 'Frontend') {
+    backHref = isTopOfSegment ? '/' : '/Frontend';
+    backLabel = isTopOfSegment ? 'トップページに戻る' : '章一覧に戻る';
+  }
+
   return (
-    <main style={styles.page}>
+    <main style={styles.page} ref={containerRef}>
       {/* ▼ やることリスト */}
-      {checklist && (
-        <div style={styles.todoWrapper}>
+        {checklist && (
+          <div style={styles.todoWrapper}>
           <section
             style={{
               ...styles.section,
@@ -67,15 +89,15 @@ export default function SectionLayout({
       {description && <div style={styles.description}>{description}</div>}
 
       {/* ▼ 各 Section の本体 */}
-      <section
-        style={
-          framed
+        <section
+          style={
+            framed
             ? { ...styles.section }
             : { marginBottom: 26, padding: 0, border: 'none', background: 'transparent' }
-        }
-      >
-        {children}
-      </section>
+          }
+        >
+          {children}
+        </section>
       {/* ▲ Section内容 */}
 
       <br />
@@ -83,6 +105,13 @@ export default function SectionLayout({
       {/* ▼ まとめセクション */}
       {summary && <div style={{ ...styles.summary }}>{summary}</div>}
       {/* ▲ まとめここまで */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 18 }}>
+        <Link href={backHref}>
+          <Button variant="outline" size="sm" className="font-mono">
+            {backLabel}
+          </Button>
+        </Link>
+      </div>
     </main>
   );
 }
