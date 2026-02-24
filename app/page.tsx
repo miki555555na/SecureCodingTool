@@ -81,17 +81,35 @@ export default function HomePage() {
             体験を始める →
           </a>
           <div className="mx-auto max-w-4xl text-center space-y-10">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight">
-              その実装、
+            {/* <h1 className="text-5xl md:text-6xl font-extrabold leading-tight">
               <motion.span
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.4 }}
                 className="text-indigo-600 inline-block"
               >
-                壊されます
+                まもコード
               </motion.span>
-            </h1>
+            </h1> */}
+            <h1 className="text-5xl md:text-6xl leading-tight">
+  <motion.span
+    initial={{ opacity: 0, y: 12 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2, duration: 0.4 }}
+    className="
+      inline-block
+      font-black
+      tracking-wider
+      text-indigo-400
+      drop-shadow-[3px_3px_0_rgba(0,0,0,0.15)]
+    "
+    style={{
+      fontFamily: '"Nikukyu", "Rounded Mplus 1c", sans-serif'
+    }}
+  >
+    まもコード
+  </motion.span>
+</h1>
             <p className="text-sm text-slate-600">
               <b>規約を読む前に、セキュリティ研修を受ける前に壊れる体験を。学ぶ理由を説明ではなく<span className="underline underline-offset-4 decoration-blue-500 decoration-2">体感 </span> で。</b>
 
