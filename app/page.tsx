@@ -93,18 +93,21 @@ export default function HomePage() {
             </h1> */}
             <h1 className="text-5xl md:text-6xl leading-tight">
   <motion.span
-    initial={{ opacity: 0, y: 12 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.2, duration: 0.4 }}
+    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    transition={{ delay: 0.2, duration: 0.5, type: "spring", bounce: 0.4 }}
     className="
       inline-block
       font-black
-      tracking-wider
-      text-indigo-400
-      drop-shadow-[3px_3px_0_rgba(0,0,0,0.15)]
+      tracking-normal
+      text-blue-500
     "
     style={{
-      fontFamily: '"Nikukyu", "Rounded Mplus 1c", sans-serif'
+      fontFamily: '"Nikukyu",  "Kosugi Maru", "M PLUS Rounded 1c", sans-serif',
+      textShadow: `
+        4px 4px 0px rgba(0,0,0,0.15),
+        6px 6px 0px rgba(0,0,0,0.08)
+      `
     }}
   >
     まもコード
